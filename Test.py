@@ -74,7 +74,7 @@ try:
         st.plotly_chart(fig)
     elif graph_type == 'Scatter plot':
         df2_scatter=pd.merge(df2,course_data,left_index=True, right_index=True)
-        fig = px.scatter(df2, x=course, y='MaSV')
+        fig = px.scatter(df2_scatter, x=course, y='MaSV')
         fig.update_layout(title='Scatter plot of Scores for {}'.format(course))
         st.plotly_chart(fig)
     else:
