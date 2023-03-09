@@ -84,29 +84,29 @@ try:
         fig.update_layout(title='Box plot of {}'.format(course))
         st.plotly_chart(fig)
 
-        weak_students = df2[df2['XepLoaiNH'].isin(['Yếu', 'Kém'])]
+    weak_students = df2[df2['XepLoaiNH'].isin(['Yếu', 'Kém'])]
 
-        # Create a dictionary to store the tables for each year
-        year_tables = {}
+    # Create a dictionary to store the tables for each year
+    year_tables = {}
 
-        # Loop through the rows of the weak_students DataFrame
-        for _, row in weak_students.iterrows():
-        # Extract the year from the MaSV column
-            year = row['MaSV'][6:8]
+    # Loop through the rows of the weak_students DataFrame
+    for _, row in weak_students.iterrows():
+    # Extract the year from the MaSV column
+        year = row['MaSV'][6:8]
 
-        # If the year table doesn't exist in the dictionary, create a new one
-            if year not in year_tables:
-                year_tables[year] = pd.DataFrame(columns=weak_students.columns)
+    # If the year table doesn't exist in the dictionary, create a new one
+        if year not in year_tables:
+            year_tables[year] = pd.DataFrame(columns=weak_students.columns)
 
-        # Append the row to the year table
-            year_tables[year] = pd.concat([year_tables[year], row.to_frame().transpose()], ignore_index=True)
+    # Append the row to the year table
+        year_tables[year] = pd.concat([year_tables[year], row.to_frame().transpose()], ignore_index=True)
 
 
-        # Display the tables for each year in Streamlit
-        for year, year_table in year_tables.items():
-            st.write(f"Year {20}{year}")
-            year_table.dropna()
-            st.write(year_table["MaSV","XepLoaiMH"])
-            st.write('---')
+    # Display the tables for each year in Streamlit
+    for year, year_table in year_tables.items():
+        st.write(f"Year {20}{year}")
+        year_table.dropna()
+        st.write(year_table["MaSV","XepLoaiMH"])
+        st.write('---')
 except:
     st.title('Add CSV')
