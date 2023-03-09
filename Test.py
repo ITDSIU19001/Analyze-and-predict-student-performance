@@ -104,4 +104,3 @@ year_students = yeu_kem_students.loc[yeu_kem_students['year'] == selected_year]
 year_students.drop_duplicates(subset='MaSV', keep='last', inplace=True)
 # Display dataframe
 students_df = st.dataframe(year_students[['MaSV', 'XepLoaiNH']],height=500, width=800)
-students_df.selectbox()
