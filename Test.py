@@ -39,6 +39,7 @@ try:
     df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
     df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
     df.loc[df['XepLoaiNH'].isin(['Khá', 'Trung Bình Khá', 'Giỏi', 'Kém', 'Trung Bình', 'Yếu', 'Xuất sắc']), 'XepLoaiNH'] = df['XepLoaiNH'].map({'Khá': 'K', 'Trung Bình Khá': 'TK', 'Giỏi': 'G', 'Kém': 'Km', 'Trung Bình': 'TB', 'Yếu': 'Y', 'Xuất sắc': 'X'})
+    df2=df["MaSV"]
     df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
     df.replace('WH', np.nan, inplace=True)
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
@@ -70,6 +71,11 @@ try:
         # Create histogram using Plotly
         fig = px.histogram(course_data, nbins=40, range_x=[0, 100], labels={'value': 'Score'})
         fig.update_layout(title='Distribution of Scores for {}'.format(course))
+        st.plotly_chart(fig)
+    elif graph_type == 'Scatter':
+        df2_scatter=pd.merge(df2,df,left_index=True, right_index=True)
+        fig = px.scatter(course_data, x=course, y='MaSV', labels={course: 'Score', 'MaSV': 'Student ID'})
+        fig.update_layout(title='Scatter plot of Scores for {}'.format(course))
         st.plotly_chart(fig)
     else:
         # Create box plot using Plotly
