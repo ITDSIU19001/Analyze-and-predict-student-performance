@@ -93,8 +93,6 @@ st.write(yeu_kem_students)
 # Split students by year
 def get_year(ma_sv):
     year = int(ma_sv[6:8]) + 2000
-    if ma_sv[2:4] == 'IT':
-        year -= 1
     return year
 
 yeu_kem_students['year'] = yeu_kem_students['MaSV'].apply(get_year)
