@@ -44,7 +44,7 @@ try:
     df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
     df.replace('WH', np.nan, inplace=True)
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
-    df
+    
 
     # Streamlit app
     st.title('IT Student Scores')
