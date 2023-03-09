@@ -86,7 +86,7 @@ try:
         fig.update_layout(title='Box plot of {}'.format(course))
         st.plotly_chart(fig)
 
-        weak_students = df[df['XepLoaiNH'].isin(['Y', 'Km'])]
+        weak_students = df2[df2['XepLoaiNH'].isin(['Y', 'Km'])]
 
         # Create a dictionary to store the tables for each year
         year_tables = {}
