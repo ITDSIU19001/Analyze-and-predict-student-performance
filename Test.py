@@ -43,7 +43,7 @@ try:
     df=df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
     df.replace('WH', np.nan, inplace=True)
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
-
+    df2
 
     # Streamlit app
     st.title('IT Student Scores')
@@ -100,7 +100,6 @@ try:
 
     # Append the row to the year table
         year_tables[year] = pd.concat([year_tables[year], row.to_frame().transpose()], ignore_index=True)
-
 
     # Display the tables for each year in Streamlit
     for year, year_table in year_tables.items():
