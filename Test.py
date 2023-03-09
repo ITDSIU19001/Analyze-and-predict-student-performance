@@ -40,7 +40,8 @@ try:
     df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
     df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
     df.loc[df['XepLoaiNH'].isin(['Khá', 'Trung Bình Khá', 'Giỏi', 'Kém', 'Trung Bình', 'Yếu', 'Xuất sắc']), 'XepLoaiNH'] = df['XepLoaiNH'].map({'Khá': 'K', 'Trung Bình Khá': 'TK', 'Giỏi': 'G', 'Kém': 'Km', 'Trung Bình': 'TB', 'Yếu': 'Y', 'Xuất sắc': 'X'})
-    weak_students = df[df['XepLoaiNH'].isin(['Yếu', 'Kém'])]
+    
+    weak_students = df[df['XepLoaiNH'].isin(['Y', 'Km'])]
 
 # Create a dictionary to store the tables for each year
     year_tables = {}
@@ -55,7 +56,7 @@ try:
             year_tables[year] = pd.DataFrame(columns=weak_students.columns)
     
     # Append the row to the year table
-    year_tables[year] = pd.concat([year_tables[year], row.to_frame().transpose()], ignore_index=True)
+        year_tables[year] = pd.concat([year_tables[year], row.to_frame().transpose()], ignore_index=True)
 
 
     # Display the tables for each year in Streamlit
