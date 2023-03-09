@@ -60,12 +60,10 @@ for _, row in weak_students.iterrows():
 
 
 # Display the tables for each year in Streamlit
-with st.columns(2):
-    for year, year_table in year_tables.items():
-        st.write(f"Year {20}{year}")
-        year_table.dropna(axis=1, how='all')
-        st.write(year_table["MaSV","XepLoaiMH"])
-        st.write('---')
+for year, year_table in year_tables.items():
+    st.write(f"Year {20}{year}")
+    st.write(year_table["MaSV","XepLoaiMH"])
+    st.write('---')
 
 df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
 df.replace('WH', np.nan, inplace=True)
