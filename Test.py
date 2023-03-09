@@ -83,4 +83,4 @@ try:
         st.plotly_chart(fig)
 
 except:
-    st.title('Add CSV')
+    st.title('Add CSV to analysis')
