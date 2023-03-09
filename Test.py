@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 import streamlit as st
@@ -8,10 +7,11 @@ import plotly.graph_objs as go
 
 
 df = pd.DataFrame()
+df=pd.read_csv("D:/Web-app/dataScore.csv")
 # Load the raw data
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+# uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+# if uploaded_file is not None:
+#     df = pd.read_csv(uploaded_file)
 
 raw_data = df
 
