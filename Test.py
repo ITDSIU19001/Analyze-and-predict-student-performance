@@ -87,7 +87,7 @@ try:
 except:
     st.write("Not found csv!")
 
-    weak_students = df[df['XepLoaiNH'].isin(['Yếu', 'Kém'])]
+    weak_students = df[df['XepLoaiNH'].isin(['Y', 'Km'])]
 
     # Create a dictionary to store the tables for each year
     year_tables = {}
