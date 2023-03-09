@@ -2,8 +2,9 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-
+from scipy import stats
 import plotly.express as px
+import plotly.graph_objs as go
 
 
 df = pd.DataFrame()
@@ -65,17 +66,18 @@ try:
     st.write('Median:', median)
     st.write('Standard deviation:', std_dev)
 
-    graph_type = st.selectbox('Select a graph type:', ['Histogram', 'Scatter plot', 'Box plot'])
+    graph_type = st.selectbox('Select a graph type:', ['Histogram', 'Z plot', 'Box plot'])
 
     if graph_type == 'Histogram':
         # Create histogram using Plotly
         fig = px.histogram(course_data, nbins=40, range_x=[0, 100], labels={'value': 'Score'})
         fig.update_layout(title='Distribution of Scores for {}'.format(course))
         st.plotly_chart(fig)
-    elif graph_type == 'Scatter plot':
-        df2_scatter=pd.merge(df2,course_data,left_index=True, right_index=True)
-        fig = px.scatter(df2_scatter, x=course, y='MaSV')
-        fig.update_layout(title='Scatter plot of Scores for {}'.format(course))
+    elif graph_type == 'Z plot':
+        z_scores = stats.zscore(course_data)
+        # Create histogram of z-scores
+        fig = go.Figure(data=[go.Histogram(x=z_scores)])
+        fig.update_layout(title='Z-Score Distribution for {}'.format(course))
         st.plotly_chart(fig)
     else:
         # Create box plot using Plotly
