@@ -55,7 +55,7 @@ try:
             year_tables[year] = pd.DataFrame(columns=weak_students.columns)
     
     # Append the row to the year table
-        year_tables[year] = pd.concat([year_tables[year], row.to_frame().transpose()], ignore_index=True)
+    year_tables[year] = pd.concat([year_tables[year], row.to_frame().transpose()], ignore_index=True)
 
 
     # Display the tables for each year in Streamlit
