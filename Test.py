@@ -68,7 +68,7 @@ try:
 
     if graph_type == 'Histogram':
         # Create histogram using Plotly
-        fig = px.histogram(course_data, nbins=20, range_x=[0, 100], labels={'value': 'Score'})
+        fig = px.histogram(course_data, nbins=40, range_x=[0, 100], labels={'value': 'Score'})
         fig.update_layout(title='Distribution of Scores for {}'.format(course))
         st.plotly_chart(fig)
     else:
