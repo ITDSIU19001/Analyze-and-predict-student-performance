@@ -104,3 +104,30 @@ year_students = yeu_kem_students.loc[yeu_kem_students['year'] == selected_year]
 year_students.drop_duplicates(subset='MaSV', keep='last', inplace=True)
 # Display dataframe
 st.write(year_students[['MaSV', 'XepLoaiNH']])
+
+def get_scores(ma_sv):
+    scores = raw_data.loc[raw_data['MaSV'] == ma_sv, ['TenMH', 'DiemHP']]
+    return scores
+
+# Define a function to format the scores as a table
+def format_scores(scores):
+    scores_table = scores.set_index('TenMH')
+    scores_table.index.name = None
+    scores_table.columns = ['Score']
+    return scores_table
+
+# Create a dataframe widget for the students
+students_df = yeu_kem_students[['MaSV', 'XepLoaiNH']]
+student_selected = st.empty()
+scores_table = st.empty()
+
+# Add an on_click event to the students dataframe
+def on_student_click(row):
+    student_ma_sv = row['MaSV']
+    student_selected.markdown(f"**Selected student:** {student_ma_sv}")
+    student_scores = get_scores(student_ma_sv)
+    scores_table.dataframe(format_scores(student_scores))
+
+students_df = students_df.assign(hack='').set_index('hack')
+students_df = st.dataframe(students_df, height=500, width=800)
+students_df.selectbox('Select a student', options=students_df.index, on_change=on_student_click, key='selectbox')
