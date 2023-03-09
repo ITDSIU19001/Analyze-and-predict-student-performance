@@ -72,7 +72,7 @@ try:
         fig = px.histogram(course_data, nbins=40, range_x=[0, 100], labels={'value': 'Score'})
         fig.update_layout(title='Distribution of Scores for {}'.format(course))
         st.plotly_chart(fig)
-    elif graph_type == 'Scatter':
+    elif graph_type == 'Scatter plot':
         df2_scatter=pd.merge(df2,df,left_index=True, right_index=True)
         fig = px.scatter(course_data, x=course, y='MaSV', labels={course: 'Score', 'MaSV': 'Student ID'})
         fig.update_layout(title='Scatter plot of Scores for {}'.format(course))
