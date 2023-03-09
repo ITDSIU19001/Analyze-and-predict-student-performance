@@ -5,6 +5,8 @@ import streamlit as st
 
 import plotly.express as px
 
+
+df = pd.DataFrame()
 # Load the raw data
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 if uploaded_file is not None:
