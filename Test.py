@@ -85,3 +85,26 @@ try:
 
 except:
     st.title('Add CSV to analysis')
+
+yeu_kem_students = raw_data.loc[raw_data['XepLoaiNH'].isin(['Yếu', 'Kém'])]
+st.write('Students with "Yếu" or "Kém" in XepLoaiNH column:')
+st.write(yeu_kem_students)
+
+# Split students by year
+def get_year(ma_sv):
+    year = int(ma_sv[4:6]) + 2000
+    if ma_sv[2:4] == 'IT':
+        year -= 1
+    return year
+
+yeu_kem_students['year'] = yeu_kem_students['MaSV'].apply(get_year)
+years = yeu_kem_students['year'].unique()
+
+year_options = yeu_kem_students['year'].unique()
+selected_year = st.selectbox('Select year', year_options)
+
+# Filter dataframe based on selected year
+year_students = yeu_kem_students.loc[yeu_kem_students['year'] == selected_year]
+
+# Display dataframe
+st.write(year_students[['MaSV', 'XepLoaiNH']])
