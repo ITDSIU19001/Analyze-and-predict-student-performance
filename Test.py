@@ -105,7 +105,6 @@ try:
     # Display the tables for each year in Streamlit
     for year, year_table in year_tables.items():
         st.write(f"Year {20}{year}")
-        year_table.dropna()
         st.write(year_table["MaSV","XepLoaiMH"])
         st.write('---')
 except:
