@@ -37,12 +37,10 @@ try:
 
     # Merge with the XepLoaiNH column
     df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
+    df2=df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
     df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
     df.loc[df['XepLoaiNH'].isin(['Khá', 'Trung Bình Khá', 'Giỏi', 'Kém', 'Trung Bình', 'Yếu', 'Xuất sắc']), 'XepLoaiNH'] = df['XepLoaiNH'].map({'Khá': 'K', 'Trung Bình Khá': 'TK', 'Giỏi': 'G', 'Kém': 'Km', 'Trung Bình': 'TB', 'Yếu': 'Y', 'Xuất sắc': 'X'})
-
-    df2=df
-
-    df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
+    df=df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
     df.replace('WH', np.nan, inplace=True)
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
 
@@ -86,7 +84,7 @@ try:
         fig.update_layout(title='Box plot of {}'.format(course))
         st.plotly_chart(fig)
 
-        weak_students = df2[df2['XepLoaiNH'].isin(['Y', 'Km'])]
+        weak_students = df2[df2['XepLoaiNH'].isin(['Yếu', 'Kém'])]
 
         # Create a dictionary to store the tables for each year
         year_tables = {}
