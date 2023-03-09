@@ -87,8 +87,6 @@ except:
     st.title('Add CSV to analysis')
 
 yeu_kem_students = raw_data.loc[raw_data['XepLoaiNH'].isin(['Yếu', 'Kém'])]
-st.write('Students with "Yếu" or "Kém" in XepLoaiNH column:')
-st.write(yeu_kem_students)
 
 # Split students by year
 def get_year(ma_sv):
@@ -103,6 +101,6 @@ selected_year = st.selectbox('Select year', year_options)
 
 # Filter dataframe based on selected year
 year_students = yeu_kem_students.loc[yeu_kem_students['year'] == selected_year]
-
+year_students.drop_duplicates(subset='MaSV', keep='last', inplace=True)
 # Display dataframe
 st.write(year_students[['MaSV', 'XepLoaiNH']])
