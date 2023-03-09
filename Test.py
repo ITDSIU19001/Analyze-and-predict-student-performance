@@ -77,4 +77,4 @@ try:
         fig.update_layout(title='Box plot of {}'.format(course))
         st.plotly_chart(fig)
 except:
-  print("Not found csv!")
+    print("Not found csv!")
