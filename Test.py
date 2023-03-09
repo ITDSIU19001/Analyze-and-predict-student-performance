@@ -66,6 +66,29 @@ try:
     st.write('Median:', median)
     st.write('Standard deviation:', std_dev)
 
+    weak_students = df[df['XepLoaiNH'].isin(['Yếu', 'Kém'])]
+
+    # Create a dictionary to store the tables for each year
+    year_tables = {}
+
+    # Loop through the rows of the weak_students DataFrame
+    for _, row in weak_students.iterrows():
+        # Extract the year from the MaSV column
+        year = row['MaSV'][4:6]
+        
+        # If the year table doesn't exist in the dictionary, create a new one
+        if year not in year_tables:
+            year_tables[year] = pd.DataFrame(columns=weak_students.columns)
+        
+        # Append the row to the year table
+        year_tables[year] = year_tables[year].append(row)
+
+    # Print out the tables for each year
+    for year, year_table in year_tables.items():
+        print(f"Year {20}{year}")
+        print(year_table)
+        print()
+
     graph_type = st.selectbox('Select a graph type:', ['Histogram', 'Z plot', 'Box plot'])
 
     if graph_type == 'Histogram':
