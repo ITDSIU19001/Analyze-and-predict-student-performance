@@ -113,7 +113,7 @@ def get_scores(ma_sv):
 def format_scores(scores):
     scores_table = scores.set_index('TenMH')
     scores_table.index.name = None
-    scores_table.columns = ['Score']
+    scores_table.columns = ['DiemHP']
     return scores_table
 
 # Create a dataframe widget for the students
