@@ -49,7 +49,7 @@ try:
     # Loop through the rows of the weak_students DataFrame
     for _, row in weak_students.iterrows():
     # Extract the year from the MaSV column
-        year = row['MaSV'][6:8]
+        year = row['MaSV'][6:7]
     
     # If the year table doesn't exist in the dictionary, create a new one
         if year not in year_tables:
