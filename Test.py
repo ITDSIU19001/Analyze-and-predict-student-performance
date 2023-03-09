@@ -11,7 +11,6 @@ df = pd.DataFrame()
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
-
 raw_data = df
 try:
 # Clean and transform the data
@@ -83,7 +82,6 @@ try:
         fig = px.box(df, y=course, labels={'value': 'Score'})
         fig.update_layout(title='Box plot of {}'.format(course))
         st.plotly_chart(fig)
-
 
 except:
     st.title('Add CSV')
