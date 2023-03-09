@@ -11,10 +11,9 @@ df = pd.DataFrame()
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
-raw_data = df
 try:
 # Clean and transform the data
-    pivot_df = pd.pivot_table(raw_data, values='DiemHP', index='MaSV', columns='TenMH', aggfunc='first')
+    pivot_df = pd.pivot_table(df, values='DiemHP', index='MaSV', columns='TenMH', aggfunc='first')
     pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
     pivot_df.columns.name = None
     pivot_df = pivot_df.dropna(thresh=50, axis=1)
