@@ -60,9 +60,9 @@ try:
 
     # Display the tables for each year in Streamlit
     for year, year_table in year_tables.items():
-    st.write(f"Year {20}{year}")
-    st.write(year_table)
-    st.write('---')
+        st.write(f"Year {20}{year}")
+        st.write(year_table)
+        st.write('---')
 
     df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
     df.replace('WH', np.nan, inplace=True)
