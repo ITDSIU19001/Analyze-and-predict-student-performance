@@ -60,7 +60,7 @@ try:
 
 
     # Display the tables for each year in Streamlit
-    with st.beta_columns(2):
+    with st.columns(2):
         for year, year_table in year_tables.items():
             st.write(f"Year {20}{year}")
             year_table.dropna(axis=1, how='all')
