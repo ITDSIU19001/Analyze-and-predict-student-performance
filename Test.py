@@ -40,27 +40,29 @@ try:
     df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
     df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
     df.loc[df['XepLoaiNH'].isin(['Khá', 'Trung Bình Khá', 'Giỏi', 'Kém', 'Trung Bình', 'Yếu', 'Xuất sắc']), 'XepLoaiNH'] = df['XepLoaiNH'].map({'Khá': 'K', 'Trung Bình Khá': 'TK', 'Giỏi': 'G', 'Kém': 'Km', 'Trung Bình': 'TB', 'Yếu': 'Y', 'Xuất sắc': 'X'})
-    weak_students = df[df['XepLoaiNH'].isin(['Y', 'Km'])]
+    weak_students = df[df['XepLoaiNH'].isin(['Yếu', 'Kém'])]
 
-    # Create a dictionary to store the tables for each year
+# Create a dictionary to store the tables for each year
     year_tables = {}
 
     # Loop through the rows of the weak_students DataFrame
     for _, row in weak_students.iterrows():
-        # Extract the year from the MaSV column
-        year = row['MaSV'][4:6]
-        
-        # If the year table doesn't exist in the dictionary, create a new one
+    # Extract the year from the MaSV column
+        year = row['MaSV'][7:9]
+    
+    # If the year table doesn't exist in the dictionary, create a new one
         if year not in year_tables:
             year_tables[year] = pd.DataFrame(columns=weak_students.columns)
-        
-        # Append the row to the year table
-        year_tables[year] = year_tables[year].append(row)
+    
+    # Append the row to the year table
+        year_tables[year] = pd.concat([year_tables[year], row.to_frame().transpose()], ignore_index=True)
 
-    # Print out the tables for each year
+
+    # Display the tables for each year in Streamlit
     for year, year_table in year_tables.items():
-        st.write(f"Year {year}")
-        st.write(year_tables)
+    st.write(f"Year {20}{year}")
+    st.write(year_table)
+    st.write('---')
 
     df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
     df.replace('WH', np.nan, inplace=True)
