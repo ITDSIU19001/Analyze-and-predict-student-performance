@@ -39,7 +39,8 @@ try:
     df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
     df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
     df.loc[df['XepLoaiNH'].isin(['Khá', 'Trung Bình Khá', 'Giỏi', 'Kém', 'Trung Bình', 'Yếu', 'Xuất sắc']), 'XepLoaiNH'] = df['XepLoaiNH'].map({'Khá': 'K', 'Trung Bình Khá': 'TK', 'Giỏi': 'G', 'Kém': 'Km', 'Trung Bình': 'TB', 'Yếu': 'Y', 'Xuất sắc': 'X'})
-    
+
+    df2=df
 
     df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
     df.replace('WH', np.nan, inplace=True)
@@ -84,5 +85,30 @@ try:
         fig = px.box(df, y=course, labels={'value': 'Score'})
         fig.update_layout(title='Box plot of {}'.format(course))
         st.plotly_chart(fig)
+
+        weak_students = df[df['XepLoaiNH'].isin(['Y', 'Km'])]
+
+        # Create a dictionary to store the tables for each year
+        year_tables = {}
+
+        # Loop through the rows of the weak_students DataFrame
+        for _, row in weak_students.iterrows():
+        # Extract the year from the MaSV column
+            year = row['MaSV'][6:8]
+
+        # If the year table doesn't exist in the dictionary, create a new one
+            if year not in year_tables:
+                year_tables[year] = pd.DataFrame(columns=weak_students.columns)
+
+        # Append the row to the year table
+            year_tables[year] = pd.concat([year_tables[year], row.to_frame().transpose()], ignore_index=True)
+
+
+        # Display the tables for each year in Streamlit
+        for year, year_table in year_tables.items():
+            st.write(f"Year {20}{year}")
+            year_table.dropna()
+            st.write(year_table["MaSV","XepLoaiMH"])
+            st.write('---')
 except:
     st.title('Add CSV')
