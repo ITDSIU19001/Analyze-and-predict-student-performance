@@ -4,6 +4,7 @@ import streamlit as st
 from scipy import stats
 import plotly.express as px
 import plotly.graph_objs as go
+from preprocess import predict_late_student
 
 df = pd.DataFrame()
 
@@ -82,26 +83,11 @@ try:
         fig = px.box(df, y=course, labels={'value': 'Score'})
         fig.update_layout(title='Box plot of {}'.format(course))
         st.plotly_chart(fig)
+    
+    
+    predict=predict_late_student(raw_data)
+    st.table(predict)
+    
 
-
-
-    yeu_kem_students = raw_data.loc[raw_data['XepLoaiNH'].isin(['Yếu', 'Kém'])]
-
-    # Split students by year
-    def get_year(ma_sv):
-        year = int(ma_sv[6:8]) + 2000
-        return year
-
-    yeu_kem_students['year'] = yeu_kem_students['MaSV'].apply(get_year)
-    years = yeu_kem_students['year'].unique()
-
-    year_options = yeu_kem_students['year'].unique()
-    selected_year = st.selectbox('Select year', year_options)
-
-    # Filter dataframe based on selected year
-    year_students = yeu_kem_students.loc[yeu_kem_students['year'] == selected_year]
-    year_students.drop_duplicates(subset='MaSV', keep='last', inplace=True)
-    # Display dataframe
-    students_df = st.dataframe(year_students[['MaSV', 'XepLoaiNH']],height=500, width=800)
 except:
     st.title('Add CSV to analysis')
