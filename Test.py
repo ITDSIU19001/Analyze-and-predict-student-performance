@@ -9,6 +9,8 @@ import pickle
 
 df = pd.DataFrame()
 
+with open('modelTimePredict.pkl', 'rb') as file:
+    model = pickle.load(file)
 
 def process_student_data(raw_data):
   dtk = raw_data[["MaSV", "DTBTKH4"]].copy()
@@ -95,10 +97,8 @@ def process_student_data(raw_data):
 
   return df
 
-def predict_late_student(test_df):
+def predict_late_student(test_df,model):
     # Load the pre-trained model
-    with open('modelTimePredict.pkl', 'rb') as file:
-        model = pickle.load(file)
 
     # Process the student data
     test_dfed = process_student_data(test_df)
