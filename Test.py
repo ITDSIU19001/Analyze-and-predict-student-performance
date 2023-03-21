@@ -86,7 +86,7 @@ try:
     
     
     predict=predict_late_student(raw_data)
-    st.table(predict)
+    st.dataframe(predict)
     
 
 except:
