@@ -1,3 +1,5 @@
+auto-sklearn
+sklearn
 pandas==1.4.2
 plotly==5.13.1
 scipy==1.7.3
