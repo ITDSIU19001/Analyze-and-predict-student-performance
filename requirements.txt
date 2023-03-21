@@ -1,4 +1,6 @@
-auto-sklearn
+numpy==1.19.3
+Cython==0.29.21
+auto-sklearn==0.12.6
 scikit-learn==1.2.2
 pandas==1.4.2
 plotly==5.13.1
