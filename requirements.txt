@@ -1,5 +1,5 @@
 auto-sklearn
-sklearn
+scikit-learn==1.2.2
 pandas==1.4.2
 plotly==5.13.1
 scipy==1.7.3
