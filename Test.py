@@ -100,6 +100,8 @@ def predict_late_student(test_df):
     # Load the pre-trained model
     with open('modelTimePredict.pkl', 'rb') as file:
         model = pickle.load(file)
+    with open('modelPe.pkl', 'rb') as file:
+        model1 = pickle.load(file)
     # Process the student data
     test_dfed = process_student_data(test_df)
 
@@ -115,18 +117,40 @@ def predict_late_student(test_df):
     # Add a new column to the student data indicating if the student is late
     test_dfed['Result'] = ['late' if p == 1 else 'not late' for p in prediction]
 
+    prediction = model1.predict(test_dfed)
+
+    # Add a new column to the student data indicating if the student is late
+    test_dfed['Period'] = prediction
+
     # Add the student ID column back to the beginning of the DataFrame
     test_dfed.insert(0, 'MaSV', std_id)
+    
+    for index, row in test_dfed.iterrows():
+      if row['Period'] == 8 and row['Result'] == 'late':
+        test_dfed.loc[index, 'Period'] = row['Period'] / 2
+        test_dfed.loc[index, 'Result'] = 'may late'
+      elif row['Period'] == 9 and row['Result'] == 'late':
+        test_dfed.loc[index, 'Period'] = row['Period'] / 2
+        test_dfed.loc[index, 'Result'] = 'may late'
+      else:
+        test_dfed.loc[index, 'Period'] = row['Period'] / 2
 
     return test_dfed
 
-# Load the raw data
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+def get_year(masv):
+    return int(masv[5:7])
 
-if uploaded_file is not None:
+def filter_by_year(year):
+    return late_students[late_students["MaSV"].apply(get_year) == year]
+
+# Load the raw data
+#uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+#if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
 
-raw_data = df.copy()
+#raw_data = df.copy()
+raw_data = pd.read_csv('/content/dataScore.csv')
 
 try:
     # # Clean and transform the data
@@ -197,8 +221,38 @@ try:
     #     st.plotly_chart(fig)
 
     predict=predict_late_student(raw_data)
-    st.dataframe(predict)
-    
+
+# Filter students who have a Result value of "late"
+    df_late = predict
+
+    def get_year(student_id):
+      return int(student_id[6:8])
+
+    df_late['Year'] = 2000+df_late['MaSV'].apply(get_year)
+
+    # create the select box
+    year = st.selectbox('Select Year', options=df_late['Year'].unique())
+
+    df_filtered = df_late[df_late['Year'] == year]
+
+    # display the filtered data
+    def color_cell(val):
+      if val == 'not late':
+          color = 'green'
+      elif val == 'may late':
+          color = 'yellow'
+      elif val == 'late':
+          color = 'red'
+      else:
+          color = 'white'
+      return 'color: %s' % color
+
+# Apply the function to the 'Result' column
+    styled_table = df_filtered[['MaSV', 'GPA', 'Median_Cre', 'Result', 'Period']].style.applymap(color_cell)
+
+# Display the styled table in Streamlit
+    st.write(styled_table)
+    #st.write(df_filtered[['MaSV', 'GPA', 'Median_Cre', 'Result','Period']])
 
 except:
     st.title('Add CSV to analysis')
