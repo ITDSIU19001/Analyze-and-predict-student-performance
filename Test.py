@@ -139,102 +139,97 @@ if tabs == "Dashboard":
 # predict student
 
 elif tabs == "Predict":
-    # try:
-    predict = predict_late_student(raw_data)
-    rank = predict_rank(raw_data)
+    try:
+        predict = predict_late_student(raw_data)
+        rank = predict_rank(raw_data)
 
-    predict = pd.merge(predict, rank, on="MaSV")
-    rank_mapping = {
-        "Khá": "Good",
-        "Trung Bình Khá": "Average good",
-        "Giỏi": "Very good",
-        "Kém": "Very weak",
-        "Trung Bình": "Ordinary",
-        "Yếu": "Weak",
-        "Xuất sắc": "Excellent",
-    }
-    predict["Pred Rank"].replace(rank_mapping, inplace=True)
+        predict = pd.merge(predict, rank, on="MaSV")
+        rank_mapping = {
+            "Khá": "Good",
+            "Trung Bình Khá": "Average good",
+            "Giỏi": "Very good",
+            "Kém": "Very weak",
+            "Trung Bình": "Ordinary",
+            "Yếu": "Weak",
+            "Xuất sắc": "Excellent",
+        }
+        predict["Pred Rank"].replace(rank_mapping, inplace=True)
 
-    # Filter students who have a Result value of "late"
-    df_late = predict
-
-    # df_late['Year'] = 2000+df_late['MaSV'].apply(get_year)
-
-    # # create the select box
-    # year = st.selectbox('Select Year', options=df_late['Year'].unique())
-
-    # df_filtered = df_late[df_late['Year'] == year]
-    MaSV = st.text_input("Enter Student ID:")
-    if MaSV:
-        df_filtered = predict[predict["MaSV"] == MaSV]
-        styled_table = df_filtered[
-            ["MaSV", "GPA", "Median_Cre", "Pred Rank", "Result", "Period"]
-        ].style.applymap(color_cell)
-        with st.container():
-            st.write(styled_table)
-            process_data_per1(raw_data,MaSV)
-    else:
+        # Filter students who have a Result value of "late"
         df_late = predict
-        # df_late = predict[(predict['Pred Rank'] == 'Yếu') | (predict['Pred Rank'] == 'Kém')]
-        df_late["Year"] = 2000 + df_late["MaSV"].apply(get_year)
-        df_late = df_late[
-            (df_late["Year"] != currentYear - 2) & (df_late["Year"] != currentYear - 3)
-        ]
-        year = st.selectbox("Select Year", options=df_late["Year"].unique())
-        df_filtered = df_late[df_late["Year"] == year]
-        styled_table = (
-            df_filtered[["MaSV", "GPA", "Median_Cre", "Pred Rank", "Result", "Period"]]
-            .style.applymap(color_cell)
-            .format({"GPA": "{:.1f}", "Median_Cre": "{:.1f}", "Period": "{:.1f}"})
-        )
-        csv = df_filtered.to_csv(index=False)
-        b64 = base64.b64encode(csv.encode()).decode()
-        href = f'<a href="data:file/csv;base64,{b64}" download="Preidct data.csv">Download CSV</a>'
-        st.markdown(href, unsafe_allow_html=True)
-        fig1 = px.pie(
-            df_filtered,
-            names="Pred Rank",
-            title="Pred Rank",
-            color_discrete_sequence=px.colors.sequential.Mint,
-            height=400,
-            width=400,
-        )
-        fig2 = px.pie(
-            df_filtered,
-            names="Result",
-            title="Result",
-            color_discrete_sequence=px.colors.sequential.Peach,
-            height=400,
-            width=400,
-        )
-        fig1.update_layout(
-            title={
-                "text": "Pred Rank",
-                "y": 0.95,
-                "x": 0.5,
-                "xanchor": "center",
-                "yanchor": "top",
-            }
-        )
-        fig2.update_layout(
-            title={
-                "text": "Result",
-                "y": 0.95,
-                "x": 0.5,
-                "xanchor": "center",
-                "yanchor": "top",
-            }
-        )
-        st.dataframe(styled_table)
-        col1, col2 = st.columns([1, 1])
-        with col1:
-          st.plotly_chart(fig1)
-        with col2:
-          st.plotly_chart(fig2)
+
+
+        MaSV = st.text_input("Enter Student ID:")
+        if MaSV:
+            df_filtered = predict[predict["MaSV"] == MaSV]
+            styled_table = df_filtered[
+                ["MaSV", "GPA", "Median_Cre", "Pred Rank", "Result", "Period"]
+            ].style.applymap(color_cell)
+            with st.container():
+                st.write(styled_table)
+                process_data_per1(raw_data,MaSV)
+        else:
+            df_late = predict
+            # df_late = predict[(predict['Pred Rank'] == 'Yếu') | (predict['Pred Rank'] == 'Kém')]
+            df_late["Year"] = 2000 + df_late["MaSV"].apply(get_year)
+            df_late = df_late[
+                (df_late["Year"] != currentYear - 2) & (df_late["Year"] != currentYear - 3)
+            ]
+            year = st.selectbox("Select Year", options=df_late["Year"].unique())
+            df_filtered = df_late[df_late["Year"] == year]
+            styled_table = (
+                df_filtered[["MaSV", "GPA", "Median_Cre", "Pred Rank", "Result", "Period"]]
+                .style.applymap(color_cell)
+                .format({"GPA": "{:.1f}", "Median_Cre": "{:.1f}", "Period": "{:.1f}"})
+            )
+            csv = df_filtered.to_csv(index=False)
+            b64 = base64.b64encode(csv.encode()).decode()
+            href = f'<a href="data:file/csv;base64,{b64}" download="Preidct data.csv">Download CSV</a>'
+            st.markdown(href, unsafe_allow_html=True)
+            fig1 = px.pie(
+                df_filtered,
+                names="Pred Rank",
+                title="Pred Rank",
+                color_discrete_sequence=px.colors.sequential.Mint,
+                height=400,
+                width=400,
+            )
+            fig2 = px.pie(
+                df_filtered,
+                names="Result",
+                title="Result",
+                color_discrete_sequence=px.colors.sequential.Peach,
+                height=400,
+                width=400,
+            )
+            fig1.update_layout(
+                title={
+                    "text": "Pred Rank",
+                    "y": 0.95,
+                    "x": 0.5,
+                    "xanchor": "center",
+                    "yanchor": "top",
+                }
+            )
+            fig2.update_layout(
+                title={
+                    "text": "Result",
+                    "y": 0.95,
+                    "x": 0.5,
+                    "xanchor": "center",
+                    "yanchor": "top",
+                }
+            )
+            st.dataframe(styled_table)
+            col1, col2 = st.columns([1, 1])
+            with col1:
+                st.plotly_chart(fig1)
+            with col2:
+                st.plotly_chart(fig2)
 
             
 
         # display the grid of pie charts using Streamlit
 
-    # except:
-    #     st.title('Add CSV to analysis')
+    except:
+        st.write('Add CSV to analysis')
