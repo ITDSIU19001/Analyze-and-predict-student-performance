@@ -162,9 +162,12 @@ elif tabs == "Predict":
         MaSV = st.text_input("Enter Student ID:")
         if MaSV:
             df_filtered = predict[predict["MaSV"] == MaSV]
-            styled_table = df_filtered[
-                ["MaSV", "GPA", "Median_Cre", "Pred Rank", "Result", "Period"]
-            ].style.applymap(color_cell)
+            styled_table = (
+                df_filtered[["MaSV", "GPA", "Median_Cre", "Pred Rank", "Result", "Period"]]
+                .style.applymap(color_cell)
+                .format({"GPA": "{:.1f}", "Median_Cre": "{:.1f}", "Period": "{:.1f}"})
+            )
+            
             with st.container():
                 st.write(styled_table)
                 process_data_per1(raw_data,MaSV)
