@@ -193,10 +193,10 @@ def predict_rank(raw_data):
     col=df.drop(['MaSV', 'DTBTK'], axis=1)
     
     columns_data = []
-    columns_to_fill = []
+    # columns_to_fill = []
     with open('column_all.txt', 'r') as f:
       for line in f:
-        columns_to_fill.append(str(line.strip()))
+        # columns_to_fill.append(str(line.strip()))
         columns_data.append(str(line.strip()))
         
     merge=[]
@@ -206,14 +206,15 @@ def predict_rank(raw_data):
     
     dup=pd.DataFrame(columns=columns_data)
     df= pd.merge(dup, df, on=merge, how='outer')
-    for col in df.columns:
-        if col in columns_to_fill:
-            df[col].fillna(value=df["DTBTK"], inplace=True)
+    # for col in df.columns:
+    #     if col in columns_to_fill:
+    #         df[col].fillna(value=df["DTBTK"], inplace=True)
+    df.fillna(value=0, inplace=True)
     std_id = df['MaSV'].copy()
     df=df.drop(['MaSV', 'DTBTK'], axis=1)
 
 
-    with open('modelRank2.pkl', 'rb') as file:
+    with open('modelRank.pkl', 'rb') as file:
       model = pickle.load(file)
     prediction = model.predict(df)
     df['Pred Rank'] = prediction
