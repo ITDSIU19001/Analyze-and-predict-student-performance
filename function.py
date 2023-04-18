@@ -27,10 +27,13 @@ def process_data(raw_data):
     # Merge with the XepLoaiNH column
     df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
     df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
-    df.loc[df['XepLoaiNH'].isin(['Khá', 'Trung Bình Khá', 'Giỏi', 'Kém', 'Trung Bình', 'Yếu', 'Xuất sắc']), 'XepLoaiNH'] = df['XepLoaiNH'].map({'Khá': 'K', 'Trung Bình Khá': 'TK', 'Giỏi': 'G', 'Kém': 'Km', 'Trung Bình': 'TB', 'Yếu': 'Y', 'Xuất sắc': 'X'})
+    dfid=df['MaSV']
     df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
     df.replace('WH', np.nan, inplace=True)
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
+    df = pd.merge(dfid,df,left_index=True, right_index=True)
+    df['MaSV_school'] = df['MaSV'].str.slice(2, 4)
+    df=df.drop(columns='MaSV')
     
     return df
     

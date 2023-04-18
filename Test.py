@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+import numpy as np
 import plotly.graph_objs as go
 from function import process_data,process_data_per1, predict_late_student, predict_rank
 from datetime import datetime
@@ -63,27 +64,36 @@ tabs = st.sidebar.selectbox("Select an option", option)
 # draw histogram
 # Streamlit app
 if tabs == "Dashboard":
-    try:
+    # try:
 
         df = process_data(raw_data)
+        unique_values = df["MaSV_school"].unique()
+        all_values = np.concatenate([["All"],unique_values ])
+        school = st.selectbox("Select a school:", all_values)
+
+        if school == "All":
+        # If so, display the entire DataFrame
+          filtered_df = df.copy()
+        else:
+        # Otherwise, filter the DataFrame based on the selected value
+          filtered_df = df[df["MaSV_school"] == school]
+          filtered_df  = filtered_df .dropna(axis=1, how="all")
         # Select course dropdown
-        course = st.selectbox("Select a course:", df.columns)
+        df=filtered_df
+        options = df.columns[:-1]
+        course = st.selectbox("Select a course:", options)
 
         # Filter the data for the selected course
         course_data = df[course].dropna()
 
         # Calculate summary statistics for the course
-        mean = course_data.mean()
-        median = course_data.median()
-        std_dev = course_data.std()
+
         
 
         # Show summary statistics
         
-        st.write("Course:", course)
-        st.write("Mean:", mean.round(1))
-        st.write("Median:", median.round(1))
-        st.write("Standard deviation:", std_dev.round(1))
+        st.write("Course:", course, " of ", school," student" )
+
 
         col1, col2,col3= st.columns(3)
 
@@ -132,8 +142,8 @@ if tabs == "Dashboard":
             st.plotly_chart(fig)
 
 
-    except:
-        st.write("Add CSV to analysis")
+    # except:
+    #     st.write("Add CSV to analysis")
 
 
 # predict student
