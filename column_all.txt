@@ -1,17 +1,16 @@
 Algorithms & Data Structures
-Basic Electrical Concepts & Circuits
 C/C++ Programming
+C/C++ Programming in Unix
 Calculus 1
 Calculus 2
 Calculus 3
 Chemistry Laboratory
 Chemistry for Engineers
 Computer Architecture
-Computer Graphics
 Computer Networks
 Critical Thinking
-Data Structures and Algorithms
-Database
+Data Analysis
+Data Science and Data Visualization
 Differential Equations
 Digital Image Processing
 Digital Logic Design
@@ -19,10 +18,13 @@ Digital Logic Design Laboratory
 Discrete Mathematics
 Engineering Ethics and Professional Skills
 Entrepreneurship
+Environmental Science
+Foundation Mathematics 1
+Foundation Mathematics 2
+Fundamental Concepts of Data Security
 Fundamentals of Programming
 History of Vietnamese Communist Party
 Ho Chi Minh's Thoughts
-Human-Computer Interaction
 IT Project Management
 Information System Management
 Internship
@@ -30,22 +32,18 @@ Introduction to Artificial Intelligence
 Introduction to Computing
 Introduction to Data Mining
 Introduction to Data Science
-Introduction to Wireless Network
+Linear Algebra
 Listening AE1
 Net-Centric Programming
-Numerical Methods
 Object-Oriented Analysis and Design
 Object-Oriented Programming
 Operating Systems
-Philosophy
 Philosophy of Marxism and Leninism
-Physics
 Physics 1
 Physics 2
 Physics 3
 Physics 3 Laboratory
 Physics 4
-Political Economy
 Political economics of Marxism and Leninism
 Principles of Database Management
 Principles of EE1
@@ -55,16 +53,12 @@ Principles of Programming Languages
 Probability, Statistic & Random Process
 Regression Analysis
 Revolutionary Lines of Vietnamese Communist Party
-Science Socialism
+Scalable and Distributed Computing
 Scientific socialism
-Signals & Systems
-Software Architecture
 Software Engineering
 Speaking AE2
 Special Study of the Field
 Statistical Methods
-System & Network Administration
-System and Network Security
 Theoretical Models in Computing
 Thesis
 Web Application Development
