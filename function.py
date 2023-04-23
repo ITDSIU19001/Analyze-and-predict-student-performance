@@ -4,6 +4,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objs as go
 import streamlit as st
+import joblib
 
 
 
@@ -170,6 +171,7 @@ def predict_late_student(test_df):
 def predict_rank(raw_data):
     # Pivot the DataFrame
     raw_data = raw_data[raw_data["MaSV"].str.startswith("IT")]
+    raw_data = raw_data[raw_data['MaMH'].str.startswith('IT')]
     pivot_df = pd.pivot_table(
         raw_data, values="DiemHP", index="MaSV", columns="TenMH", aggfunc="first"
     )
@@ -177,15 +179,6 @@ def predict_rank(raw_data):
     pivot_df.columns.name = None
     pivot_df = pivot_df.dropna(thresh=50, axis=1)
     pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
-    # Drop unnecessary columns
-    cols_to_drop = []
-    with open('cols_to_drop.txt', 'r') as f:
-      for line in f:
-        cols_to_drop.append(str(line.strip()))
-    existing_cols = [col for col in cols_to_drop if col in pivot_df.columns]
-    if existing_cols:
-        pivot_df.drop(existing_cols, axis=1, inplace=True)
 
     pivot_df.replace("WH", np.nan, inplace=True)
     pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
@@ -196,17 +189,13 @@ def predict_rank(raw_data):
     col=df.drop(['MaSV', 'DTBTK'], axis=1)
     
     columns_data = []
-    columns_to_fill = []
     with open('column_all.txt', 'r') as f:
       for line in f:
-        columns_to_fill.append(str(line.strip()))
         columns_data.append(str(line.strip()))
-        
-    merge=[]
-    with open('colum_merge.txt', 'r') as f:
-      for line in f:
-        merge.append(str(line.strip()))
     
+
+    r=df.drop(columns=['MaSV','DTBTK'])
+    merge=r.columns.tolist()
     dup=pd.DataFrame(columns=columns_data)
     df= pd.merge(dup, df, on=merge, how='outer')
     for col in df.columns:
@@ -214,6 +203,13 @@ def predict_rank(raw_data):
             df[col].fillna(value=df["DTBTK"], inplace=True)
     std_id = df['MaSV'].copy()
     df=df.drop(['MaSV', 'DTBTK'], axis=1)
+
+    model=joblib.load("automl_rank.joblib")
+    prediction = model.predict(df)
+    df['Pred Rank'] = prediction
+    df.insert(0, 'MaSV', std_id)
+    df=df[['MaSV','Pred Rank']]
+    return df
 
 
     with open('modelRank.pkl', 'rb') as file:
