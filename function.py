@@ -212,15 +212,6 @@ def predict_rank(raw_data):
     return df
 
 
-    with open('modelRank.pkl', 'rb') as file:
-      model = pickle.load(file)
-    prediction = model.predict(df)
-    df['Pred Rank'] = prediction
-    df.insert(0, 'MaSV', std_id)
-    df=df[['MaSV','Pred Rank']]
-    return df
-
-
 def process_data_per1(raw_data, student_id):
     # Subset the DataFrame to relevant columns and rows
       student = process_data_per(raw_data)
