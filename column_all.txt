@@ -1,66 +1,78 @@
 Algorithms & Data Structures
+Analytics for Observational Data
+Applied Artificial Intelligence
+Basic Electrical Concepts & Circuits
+Blockchain
 C/C++ Programming
 C/C++ Programming in Unix
-Calculus 1
-Calculus 2
-Calculus 3
-Chemistry Laboratory
-Chemistry for Engineers
+Circuit Analysis
+Communication Networks
 Computer Architecture
+Computer Graphics
 Computer Networks
-Critical Thinking
 Data Analysis
 Data Science and Data Visualization
-Differential Equations
+Decision Support System
+Digital Communications
 Digital Image Processing
 Digital Logic Design
 Digital Logic Design Laboratory
+Digital Signal Processing
 Discrete Mathematics
-Engineering Ethics and Professional Skills
+Electronic Devices & Circuits
+Embedded Systems
 Entrepreneurship
-Environmental Science
-Foundation Mathematics 1
-Foundation Mathematics 2
+Formal Programming Methods
+Functional Programming
 Fundamental Concepts of Data Security
+Fundamentals of Big Data Technology
 Fundamentals of Programming
-History of Vietnamese Communist Party
-Ho Chi Minh's Thoughts
+Human-Computer Interaction
 IT Project Management
 Information System Management
+Information Theory & Coding
+Internet of Things
 Internship
 Introduction to Artificial Intelligence
 Introduction to Computing
 Introduction to Data Mining
 Introduction to Data Science
+Introduction to Distributed Computing
+Introduction to Wireless Network
 Linear Algebra
-Listening AE1
+Micro-processing Systems
+Microprocessor Systems & Interfacing
+Mobile Application Development
 Net-Centric Programming
+Network Design and Evaluation
+Network Management and Protocols
+Network Programming
+Networks & Systems Security
+Object Oriented Data Engineering (Java)
 Object-Oriented Analysis and Design
 Object-Oriented Programming
 Operating Systems
-Philosophy of Marxism and Leninism
-Physics 1
-Physics 2
-Physics 3
-Physics 3 Laboratory
-Physics 4
-Political economics of Marxism and Leninism
+Optimization
 Principles of Database Management
 Principles of EE1
 Principles of EE1 Laboratory
-Principles of Marxism
 Principles of Programming Languages
 Probability, Statistic & Random Process
+Programming Languages & Translators
+Projects
 Regression Analysis
-Revolutionary Lines of Vietnamese Communist Party
 Scalable and Distributed Computing
-Scientific socialism
+Signals & Systems
+Signals & Systems Laboratory
+Skills for Communicating Information
+Software Architecture
 Software Engineering
-Speaking AE2
+Software Implementation
 Special Study of the Field
 Statistical Methods
+System & Network Administration
+System and Network Security
 Theoretical Models in Computing
 Thesis
 Web Application Development
-Writing AE1
-Writing AE2
+Web Programming
