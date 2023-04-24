@@ -96,9 +96,9 @@ if tabs == "Dashboard":
                 comment = f"The median score for {course} is solid at {median}. Students are making good progress but could still work on improving their skills."
             else:
                 comment = f"The median score for {course} is outstanding at {median}. Students are doing an excellent job in this course."
-    
+            return comment
         
-        generate_comment(course_data.median())
+        st.write(generate_comment(course_data.median()))
         # Show summary statistics
         
         st.write("Course:", course, " of ", school," student" )
