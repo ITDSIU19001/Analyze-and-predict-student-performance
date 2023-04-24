@@ -205,7 +205,7 @@ def process_data_per1(raw_data, student_id):
             x=values,
             nbinsx=20,
             name=student_id,
-            marker_color="red"
+            marker_color="Pastel1"
         ))
 
         # Set the chart title and axis labels
