@@ -88,11 +88,11 @@ if tabs == "Dashboard":
 
         # Calculate summary statistics for the course
         def generate_comment(median):
-            if median < 3:
+            if median < 30:
                 comment = f"The median score for {course} is quite low at {median}. Students may need to work harder to improve their performance."
-            elif median < 5:
+            elif median < 50:
                 comment = f"The median score for {course} is below average at {median}. Students should work on improving their understanding of the material."
-            elif median < 8:
+            elif median < 80:
                 comment = f"The median score for {course} is solid at {median}. Students are making good progress but could still work on improving their skills."
             else:
                 comment = f"The median score for {course} is outstanding at {median}. Students are doing an excellent job in this course."
