@@ -1,8 +1,7 @@
-numpy==1.19.3
+numpy
 Cython==0.29.21
-auto-sklearn==0.12.6
-scikit-learn==0.24.0
-pandas==1.4.2
-plotly==5.13.1
-scipy==1.7.3
+scikit-learn
+pandas
+plotly
+scipy
 pyDOE
