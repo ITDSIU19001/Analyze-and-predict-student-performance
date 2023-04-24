@@ -175,7 +175,7 @@ elif tabs == "Predict":
             styled_table = (
                 df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Result", "Period"]]
                 .style.applymap(color_cell)
-                .format({"GPA": "{:.1f}", "Mean_Cre": "{:.1f}", "Period": "{:.1f}"})
+                .format({"GPA": "{:.2f}", "Mean_Cre": "{:.1f}", "Period": "{:.1f}"})
             )
             
             with st.container():
