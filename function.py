@@ -233,17 +233,8 @@ def process_data_per1(raw_data, student_id):
             yaxis_title="Score",
         )
 
-        # Add a red rectangle to highlight values less than 50
-        fig2.add_shape(
-            type='rect',
-            x0=-0.5,
-            y0=0,
-            x1=len(student_data['TenMH'])-0.5,
-            y1=50,
-            fillcolor='red',
-            opacity=0.2,
-            line_width=0,
-        )
+        # Highlight any values less than 50 with a red color
+        fig2.update_traces(marker=dict(color=student_data['DiemHP'] < 50 and 'red' or 'blue'))
 
 
         # display the charts using st.column
