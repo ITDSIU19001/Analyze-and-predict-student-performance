@@ -99,7 +99,7 @@ def process_student_data(raw_data):
 
     data = raw_data[['MaSV','NHHK','SoTCDat']]
     data = data.drop_duplicates()
-    data = data.groupby(['MaSV'])['SoTCDat'].mean().reset_index(name='Mean_Cre').round(2)
+    data = data.groupby(['MaSV'])['SoTCDat'].median().reset_index(name='Mean_Cre').round(2)
 
     df = pd.merge(df, data, on='MaSV')
     df1=raw_data[['MaSV','MaMH','NHHK']]
