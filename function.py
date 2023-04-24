@@ -203,8 +203,8 @@ def predict_rank(raw_data):
             df[col].fillna(value=df["DTBTK"], inplace=True)
     std_id = df['MaSV'].copy()
     df=df.drop(['MaSV', 'DTBTK'], axis=1)
-
-    model=joblib.load("automl_rank.joblib")
+    df.sort_index(axis=1, inplace=True)
+    model=joblib.load("R_rank.joblib")
     prediction = model.predict(df)
     df['Pred Rank'] = prediction
     df.insert(0, 'MaSV', std_id)
