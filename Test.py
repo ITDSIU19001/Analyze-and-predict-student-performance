@@ -17,8 +17,8 @@ def color_cell(val):
         color = "yellow"
     elif val == "late":
         color = "red"
-    # else:
-    #     color = "white"
+    else:
+        color = "black"
     return "color: %s" % color
 
 
