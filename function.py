@@ -106,7 +106,7 @@ def process_student_data(raw_data):
     courses_list = raw_data[(raw_data['MaMH'].str.startswith('EN')) & ~(raw_data['MaMH'].str.contains('EN007|EN008|EN011|EN012'))].MaMH.tolist()
     filtered_df = df1[df1['MaMH'].isin(courses_list)]
     nhhk_counts = filtered_df.groupby('MaSV')['NHHK'].nunique().reset_index(name='EPeriod')
-    df = pd.merge(df, nhhk_counts, on='MaSV')
+    df = pd.merge(df, nhhk_counts, on='MaSV', how='left').fillna(0)
     df=df[['MaSV','GPA'	,'Median_Cre',	'fail_courses_list_count'	,'fail_not_courses_list_count'	,'EPeriod']]
     return df
 
