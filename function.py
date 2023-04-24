@@ -226,12 +226,25 @@ def process_data_per1(raw_data, student_id):
         student_data = data[data['MaSV'] == student_id][['NHHK', 'TenMH', 'DiemHP']]
         student_data['DiemHP'] = pd.to_numeric(student_data['DiemHP'], errors='coerce')
 
-        fig2 = px.bar(student_data, x='TenMH', y='DiemHP', color='NHHK', title='Student Score vs. Course',color_threshold=50)
+        fig2 = px.bar(student_data, x='TenMH', y='DiemHP', color='NHHK', title='Student Score vs. Course')
         fig2.update_layout(
             title="Student Score vs. Course",
             xaxis_title=None,
             yaxis_title="Score",
         )
+
+        # Add a red rectangle to highlight values less than 50
+        fig2.add_shape(
+            type='rect',
+            x0=-0.5,
+            y0=0,
+            x1=len(student_data['TenMH'])-0.5,
+            y1=50,
+            fillcolor='red',
+            opacity=0.2,
+            line_width=0,
+        )
+
 
         # display the charts using st.column
         col1, col2 = st.columns(2)
