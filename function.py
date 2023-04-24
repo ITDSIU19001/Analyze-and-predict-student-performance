@@ -232,6 +232,14 @@ def process_data_per1(raw_data, student_id):
             xaxis_title=None,
             yaxis_title="Score",
         )
+        fig2.add_shape(
+            type="line",
+            x0=0,
+            y0=50,
+            x1=len(student_data['TenMH'])-1,
+            y1=50,
+            line=dict(color='red', width=3)
+        )
 
         # display the charts using st.column
         col1, col2 = st.columns(2)
