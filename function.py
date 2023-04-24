@@ -142,10 +142,10 @@ def predict_late_student(test_df):
     for index, row in test_dfed.iterrows():
       if row['Period'] == 8 and row['Result'] == 'late':
         test_dfed.loc[index, 'Period'] = row['Period'] / 2
-        test_dfed.loc[index, 'Result'] = 'may late'
+        # test_dfed.loc[index, 'Result'] = 'may late'
       elif row['Period'] == 9 and row['Result'] == 'late':
         test_dfed.loc[index, 'Period'] = row['Period'] / 2
-        test_dfed.loc[index, 'Result'] = 'may late'
+        # test_dfed.loc[index, 'Result'] = 'may late'
       else:
         test_dfed.loc[index, 'Period'] = row['Period'] / 2
 
