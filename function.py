@@ -108,12 +108,13 @@ def process_student_data(raw_data):
     filtered_df = df1[df1['MaMH'].isin(courses_list)]
     nhhk_counts = filtered_df.groupby('MaSV')['NHHK'].nunique().reset_index(name='EPeriod')
     df = pd.merge(df, nhhk_counts, on='MaSV')
+    df=df[['MaSV','GPA'	,'Median_Cre',	'fail_courses_list_count'	,'fail_not_courses_list_count'	,'EPeriod']]
     return df
 
 def predict_late_student(test_df):
     # Load the pre-trained model
     model=joblib.load("R_isLate.joblib")
-    model1=joblib.load("R_rank.joblib")
+    model1=joblib.load("R_Sem.joblib")
     # Process the student data
     test_dfed = process_student_data(test_df)
 
@@ -127,12 +128,13 @@ def predict_late_student(test_df):
     prediction = model.predict(test_dfed)
 
     # Add a new column to the student data indicating if the student is late
-    test_dfed['Result'] = ['late' if p == 1 else 'not late' for p in prediction]
+    
 
-    prediction = model1.predict(test_dfed)
+    prediction1 = model1.predict(test_dfed)
 
     # Add a new column to the student data indicating if the student is late
-    test_dfed['Period'] = prediction
+    test_dfed['Period'] = prediction1
+    test_dfed['Result'] = ['late' if p == 1 else 'not late' for p in prediction]
 
     # Add the student ID column back to the beginning of the DataFrame
     test_dfed.insert(0, 'MaSV', std_id)
@@ -148,7 +150,6 @@ def predict_late_student(test_df):
         test_dfed.loc[index, 'Period'] = row['Period'] / 2
 
     return test_dfed
-
 def predict_rank(raw_data):
     # Pivot the DataFrame
     raw_data = raw_data[raw_data["MaSV"].str.startswith("IT")]
