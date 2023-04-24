@@ -234,7 +234,7 @@ def process_data_per1(raw_data, student_id):
         )
 
         # Highlight any values less than 50 with a red color
-        fig2.update_traces(marker=dict(color=student_data['DiemHP'] < 50 and 'red' or 'blue'))
+        fig2.update_traces(marker=dict(color=student_data['DiemHP'] < 50))
 
 
         # display the charts using st.column
