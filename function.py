@@ -201,7 +201,7 @@ def process_data_per1(raw_data, student_id):
 
       # create a line chart using plotly
         fig1 = go.Figure()
-        fig1.add_trace(go.Histogram(x=values, nbinsx=40, name=student_id))
+        fig1.add_trace(go.Histogram(x=values, nbinsx=40, name=student_id,marker=dict(color='rgba(50, 100, 200, 0.7)')))
 
         # set the chart title and axis labels
         fig1.update_layout(
