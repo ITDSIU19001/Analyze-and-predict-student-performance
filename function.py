@@ -226,7 +226,7 @@ def process_data_per1(raw_data, student_id):
         student_data = data[data['MaSV'] == student_id][['NHHK', 'TenMH', 'DiemHP']]
         student_data['DiemHP'] = pd.to_numeric(student_data['DiemHP'], errors='coerce')
 
-        fig2 = px.bar(student_data, x='TenMH', y='DiemHP', color='NHHK', title='Student Score vs. Course',color_threshold=50))
+        fig2 = px.bar(student_data, x='TenMH', y='DiemHP', color='NHHK', title='Student Score vs. Course',color_threshold=50)
         fig2.update_layout(
             title="Student Score vs. Course",
             xaxis_title=None,
