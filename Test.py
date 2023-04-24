@@ -186,7 +186,7 @@ elif tabs == "Predict":
             # df_late = predict[(predict['Pred Rank'] == 'Yếu') | (predict['Pred Rank'] == 'Kém')]
             df_late["Year"] = 2000 + df_late["MaSV"].apply(get_year)
             df_late = df_late[
-                (df_late["Year"] != currentYear - 2) & (df_late["Year"] != currentYear - 3)
+                (df_late["Year"] != currentYear - 1) & (df_late["Year"] != currentYear - 2)
             ]
             year = st.selectbox("Select Year", options=df_late["Year"].unique())
             df_filtered = df_late[df_late["Year"] == year]
