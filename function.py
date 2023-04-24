@@ -68,24 +68,21 @@ def process_student_data(raw_data):
     dtk = raw_data[["MaSV", "DTBTKH4"]].copy()
     dtk.drop_duplicates(subset="MaSV", keep="last", inplace=True)
 
-    count_duplicates = raw_data.groupby(["MaSV", "TenMH"]).size().reset_index(name="Times")
-
-    courses_list = []
-    with open('courses_list.txt', 'r') as f:
-      for line in f:
-        courses_list.append(str(line.strip()))
+    count_duplicates = raw_data.groupby(["MaSV", "MaMH"]).size().reset_index(name="Times")
+    courses = raw_data[raw_data['MaMH'].str.startswith('IT')]
+    courses_list=courses['MaMH'].unique().tolist()
 
   # Create two new columns for counting courses that are in the courses_list or not
     count_duplicates["fail_courses_list"] = (
-        (count_duplicates["TenMH"].isin(courses_list)) & (count_duplicates["Times"] >= 2)
+        (count_duplicates["MaMH"].isin(courses_list)) & (count_duplicates["Times"] >= 2)
     ).astype(int)
 
     count_duplicates["fail_not_courses_list"] = (
-        (~count_duplicates["TenMH"].isin(courses_list)) & (count_duplicates["Times"] >= 2)
+        (~count_duplicates["MaMH"].isin(courses_list)) & (count_duplicates["Times"] >= 2)
     ).astype(int)
 
     count_duplicates["pass_courses"] = (
-        (~count_duplicates["TenMH"].isin(courses_list)) & (count_duplicates["Times"] == 1)
+        (~count_duplicates["MaMH"].isin(courses_list)) & (count_duplicates["Times"] == 1)
     ).astype(int)
 
     # Group the data by "MaSV" and sum the counts for the two new columns
@@ -106,33 +103,17 @@ def process_student_data(raw_data):
     data = data.groupby(['MaSV'])['SoTCDat'].median().reset_index(name='Median_Cre').round(1)
 
     df = pd.merge(df, data, on='MaSV')
-    courses_list=[' Intensive English 0- Twinning Program',
-  ' Intensive English 01- Twinning Program',
-  ' Intensive English 02- Twinning Program',
-  ' Intensive English 03- Twinning Program',
-  ' Intensive English 1- Twinning Program',
-  ' Intensive English 2- Twinning Program',
-  ' Intensive English 3- Twinning Program',
-  ' Listening & Speaking IE1',
-  ' Listening & Speaking IE2',
-  ' Listening & Speaking IE2 (for twinning program)',
-  ' Physical Training 1',
-  ' Physical Training 2',
-  ' Reading & Writing IE1',
-  ' Reading & Writing IE2',
-  ' Reading & Writing IE2 (for twinning program)']
-    df1=raw_data[['MaSV','TenMH','NHHK']]
-    filtered_df = df1[df1['TenMH'].isin(courses_list)]
+    df1=raw_data[['MaSV','MaMH','NHHK']]
+    courses_list = raw_data[(raw_data['MaMH'].str.startswith('EN')) & ~(raw_data['MaMH'].str.contains('EN007|EN008|EN011|EN012'))].MaMH.tolist()
+    filtered_df = df1[df1['MaMH'].isin(courses_list)]
     nhhk_counts = filtered_df.groupby('MaSV')['NHHK'].nunique().reset_index(name='EPeriod')
     df = pd.merge(df, nhhk_counts, on='MaSV')
     return df
 
 def predict_late_student(test_df):
     # Load the pre-trained model
-    with open('modelLate.pkl', 'rb') as file:
-        model = pickle.load(file)
-    with open('modelPeriod.pkl', 'rb') as file:
-        model1 = pickle.load(file)
+    model=joblib.load("R_isLate.joblib")
+    model1=joblib.load("R_rank.joblib")
     # Process the student data
     test_dfed = process_student_data(test_df)
 
