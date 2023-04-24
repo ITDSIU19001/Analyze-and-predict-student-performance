@@ -87,9 +87,18 @@ if tabs == "Dashboard":
         course_data = df[course].dropna()
 
         # Calculate summary statistics for the course
-
+        def generate_comment(median):
+            if median < 3:
+                comment = f"The median score for {course} is quite low at {median}. Students may need to work harder to improve their performance."
+            elif median < 5:
+                comment = f"The median score for {course} is below average at {median}. Students should work on improving their understanding of the material."
+            elif median < 8:
+                comment = f"The median score for {course} is solid at {median}. Students are making good progress but could still work on improving their skills."
+            else:
+                comment = f"The median score for {course} is outstanding at {median}. Students are doing an excellent job in this course."
+            return comment
         
-
+        generate_comment(course_data.median())
         # Show summary statistics
         
         st.write("Course:", course, " of ", school," student" )
