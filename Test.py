@@ -137,7 +137,8 @@ if tabs == "Dashboard":
             )
             st.plotly_chart(fig)
         with col3:
-            df1=filtered_df[['TenMH','NHHK','DiemHP']].copy()
+            data=raw_data[raw_data["MaSV_school"] == school]
+            df1=data[['TenMH','NHHK','DiemHP']].copy()
             df1['DiemHP'] = pd.to_numeric(df1['DiemHP'], errors='coerce')
             df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
             selected_TenMH = " " + course
