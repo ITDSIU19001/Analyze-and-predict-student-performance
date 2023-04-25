@@ -137,8 +137,15 @@ if tabs == "Dashboard":
             )
             st.plotly_chart(fig)
         with col3:
-            data=raw_data[raw_data['MaSV'].str.contains(school)]
-            df1=data[['TenMH','NHHK','DiemHP']].copy()
+            raw_data['MaSV_school'] = raw_data['MaSV'].str.slice(0, 4)
+            if school == "All":
+            # If so, display the entire DataFrame
+                filtered_df = raw_data.copy()
+            else:
+            # Otherwise, filter the DataFrame based on the selected value
+                filtered_df = raw_data[raw_data["MaSV_school"] == school]
+                filtered_df  = filtered_df.dropna(axis=1, how="all")
+            df1=filtered_df[['TenMH','NHHK','DiemHP']].copy()
             df1['DiemHP'] = pd.to_numeric(df1['DiemHP'], errors='coerce')
             df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
             selected_TenMH = " " + course
