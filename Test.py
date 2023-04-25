@@ -137,7 +137,7 @@ if tabs == "Dashboard":
             )
             st.plotly_chart(fig)
         with col3:
-            df1=raw_data[['TenMH','NHHK','DiemHP']].copy()
+            df1=filtered_df[['TenMH','NHHK','DiemHP']].copy()
             df1['DiemHP'] = pd.to_numeric(df1['DiemHP'], errors='coerce')
             df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
             selected_TenMH = " " + course
@@ -176,7 +176,6 @@ elif tabs == "Predict":
 
         # Filter students who have a Result value of "late"
         df_late = predict
-
 
         MaSV = st.text_input("Enter Student ID:")
         if MaSV:
