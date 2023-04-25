@@ -177,7 +177,7 @@ elif tabs == "Predict":
             "Kém": "Very weak",
             "Trung Bình": "Ordinary",
             "Yếu": "Weak",
-            "Xuất sắc": "Excellent",
+            "Xuất Sắc": "Excellent",
         }
         predict["Pred Rank"].replace(rank_mapping, inplace=True)
 
