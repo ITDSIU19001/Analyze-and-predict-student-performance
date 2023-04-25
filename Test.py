@@ -137,7 +137,7 @@ if tabs == "Dashboard":
             )
             st.plotly_chart(fig)
         with col3:
-            data=raw_data[raw_data["MaSV_school"] == school]
+            data=raw_data[raw_data['MaSV'].str.contains(school)]
             df1=data[['TenMH','NHHK','DiemHP']].copy()
             df1['DiemHP'] = pd.to_numeric(df1['DiemHP'], errors='coerce')
             df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
