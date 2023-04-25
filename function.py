@@ -16,7 +16,10 @@ def process_data(raw_data):
     pivot_df = pivot_df.rename(columns=lambda x: x.strip())
 
     # Drop unnecessary columns
-    cols_to_drop = raw_data[(raw_data['MaMH'].str.startswith('EN')) & ~(raw_data['MaMH'].str.contains('EN007|EN008|EN011|EN012'))].MaMH.unique().tolist()
+    cols_to_drop = []
+    with open('cols_to_drop.txt', 'r') as f:
+      for line in f:
+        cols_to_drop.append(str(line.strip()))
     existing_cols = [col for col in cols_to_drop if col in pivot_df.columns]
     if existing_cols:
         pivot_df.drop(existing_cols, axis=1, inplace=True)
