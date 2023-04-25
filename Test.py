@@ -43,7 +43,7 @@ with col1:
 
 # add a centered title to the second column
 with col2:
-    st.title("IT Student Scores")
+    st.title("Student Performance Prediction Systems")
 
 
 # Load the raw data
