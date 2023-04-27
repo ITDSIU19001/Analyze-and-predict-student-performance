@@ -26,7 +26,13 @@ def get_year(student_id):
     return int(student_id[6:8])
 
 
-st.set_page_config(layout="wide")
+favicon = 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ficon-icons.com%2Ficon%2Famong-us-player-red%2F156942&psig=AOvVaw2HTLi4qVmC3qv9uxnkZpen&ust=1682666438351000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKCZy4zDyf4CFQAAAAAdAAAAABAE'
+
+st.set_page_config(
+page_title='Student System',
+page_icon=favicon,
+layout='wide',
+)
 currentYear = datetime.now().year
 im1 = Image.open("R.png")
 
@@ -43,7 +49,7 @@ with col1:
 
 # add a centered title to the second column
 with col2:
-    st.title("IT Student Scores")
+    st.title("Student Performance Prediction System")
 
 
 # Load the raw data
@@ -177,7 +183,7 @@ elif tabs == "Predict":
             "Kém": "Very weak",
             "Trung Bình": "Ordinary",
             "Yếu": "Weak",
-            "Xuất sắc": "Excellent",
+            "Xuất Sắc": "Excellent",
         }
         predict["Pred Rank"].replace(rank_mapping, inplace=True)
 
