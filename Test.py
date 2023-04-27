@@ -26,7 +26,13 @@ def get_year(student_id):
     return int(student_id[6:8])
 
 
-st.set_page_config(page_title='Student System', page_icon = favicon,layout="wide")
+favicon = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Favicon_2019.svg/1200px-Favicon_2019.svg.png'
+
+st.set_page_config(
+page_title='Student System',
+page_icon=favicon,
+layout='wide',
+)
 currentYear = datetime.now().year
 im1 = Image.open("R.png")
 
