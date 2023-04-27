@@ -26,7 +26,7 @@ def get_year(student_id):
     return int(student_id[6:8])
 
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_title='Student System', page_icon = favicon,layout="wide")
 currentYear = datetime.now().year
 im1 = Image.open("R.png")
 
@@ -43,7 +43,7 @@ with col1:
 
 # add a centered title to the second column
 with col2:
-    st.title("Student Performance Prediction Systems")
+    st.title("Student Performance Prediction System")
 
 
 # Load the raw data
