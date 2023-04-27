@@ -26,7 +26,7 @@ def get_year(student_id):
     return int(student_id[6:8])
 
 
-favicon = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Favicon_2019.svg/1200px-Favicon_2019.svg.png'
+favicon = 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ficon-icons.com%2Ficon%2Famong-us-player-red%2F156942&psig=AOvVaw2HTLi4qVmC3qv9uxnkZpen&ust=1682666438351000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKCZy4zDyf4CFQAAAAAdAAAAABAE'
 
 st.set_page_config(
 page_title='Student System',
