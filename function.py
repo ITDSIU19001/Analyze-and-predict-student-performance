@@ -112,8 +112,8 @@ def process_predict_data(raw_data):
 
 def predict_late_student(test_df):
     # Load the pre-trained model
-    model=joblib.load("R_Late.joblib")
-    model1=joblib.load("R_Sem.joblib")
+    model=joblib.load("model\R_Late.joblib")
+    model1=joblib.load("model\R_Sem.joblib")
     # Process the student data
     test_dfed = process_predict_data(test_df)
 
@@ -182,7 +182,7 @@ def predict_rank(raw_data):
     std_id = df['MaSV'].copy()
     df=df.drop(['MaSV', 'DTBTK'], axis=1)
     df.sort_index(axis=1, inplace=True)
-    model=joblib.load("R_rank.joblib")
+    model=joblib.load("model\R_rank.joblib")
     prediction = model.predict(df)
     df['Pred Rank'] = prediction
     df.insert(0, 'MaSV', std_id)
