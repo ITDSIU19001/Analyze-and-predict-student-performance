@@ -70,7 +70,7 @@ tabs = st.sidebar.selectbox("Select an option", option)
 # draw histogram
 # Streamlit app
 if tabs == "Dashboard":
-    # try:
+    try:
 
         df = process_data(raw_data)
         unique_values = df["MaSV_school"].unique()
@@ -164,14 +164,14 @@ if tabs == "Dashboard":
             st.plotly_chart(fig)
 
 
-    # except:
-    #     st.write("Add CSV to analysis")
+    except:
+        st.write("Add CSV to analysis")
 
 
 # predict student
 
 elif tabs == "Predict":
-    # try:
+    try:
         predict = predict_late_student(raw_data)
         rank = predict_rank(raw_data)
 
@@ -265,5 +265,5 @@ elif tabs == "Predict":
 
         # display the grid of pie charts using Streamlit
 
-    # except:
-    #     st.write('Add CSV to analysis')
+    except:
+        st.write('Add CSV to analysis')
