@@ -63,7 +63,7 @@ def process_data_per(raw_data):
     return df
 
 
-def process_student_data(raw_data):
+def process_predict_data(raw_data):
     dtk = raw_data[["MaSV", "DTBTKH4"]].copy()
     dtk.drop_duplicates(subset="MaSV", keep="last", inplace=True)
 
@@ -115,7 +115,7 @@ def predict_late_student(test_df):
     model=joblib.load("R_Late.joblib")
     model1=joblib.load("R_Sem.joblib")
     # Process the student data
-    test_dfed = process_student_data(test_df)
+    test_dfed = process_predict_data(test_df)
 
     # Save the student ID column
     std_id = test_dfed.iloc[:, 0]
@@ -190,7 +190,7 @@ def predict_rank(raw_data):
     return df
 
 
-def process_data_per1(raw_data, student_id):
+def predict_one_student(raw_data, student_id):
     # Subset the DataFrame to relevant columns and rows
       student = process_data_per(raw_data)
       filtered_df = student[student["MaSV"] == student_id]

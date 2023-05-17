@@ -3,7 +3,7 @@ import streamlit as st
 import plotly.express as px
 import numpy as np
 import plotly.graph_objs as go
-from function import process_data,process_data_per1, predict_late_student, predict_rank
+from function import process_data,predict_late_student, predict_rank,predict_one_student
 from datetime import datetime
 from PIL import Image
 import base64
@@ -201,7 +201,7 @@ elif tabs == "Predict":
             
             with st.container():
                 st.write(styled_table)
-                process_data_per1(raw_data,MaSV)
+                predict_one_student(raw_data,MaSV)
         else:
             df_late = predict
             # df_late = predict[(predict['Pred Rank'] == 'Yếu') | (predict['Pred Rank'] == 'Kém')]
