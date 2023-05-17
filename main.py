@@ -53,13 +53,13 @@ with col2:
 
 
 # Load the raw data
-# uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
-# if uploaded_file is not None:
-#     df = pd.read_csv(uploaded_file)
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
 
-# raw_data = df.copy()
-raw_data = pd.read_csv("dataScore.csv")
+raw_data = df.copy()
+# raw_data = pd.read_csv("dataScore.csv")
 st.sidebar.title("Analysis Tool")
 
 option = ["Dashboard", "Predict"]
