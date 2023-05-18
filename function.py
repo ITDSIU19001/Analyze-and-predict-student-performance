@@ -6,6 +6,8 @@ import streamlit as st
 import joblib
 
 
+def get_year(student_id):
+    return int(student_id[6:8])
 
 def process_data(raw_data):
     # Pivot the DataFrame
@@ -33,6 +35,7 @@ def process_data(raw_data):
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
     df = pd.merge(dfid,df,left_index=True, right_index=True)
     df['MaSV_school'] = df['MaSV'].str.slice(2, 4)
+    df["Year"] = 2000 + df["MaSV"].apply(get_year)
     df=df.drop(columns='MaSV')
     
     return df
