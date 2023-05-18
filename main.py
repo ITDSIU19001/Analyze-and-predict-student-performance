@@ -73,10 +73,12 @@ if tabs == "Dashboard":
     try:
 
         df = process_data(raw_data)
+        unique_values_year = df["Year"].unique()
+        all_values_year = np.concatenate([["All"],unique_values_year ])
         unique_values = df["MaSV_school"].unique()
         all_values = np.concatenate([["All"],unique_values ])
         school = st.selectbox("Select a school:", all_values)
-
+        year = st.selectbox("Select a school:", all_values_year)
         if school == "All":
         # If so, display the entire DataFrame
           filtered_df = df.copy()
