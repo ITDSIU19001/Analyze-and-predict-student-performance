@@ -81,7 +81,7 @@ with col2:
 #         st.error("Invalid file format. Please upload a CSV or Excel file.")
 
 # raw_data = df.copy()
-raw_data = pd.read_csv("All_maj.csv")
+raw_data = pd.read_csv("All_major.csv")
 st.sidebar.title("Analysis Tool")
 
 option = ["Dashboard", "Predict"]
