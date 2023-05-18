@@ -67,7 +67,7 @@ with col2:
 uploaded_file = st.file_uploader("Choose a score file", type="xlsx")
 
 if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+    df = pd.read_xlsx(uploaded_file)
 
 raw_data = df.copy()
 # raw_data = pd.read_csv("dataScore.csv")
