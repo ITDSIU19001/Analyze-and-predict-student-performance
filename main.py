@@ -100,9 +100,10 @@ if tabs == "Dashboard":
         all_values_year = np.concatenate([["All"],unique_values_year ])
         unique_values = df["MaSV_school"].unique()
         all_values = np.concatenate([["All"],unique_values ])
+        major=st.selectbox("Select a major:", unique_values_major)
         school = st.selectbox("Select a school:", all_values)
         year = st.selectbox("Select a year:", all_values_year)
-        major=st.selectbox("Select a major:", unique_values_major)
+        
         
         if school == "All":
         # If so, display the entire DataFrame
