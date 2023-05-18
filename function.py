@@ -35,7 +35,7 @@ def process_data(raw_data):
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
     df = pd.merge(dfid,df,left_index=True, right_index=True)
     df['MaSV_school'] = df['MaSV'].str.slice(2, 4)
-    df['Major'] = df['Major'].str.slice(0, 2)
+    df['Major'] = df['MaSV'].str.slice(0, 2)
     df["Year"] = 2000 + df["MaSV"].apply(get_year)
     df["Year"]=df["Year"].astype(str)
     df=df.drop(columns='MaSV')
