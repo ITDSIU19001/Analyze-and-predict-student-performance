@@ -26,6 +26,17 @@ def get_year(student_id):
     return int(student_id[6:8])
 
 
+def generate_comment(median):
+    if median < 30:
+        comment = f"The median score for {course} is quite low at {median}. Students may need to work harder to improve their performance."
+    elif median < 50:
+        comment = f"The median score for {course} is below average at {median}. Students should work on improving their understanding of the material."
+    elif median < 80:
+        comment = f"The median score for {course} is solid at {median}. Students are making good progress but could still work on improving their skills."
+    else:
+        comment = f"The median score for {course} is outstanding at {median}. Students are doing an excellent job in this course."
+    return comment
+
 favicon = 'R.png'
 
 st.set_page_config(
@@ -112,16 +123,7 @@ if tabs == "Dashboard":
         course_data = df[course].dropna()
         
         # Calculate summary statistics for the course
-        def generate_comment(median):
-            if median < 30:
-                comment = f"The median score for {course} is quite low at {median}. Students may need to work harder to improve their performance."
-            elif median < 50:
-                comment = f"The median score for {course} is below average at {median}. Students should work on improving their understanding of the material."
-            elif median < 80:
-                comment = f"The median score for {course} is solid at {median}. Students are making good progress but could still work on improving their skills."
-            else:
-                comment = f"The median score for {course} is outstanding at {median}. Students are doing an excellent job in this course."
-            return comment
+
         
         st.write(generate_comment(course_data.median()))
         # Show summary statistics
