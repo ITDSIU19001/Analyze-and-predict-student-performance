@@ -107,8 +107,8 @@ if tabs == "Dashboard":
         course = st.selectbox("Select a course:", options)
 
         # Filter the data for the selected course
-        course_data = df[course].dropna()
-
+#         course_data = df[course].dropna()
+        
         # Calculate summary statistics for the course
         def generate_comment(median):
             if median < 30:
