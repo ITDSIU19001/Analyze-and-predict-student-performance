@@ -64,7 +64,7 @@ with col2:
 
 
 # Load the raw data
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+uploaded_file = st.file_uploader("Choose a score file", type="xlsx")
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
