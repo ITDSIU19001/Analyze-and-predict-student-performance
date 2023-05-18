@@ -112,8 +112,6 @@ if tabs == "Dashboard":
             # Otherwise, filter the DataFrame based on the selected value
             filtered_df = df[df["Year"] == year]
             filtered_df = filtered_df.dropna(axis=1, how="all")
-        
-        st.write(filtered_df)
         df=filtered_df
         
         options = df.columns[:-2]
