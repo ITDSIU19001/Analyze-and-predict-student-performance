@@ -16,7 +16,6 @@ def process_data(raw_data):
     pivot_df.columns.name = None
     pivot_df = pivot_df.dropna(thresh=50, axis=1)
     pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
     # Drop unnecessary columns
     cols_to_drop = []
     with open('cols_to_drop.txt', 'r') as f:
@@ -31,7 +30,7 @@ def process_data(raw_data):
     df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
     dfid=df['MaSV']
     df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
-    df.replace('WH', np.nan, inplace=True)
+    df.replace(['WH', 'VT'], np.nan, inplace=True)
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
     df = pd.merge(dfid,df,left_index=True, right_index=True)
     df['MaSV_school'] = df['MaSV'].str.slice(2, 4)
