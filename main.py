@@ -81,7 +81,7 @@ with col2:
 #         st.error("Invalid file format. Please upload a CSV or Excel file.")
 
 # raw_data = df.copy()
-raw_data = pd.read_csv("All_major.csv")
+raw_data = pd.read_csv("All_maj.csv")
 st.sidebar.title("Analysis Tool")
 
 option = ["Dashboard", "Predict"]
@@ -96,13 +96,7 @@ if tabs == "Dashboard":
 
         df = process_data(raw_data)
         unique_values_major = df["Major"].unique()
-        
-        
         major=st.selectbox("Select a major:", unique_values_major)
-
-        
-        
-        
         if major == "All":
         # If so, display the entire DataFrame
           filtered_df = df.copy()
@@ -113,7 +107,6 @@ if tabs == "Dashboard":
         
         # Select course dropdown
         df=filtered_df
-
         unique_values = df["MaSV_school"].unique()
         all_values = np.concatenate([["All"],unique_values ])
         school = st.selectbox("Select a school:", all_values)
