@@ -102,7 +102,8 @@ if tabs == "Dashboard":
             filtered_df = df[df["Year"] == year]
 
         df=filtered_df
-        options = df.columns[:-1]
+        
+        options = df.columns[:-2]
         course = st.selectbox("Select a course:", options)
 
         # Filter the data for the selected course
