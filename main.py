@@ -94,14 +94,14 @@ if tabs == "Dashboard":
         
         # Fix code to show the filtered data with df['Year']
 
-        if year == "All":
-            # If so, display the entire DataFrame
-            filtered_df = df.copy()
-        else:
-            # Otherwise, filter the DataFrame based on the selected value
-            filtered_df = df[df["Year"] == year]
+#         if year == "All":
+#             # If so, display the entire DataFrame
+#             filtered_df = df.copy()
+#         else:
+#             # Otherwise, filter the DataFrame based on the selected value
+#             filtered_df = df[df["Year"] == year]
 
-        df=filtered_df
+#         df=filtered_df
         
         options = df.columns[:-2]
         course = st.selectbox("Select a course:", options)
