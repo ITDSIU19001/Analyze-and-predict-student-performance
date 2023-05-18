@@ -87,21 +87,23 @@ if tabs == "Dashboard":
         else:
         # Otherwise, filter the DataFrame based on the selected value
           filtered_df = df[df["MaSV_school"] == school]
-          filtered_df  = filtered_df .dropna(axis=1, how="all")
+          filtered_df  = filtered_df.dropna(axis=1, how="all")
         
         # Select course dropdown
         df=filtered_df
         
         # Fix code to show the filtered data with df['Year']
 
-#         if year == "All":
-#             # If so, display the entire DataFrame
-#             filtered_df = df.copy()
-#         else:
-#             # Otherwise, filter the DataFrame based on the selected value
-#             filtered_df = df[df["Year"] == year]
-
-#         df=filtered_df
+        if year == "All":
+            # If so, display the entire DataFrame
+            filtered_df = df.copy()
+        else:
+            # Otherwise, filter the DataFrame based on the selected value
+            filtered_df = df[df["Year"] == year]
+            filtered_df = filtered_df.dropna(axis=1, how="all")
+        
+        st.write(filtered_df)
+        df=filtered_df
         
         options = df.columns[:-2]
         course = st.selectbox("Select a course:", options)
