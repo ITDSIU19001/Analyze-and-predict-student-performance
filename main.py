@@ -70,7 +70,7 @@ tabs = st.sidebar.selectbox("Select an option", option)
 # draw histogram
 # Streamlit app
 if tabs == "Dashboard":
-    try:
+#     try:
 
         df = process_data(raw_data)
         unique_values_year = df["Year"].unique()
@@ -178,8 +178,8 @@ if tabs == "Dashboard":
             st.plotly_chart(fig)
 
 
-    except:
-        st.write("Add CSV to analysis")
+#     except:
+#         st.write("Add CSV to analysis")
 
 
 # predict student
