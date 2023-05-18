@@ -91,7 +91,7 @@ if tabs == "Dashboard":
         
         if year == "All":
         # If so, display the entire DataFrame
-          filtered_df = df.copy()
+          filtered_df = filtered_df
         else:
         # Otherwise, filter the DataFrame based on the selected value
           filtered_df = df[df["Year"] == year]
