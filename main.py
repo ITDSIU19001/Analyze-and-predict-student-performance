@@ -7,6 +7,9 @@ from function import process_data,predict_late_student, predict_rank,predict_one
 from datetime import datetime
 from PIL import Image
 import base64
+from io import BytesIO
+
+
 df = pd.DataFrame()
 
 
@@ -67,7 +70,8 @@ with col2:
 uploaded_file = st.file_uploader("Choose a score file", type="xlsx")
 
 if uploaded_file is not None:
-    df = pd.read_excel(uploaded_file)
+    file_contents = uploaded_file.read()
+    df = pd.read_excel(BytesIO(file_contents))
 
 raw_data = df.copy()
 # raw_data = pd.read_csv("dataScore.csv")
