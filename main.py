@@ -79,6 +79,8 @@ if tabs == "Dashboard":
         all_values = np.concatenate([["All"],unique_values ])
         school = st.selectbox("Select a school:", all_values)
         year = st.selectbox("Select a year:", all_values_year)
+        
+        
         if school == "All":
         # If so, display the entire DataFrame
           filtered_df = df.copy()
@@ -86,6 +88,16 @@ if tabs == "Dashboard":
         # Otherwise, filter the DataFrame based on the selected value
           filtered_df = df[df["MaSV_school"] == school]
           filtered_df  = filtered_df .dropna(axis=1, how="all")
+        
+        if year == "All":
+        # If so, display the entire DataFrame
+          filtered_df = df.copy()
+        else:
+        # Otherwise, filter the DataFrame based on the selected value
+          filtered_df = df[df["Year"] == year]
+          filtered_df  = filtered_df .dropna(axis=1, how="all")
+        
+        
         # Select course dropdown
         df=filtered_df
         options = df.columns[:-1]
