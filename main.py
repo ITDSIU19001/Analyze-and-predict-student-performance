@@ -67,11 +67,14 @@ with col2:
 
 
 # Load the raw data
-uploaded_file = st.file_uploader("Choose a score file", type="xlsx")
+uploaded_file = st.file_uploader("Choose a score file", type=["xlsx", "csv"])
 
 if uploaded_file is not None:
     file_contents = uploaded_file.read()
-    df = pd.read_excel(BytesIO(file_contents))
+    if uploaded_file.type == "application/vnd.ms-excel" or uploaded_file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+        df = pd.read_excel(BytesIO(file_contents))
+    elif uploaded_file.type == "text/csv":
+        df = pd.read_csv(BytesIO(file_contents))
 
 raw_data = df.copy()
 # raw_data = pd.read_csv("dataScore.csv")
