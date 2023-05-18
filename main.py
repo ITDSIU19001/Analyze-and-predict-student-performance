@@ -84,13 +84,14 @@ if tabs == "Dashboard":
 #     try:
 
         df = process_data(raw_data)
+        unique_values_major = df["Major"].unique()
         unique_values_year = df["Year"].unique()
         all_values_year = np.concatenate([["All"],unique_values_year ])
         unique_values = df["MaSV_school"].unique()
         all_values = np.concatenate([["All"],unique_values ])
         school = st.selectbox("Select a school:", all_values)
         year = st.selectbox("Select a year:", all_values_year)
-        
+        major=st.selectbox("Select a major:", unique_values_major)
         
         if school == "All":
         # If so, display the entire DataFrame
@@ -191,6 +192,7 @@ if tabs == "Dashboard":
 
 elif tabs == "Predict":
     try:
+        raw_data = pd.read_csv("dataScore.csv")
         predict = predict_late_student(raw_data)
         rank = predict_rank(raw_data)
 
