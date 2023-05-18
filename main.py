@@ -105,6 +105,18 @@ if tabs == "Dashboard":
         year = st.selectbox("Select a year:", all_values_year)
         
         
+        if major == "All":
+        # If so, display the entire DataFrame
+          filtered_df = df.copy()
+        else:
+        # Otherwise, filter the DataFrame based on the selected value
+          filtered_df = df[df["Major"] == major]
+          filtered_df  = filtered_df.dropna(axis=1, how="all")
+        
+        # Select course dropdown
+        df=filtered_df
+        
+        
         if school == "All":
         # If so, display the entire DataFrame
           filtered_df = df.copy()
