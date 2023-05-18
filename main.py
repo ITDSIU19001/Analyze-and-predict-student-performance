@@ -96,13 +96,11 @@ if tabs == "Dashboard":
 
         df = process_data(raw_data)
         unique_values_major = df["Major"].unique()
-        unique_values_year = df["Year"].unique()
-        all_values_year = np.concatenate([["All"],unique_values_year ])
-        unique_values = df["MaSV_school"].unique()
-        all_values = np.concatenate([["All"],unique_values ])
+        
+        
         major=st.selectbox("Select a major:", unique_values_major)
-        school = st.selectbox("Select a school:", all_values)
-        year = st.selectbox("Select a year:", all_values_year)
+
+        
         
         
         if major == "All":
@@ -115,8 +113,10 @@ if tabs == "Dashboard":
         
         # Select course dropdown
         df=filtered_df
-        
-        
+
+        unique_values = df["MaSV_school"].unique()
+        all_values = np.concatenate([["All"],unique_values ])
+        school = st.selectbox("Select a school:", all_values)
         if school == "All":
         # If so, display the entire DataFrame
           filtered_df = df.copy()
@@ -127,8 +127,9 @@ if tabs == "Dashboard":
         
         # Select course dropdown
         df=filtered_df
-        
-        # Fix code to show the filtered data with df['Year']
+        unique_values_year = df["Year"].unique()
+        all_values_year = np.concatenate([["All"],unique_values_year ])
+        year = st.selectbox("Select a year:", all_values_year)
 
         if year == "All":
             # If so, display the entire DataFrame
