@@ -11,7 +11,7 @@ def get_year(student_id):
 
 def process_data(raw_data):
     # Pivot the DataFrame
-    raw_data = raw_data[~raw_data['MaMH'].isin(['ENTP00-1','ENTP00', 'ENTP01-1', 'ENTP02', 'ENTP02-1', 'ENTP03', 'ENTP03-1','EN072IU','EN073IU','EN074IU','EN075IU','EN076TP','EN077TP'])]
+    raw_data = raw_data[~raw_data['MaMH'].isin(['ENTP00-1','ENTP00', 'ENTP01-1', 'ENTP02','EN02TP','EN03TP','EN02TP_1','EN03TP_1', 'ENTP02-1', 'ENTP03', 'ENTP03-1','EN072IU','EN073IU','EN074IU','EN075IU','EN076TP','EN077TP'])]
     pivot_df = pd.pivot_table(raw_data, values='DiemHP', index='MaSV', columns='TenMH', aggfunc='first')
     pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
     pivot_df.columns.name = None
