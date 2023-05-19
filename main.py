@@ -96,7 +96,7 @@ FROM scoreTable;
 @st.cache
 def read_sql_query(query, conn):
   """Reads the SQL query from the database and returns a DataFrame."""
-  raw_data = pd.read_sql_query(query, conn)
+  df = pd.read_sql_query(query, conn)
   return df
 
 raw_data = read_sql_query(query, conn)
