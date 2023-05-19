@@ -20,10 +20,10 @@ def process_data(raw_data):
     # Drop unnecessary columns
 
     # Merge with the XepLoaiNH column
-    df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
+    df = pd.merge(pivot_df, raw_data[['MaSV']], on='MaSV')
     df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
     dfid=df['MaSV']
-    df.drop(['MaSV', 'XepLoaiNH'], axis=1, inplace=True)
+    df.drop(['MaSV'], axis=1, inplace=True)
     df.replace(['WH', 'VT',"I"], np.nan, inplace=True)
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
     df = pd.merge(dfid,df,left_index=True, right_index=True)
