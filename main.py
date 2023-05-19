@@ -204,7 +204,7 @@ if tabs == "Dashboard":
                 data = data.copy()
             else:
         # Otherwise, filter the DataFrame based on the selected value
-                data = raw_data[raw_data["MaSV_school"] == school]
+                data = data[data["MaSV_school"] == school]
             df1=data[['TenMH','NHHK','DiemHP']].copy()
             df1['DiemHP'] = pd.to_numeric(df1['DiemHP'], errors='coerce')
             df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
