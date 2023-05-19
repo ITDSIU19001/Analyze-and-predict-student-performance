@@ -133,8 +133,8 @@ if tabs == "Dashboard":
         df=filtered_df
         unique_values = df["MaSV_school"].unique()
         all_values = np.concatenate([["All"],unique_values ])
-        # no_numbers = [x for x in all_values if not re.search(r'\d', str(x))]
-        school = st.selectbox("Select a major:", all_values)
+        no_numbers = [x for x in all_values if not re.search(r'\d', str(x))]
+        school = st.selectbox("Select a major:", no_numbers)
         if school == "All":
         # If so, display the entire DataFrame
           filtered_df = df.copy()
