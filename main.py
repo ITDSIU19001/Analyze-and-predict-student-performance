@@ -90,7 +90,7 @@ query='''SELECT MaSV, TenMH, DiemHP
 FROM scoreTable;
 '''
 
-raw_data = pd.read_csv("All_major.csv")
+# raw_data = pd.read_csv("All_major.csv")
 st.sidebar.title("Analysis Tool")
 
 option = ["Dashboard", "Predict"]
@@ -102,8 +102,8 @@ tabs = st.sidebar.selectbox("Select an option", option)
 # Streamlit app
 if tabs == "Dashboard":
 #     try:
-        data = pd.read_sql_query(query, conn)
-        df = process_data(data)
+        raw_data = pd.read_sql_query(query, conn)
+        df = process_data(raw_data)
         unique_values_major = df["Major"].unique()
         major=st.selectbox("Select a school:", unique_values_major)
         if major == "All":
