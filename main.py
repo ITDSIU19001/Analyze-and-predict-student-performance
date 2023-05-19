@@ -88,18 +88,19 @@ with col3:
 
 
 
-conn = sqlite3.connect('database.db')
-query='''SELECT MaSV, TenMH, DiemHP,NHHK
-FROM scoreTable;
-'''
 
-@st.cache
-def read_sql_query(query, conn):
-  """Reads the SQL query from the database and returns a DataFrame."""
-  df = pd.read_sql_query(query, conn)
-  return df
 
-raw_data = read_sql_query(query, conn)
+@st.cache(allow_output_mutation=true)
+def read_sql_query():
+    """Reads the SQL query from the database and returns a DataFrame."""
+    conn = sqlite3.connect('database.db')
+    query='''SELECT MaSV, TenMH, DiemHP,NHHK
+    FROM scoreTable;
+    '''
+    df = pd.read_sql_query(query, conn)
+    return df
+
+raw_data = read_sql_query()
 
 #raw_data = pd.read_sql_query(query, conn)
 df = process_data(raw_data)
