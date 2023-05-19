@@ -49,7 +49,7 @@ page_icon=favicon,
 layout='wide',
 )
 currentYear = datetime.now().year
-im1 = Image.open("R.png")
+# im1 = Image.open("R.png")
 
 # get the image from the URL
 
