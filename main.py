@@ -42,7 +42,7 @@ def generate_comment(median):
     return comment
 
 favicon = 'R.png'
-
+hcm = 'HCM.png'
 st.set_page_config(
 page_title='Student System',
 page_icon=favicon,
@@ -67,7 +67,7 @@ with col2:
     st.title("Student Performance Prediction System")
     
 with col3:
-    st.image(im1, width=150)
+    st.image(hcm, width=150)
 
 
 # Load the raw data
