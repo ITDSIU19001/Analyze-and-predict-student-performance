@@ -49,13 +49,13 @@ page_icon=favicon,
 layout='wide',
 )
 currentYear = datetime.now().year
-# im1 = Image.open("R.png")
+im1 = Image.open("R.png")
 
 # get the image from the URL
 
 
 # create a three-column layout
-col1, col2 = st.columns([1, 3])
+col1, col2,col3 = st.columns([1, 3,1])
 
 # add a centered image to the first and third columns
 with col1:
@@ -65,6 +65,9 @@ with col1:
 # add a centered title to the second column
 with col2:
     st.title("Student Performance Prediction System")
+    
+with col3:
+    st.image(im1, width=150)
 
 
 # Load the raw data
