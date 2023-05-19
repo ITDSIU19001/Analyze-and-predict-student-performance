@@ -90,7 +90,7 @@ with col3:
 
 
 
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data()
 def read_sql_query():
     """Reads the SQL query from the database and returns a DataFrame."""
     conn = sqlite3.connect('database.db')
