@@ -7,9 +7,8 @@ from function import process_data,predict_late_student, predict_rank,predict_one
 from datetime import datetime
 from PIL import Image
 import base64
-from io import BytesIO
 import re
-
+import sqlite3
 
 df = pd.DataFrame()
 
@@ -86,6 +85,11 @@ with col3:
 #         st.error("Invalid file format. Please upload a CSV or Excel file.")
 
 # raw_data = df.copy()
+conn = sqlite3.connect('database.db')
+query='''SELECT MaSV, TenMH, DiemHP
+FROM scoreTable;
+'''
+
 raw_data = pd.read_csv("All_major.csv")
 st.sidebar.title("Analysis Tool")
 
@@ -98,8 +102,8 @@ tabs = st.sidebar.selectbox("Select an option", option)
 # Streamlit app
 if tabs == "Dashboard":
 #     try:
-
-        df = process_data(raw_data)
+        data = pd.read_sql_query(query, conn)
+        df = process_data(data)
         unique_values_major = df["Major"].unique()
         major=st.selectbox("Select a school:", unique_values_major)
         if major == "All":
