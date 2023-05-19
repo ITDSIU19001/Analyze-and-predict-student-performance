@@ -230,7 +230,7 @@ if tabs == "Dashboard":
             filtered_df1 = df1[df1['TenMH'] == selected_TenMH]
             mean_DiemHP = filtered_df1.groupby('NHHK')['DiemHP'].mean().round(1).reset_index(name='Mean')
             # Create Plotly line graph
-            fig = px.line(mean_DiemHP, x='NHHK', y='Mean', title=f"Mean DiemHP for{selected_TenMH} thought period")
+            fig = px.line(mean_DiemHP, x='NHHK', y='Mean', title=f"Mean DiemHP for {selected_TenMH} thought period")
             fig.update_layout(
               height=400,
               width=400)           
