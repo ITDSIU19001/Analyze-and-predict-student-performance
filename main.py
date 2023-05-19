@@ -85,10 +85,24 @@ with col3:
 #         st.error("Invalid file format. Please upload a CSV or Excel file.")
 
 # raw_data = df.copy()
+
+
+
 conn = sqlite3.connect('database.db')
 query='''SELECT MaSV, TenMH, DiemHP,NHHK
 FROM scoreTable;
 '''
+
+@st.cache
+def read_sql_query(query, conn):
+  """Reads the SQL query from the database and returns a DataFrame."""
+  raw_data = pd.read_sql_query(query, conn)
+  return df
+
+raw_data = read_sql_query(query, conn)
+
+#raw_data = pd.read_sql_query(query, conn)
+df = process_data(raw_data)
 
 # raw_data = pd.read_csv("All_major.csv")
 st.sidebar.title("Analysis Tool")
@@ -102,8 +116,8 @@ tabs = st.sidebar.selectbox("Select an option", option)
 # Streamlit app
 if tabs == "Dashboard":
 #     try:
-        raw_data = pd.read_sql_query(query, conn)
-        df = process_data(raw_data)
+       
+        
         unique_values_major = df["Major"].unique()
         major=st.selectbox("Select a school:", unique_values_major)
         if major == "All":
