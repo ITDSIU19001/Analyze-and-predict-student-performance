@@ -109,7 +109,8 @@ if tabs == "Dashboard":
         df=filtered_df
         unique_values = df["MaSV_school"].unique()
         all_values = np.concatenate([["All"],unique_values ])
-        school = st.selectbox("Select a major:", all_values)
+        no_numbers = [x for x in all_values if not isinstance(x, (int, float))]
+        school = st.selectbox("Select a major:", no_numbers)
         if school == "All":
         # If so, display the entire DataFrame
           filtered_df = df.copy()
