@@ -159,7 +159,7 @@ if tabs == "Dashboard":
         
         
         df=filtered_df
-        df = df.dropna(axis=1, thresh=5)
+        df = df.dropna(axis=1, thresh=1)
         
         options = df.columns[:-3]
         course = st.selectbox("Select a course:", options)
