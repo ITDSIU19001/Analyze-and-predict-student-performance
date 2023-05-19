@@ -96,7 +96,7 @@ if tabs == "Dashboard":
 
         df = process_data(raw_data)
         unique_values_major = df["Major"].unique()
-        major=st.selectbox("Select a major:", unique_values_major)
+        major=st.selectbox("Select a school:", unique_values_major)
         if major == "All":
         # If so, display the entire DataFrame
           filtered_df = df.copy()
@@ -109,7 +109,7 @@ if tabs == "Dashboard":
         df=filtered_df
         unique_values = df["MaSV_school"].unique()
         all_values = np.concatenate([["All"],unique_values ])
-        school = st.selectbox("Select a school:", all_values)
+        school = st.selectbox("Select a major:", all_values)
         if school == "All":
         # If so, display the entire DataFrame
           filtered_df = df.copy()
