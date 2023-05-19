@@ -8,7 +8,7 @@ import joblib
 
 def get_year(student_id):
     return int(student_id[6:8])
-
+@st.cache_data()
 def process_data(raw_data):
     # Pivot the DataFrame
     raw_data = raw_data[~raw_data['DiemHP'].isin(['P','F','PC'])]
