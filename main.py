@@ -86,7 +86,7 @@ with col3:
 
 # raw_data = df.copy()
 conn = sqlite3.connect('database.db')
-query='''SELECT MaSV, TenMH, DiemHP
+query='''SELECT MaSV, TenMH, DiemHP,NHHK
 FROM scoreTable;
 '''
 
