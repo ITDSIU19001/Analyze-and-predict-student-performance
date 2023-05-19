@@ -11,19 +11,13 @@ def get_year(student_id):
 
 def process_data(raw_data):
     # Pivot the DataFrame
+    raw_data = raw_data[~raw_data['MaMH'].isin(['ENTP00-1','ENTP00', 'ENTP01-1', 'ENTP02', 'ENTP02-1', 'ENTP03', 'ENTP03-1','EN072IU','EN073IU','EN074IU','EN075IU','EN076TP','EN077TP'])]
     pivot_df = pd.pivot_table(raw_data, values='DiemHP', index='MaSV', columns='TenMH', aggfunc='first')
     pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
     pivot_df.columns.name = None
     pivot_df = pivot_df.dropna(thresh=50, axis=1)
     pivot_df = pivot_df.rename(columns=lambda x: x.strip())
     # Drop unnecessary columns
-    cols_to_drop = []
-    with open('cols_to_drop.txt', 'r') as f:
-      for line in f:
-        cols_to_drop.append(str(line.strip()))
-    existing_cols = [col for col in cols_to_drop if col in pivot_df.columns]
-    if existing_cols:
-        pivot_df.drop(existing_cols, axis=1, inplace=True)
 
     # Merge with the XepLoaiNH column
     df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')

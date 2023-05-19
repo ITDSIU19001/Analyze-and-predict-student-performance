@@ -42,7 +42,7 @@ def generate_comment(median):
     return comment
 
 favicon = 'R.png'
-
+hcm = 'HCM.png'
 st.set_page_config(
 page_title='Student System',
 page_icon=favicon,
@@ -64,10 +64,11 @@ with col1:
 
 # add a centered title to the second column
 with col2:
-    st.title("Student Performance Prediction System")
+    st.markdown("<h1 style='text-align: center;'>Student Performance Prediction System</h1>", unsafe_allow_html=True)
+#     st.header("Student Performance Prediction System")
     
 with col3:
-    st.image(im1, width=150)
+    st.image(hcm, width=250)
 
 
 # Load the raw data
@@ -139,6 +140,7 @@ if tabs == "Dashboard":
         
         
         df=filtered_df
+        df = df.dropna(axis=1, thresh=50)
         
         options = df.columns[:-3]
         course = st.selectbox("Select a course:", options)
@@ -188,13 +190,21 @@ if tabs == "Dashboard":
             )
             st.plotly_chart(fig)
         with col3:
-            raw_data['MaSV_school'] = raw_data['MaSV'].str.slice(2, 4)
+            raw_data['major'] = raw_data['MaSV'].str.slice(0, 2)
             if school == "All":
         # If so, display the entire DataFrame
                 data = raw_data.copy()
             else:
         # Otherwise, filter the DataFrame based on the selected value
-                data = raw_data[raw_data["MaSV_school"] == school]
+                data = raw_data[raw_data["major"] == major]
+            
+            data['MaSV_school'] = data['MaSV'].str.slice(2, 4)
+            if school == "All":
+        # If so, display the entire DataFrame
+                data = data.copy()
+            else:
+        # Otherwise, filter the DataFrame based on the selected value
+                data = data[data["MaSV_school"] == school]
             df1=data[['TenMH','NHHK','DiemHP']].copy()
             df1['DiemHP'] = pd.to_numeric(df1['DiemHP'], errors='coerce')
             df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
