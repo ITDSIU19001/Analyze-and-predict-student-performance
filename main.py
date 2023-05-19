@@ -67,7 +67,7 @@ with col2:
     st.title("Student Performance Prediction System")
     
 with col3:
-    st.image(hcm, width=300)
+    st.image(hcm, width=200)
 
 
 # Load the raw data
