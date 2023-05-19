@@ -190,10 +190,18 @@ if tabs == "Dashboard":
             )
             st.plotly_chart(fig)
         with col3:
-            raw_data['MaSV_school'] = raw_data['MaSV'].str.slice(2, 4)
+            raw_data['major'] = raw_data['MaSV'].str.slice(0, 2)
             if school == "All":
         # If so, display the entire DataFrame
                 data = raw_data.copy()
+            else:
+        # Otherwise, filter the DataFrame based on the selected value
+                data = raw_data[raw_data["major"] == major]
+            
+            data['MaSV_school'] = data['MaSV'].str.slice(2, 4)
+            if school == "All":
+        # If so, display the entire DataFrame
+                data = data.copy()
             else:
         # Otherwise, filter the DataFrame based on the selected value
                 data = raw_data[raw_data["MaSV_school"] == school]
