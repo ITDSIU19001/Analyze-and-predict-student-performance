@@ -11,19 +11,7 @@ def get_year(student_id):
 
 def process_data(raw_data):
     # Pivot the DataFrame
-    raw_data = raw_data[~raw_data['TenMH'].isin(['Intensive English 0- Twinning Program',
-'Intensive English 01- Twinning Program',
-'Intensive English 02- Twinning Program',
-'Intensive English 03- Twinning Program',
-'Intensive English 1- Twinning Program',
-'Intensive English 2- Twinning Program',
-'Intensive English 3- Twinning Program',
-'Listening & Speaking IE1',
-'Listening & Speaking IE2',
-'Listening & Speaking IE2 (for twinning program)',
-'Reading & Writing IE1'
-'Reading & Writing IE2'
-'Reading & Writing IE2 (for twinning program)'])]
+    raw_data = raw_data[~raw_data['DiemHP'].isin(['P'])]
     pivot_df = pd.pivot_table(raw_data, values='DiemHP', index='MaSV', columns='TenMH', aggfunc='first')
     pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
     pivot_df.columns.name = None
