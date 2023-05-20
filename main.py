@@ -249,32 +249,60 @@ if tabs == "Dashboard":
             st.plotly_chart(fig)
         with col3:
             raw_data['major'] = raw_data['MaSV'].str.slice(0, 2)
-            if school == "All":
-        # If so, display the entire DataFrame
-                data = raw_data.copy()
-            else:
-        # Otherwise, filter the DataFrame based on the selected value
-                data = raw_data[raw_data["major"] == major]
-            
-            data['MaSV_school'] = data['MaSV'].str.slice(2, 4)
-            if school == "All":
-        # If so, display the entire DataFrame
-                data = data.copy()
-            else:
-        # Otherwise, filter the DataFrame based on the selected value
-                data = data[data["MaSV_school"] == school]
-            df1=data[['TenMH','NHHK','DiemHP']].copy()
-            df1['DiemHP'] = pd.to_numeric(df1['DiemHP'], errors='coerce')
+            if major != "All":
+                raw_data = raw_data[raw_data["major"] == major]
+
+            # Filter by MaSV_school
+            raw_data['MaSV_school'] = raw_data['MaSV'].str.slice(2, 4)
+            if school != "All":
+                raw_data = raw_data[raw_data["MaSV_school"] == school]
+
+            # Prepare DataFrame for visualization
+            df1 = raw_data[['TenMH', 'NHHK', 'DiemHP']].copy()
+            df1['DiemHP'] = df1['DiemHP'].astype(float)
             df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
+
+            # Filter by selected_TenMH
             selected_TenMH = " " + course
             filtered_df1 = df1[df1['TenMH'] == selected_TenMH]
+
+            # Calculate mean DiemHP
             mean_DiemHP = filtered_df1.groupby('NHHK')['DiemHP'].mean().round(1).reset_index(name='Mean')
+
             # Create Plotly line graph
             fig = px.line(mean_DiemHP, x='NHHK', y='Mean', title=f"Mean DiemHP for{selected_TenMH} thought period")
             fig.update_layout(
-              height=400,
-              width=400)           
+                height=400,
+                width=400
+            )
             st.plotly_chart(fig)
+        #     raw_data['major'] = raw_data['MaSV'].str.slice(0, 2)
+        #     if school == "All":
+        # # If so, display the entire DataFrame
+        #         data = raw_data.copy()
+        #     else:
+        # # Otherwise, filter the DataFrame based on the selected value
+        #         data = raw_data[raw_data["major"] == major]
+            
+        #     data['MaSV_school'] = data['MaSV'].str.slice(2, 4)
+        #     if school == "All":
+        # # If so, display the entire DataFrame
+        #         data = data.copy()
+        #     else:
+        # # Otherwise, filter the DataFrame based on the selected value
+        #         data = data[data["MaSV_school"] == school]
+        #     df1=data[['TenMH','NHHK','DiemHP']].copy()
+        #     df1['DiemHP'] = pd.to_numeric(df1['DiemHP'], errors='coerce')
+        #     df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
+        #     selected_TenMH = " " + course
+        #     filtered_df1 = df1[df1['TenMH'] == selected_TenMH]
+        #     mean_DiemHP = filtered_df1.groupby('NHHK')['DiemHP'].mean().round(1).reset_index(name='Mean')
+        #     # Create Plotly line graph
+        #     fig = px.line(mean_DiemHP, x='NHHK', y='Mean', title=f"Mean DiemHP for{selected_TenMH} thought period")
+        #     fig.update_layout(
+        #       height=400,
+        #       width=400)           
+        #     st.plotly_chart(fig)
 
 
 #     except:
