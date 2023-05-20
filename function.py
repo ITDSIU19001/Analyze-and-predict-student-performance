@@ -12,6 +12,7 @@ def get_year(student_id):
 def process_data(raw_data):
     # Pivot the DataFrame
     raw_data = raw_data[raw_data['TenMH'].str.contains('IE|Intensive English')]
+    raw_data = raw_data[~raw_data['DiemHP'].isin(['P','F','PC'])]
     pivot_df = pd.pivot_table(raw_data, values='DiemHP', index='MaSV', columns='TenMH', aggfunc='first')
     pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
     pivot_df.columns.name = None
