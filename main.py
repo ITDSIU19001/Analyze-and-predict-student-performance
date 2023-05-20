@@ -158,130 +158,72 @@ if tabs == "Dashboard":
         if len(course_data) > 1:
             st.write("Course:", course, " of ", school, " student")
             st.write(generate_comment(course_data.median()))
-            col1, col2,col3= st.columns(3)
-
-            with col1:
-                fig = go.Figure()
-                fig.add_trace(
-                    go.Histogram(
-                        x=course_data, nbinsx=40, name="Histogram"
-                    )
-                )
-                fig.update_layout(
-                    title="Histogram of Scores for {}".format(course),
-                    xaxis_title="Score",
-                    yaxis_title="Count",
-                    height=400,
-                    width=400
-                )
-                st.plotly_chart(fig)
-
-            with col2:
-                fig = go.Figure()
-                fig.add_trace(
-                    go.Box(
-                        y=course_data, name="Box plot"
-                    )
-                )
-                fig.update_layout(
-                    title="Box plot of Scores for {}".format(course),
-                    yaxis_title="Score",
-                    height=400,
-                    width=400
-                )
-                st.plotly_chart(fig)
-            with col3:
-                raw_data['major'] = raw_data['MaSV'].str.slice(0, 2)
-                raw_data.replace(['WH', 'VT',"I"], np.nan, inplace=True)
-                raw_data = raw_data[~raw_data['DiemHP'].isin(['P','F','PC'])]
-                if major != "All":
-                    raw_data = raw_data[raw_data["major"] == major]
-
-                # Filter by MaSV_school
-                raw_data['MaSV_school'] = raw_data['MaSV'].str.slice(2, 4)
-                if school != "All":
-                    raw_data = raw_data[raw_data["MaSV_school"] == school]
-
-                # Prepare DataFrame for visualization
-                df1 = raw_data[['TenMH', 'NHHK', 'DiemHP']].copy()
-                df1['DiemHP'] = df1['DiemHP'].astype(float)
-                df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
-
-                # Filter by selected_TenMH
-                selected_TenMH = " " + course
-                filtered_df1 = df1[df1['TenMH'] == selected_TenMH]
-
-                # Calculate mean DiemHP
-                mean_DiemHP = filtered_df1.groupby('NHHK')['DiemHP'].mean().round(1).reset_index(name='Mean')
-
-                # Create Plotly line graph
-                fig = px.line(mean_DiemHP, x='NHHK', y='Mean', title=f"Mean DiemHP for{selected_TenMH} thought period")
-                fig.update_layout(
-                    height=400,
-                    width=400
-                )
-                st.plotly_chart(fig)
         else:
             st.write("No data available for the selected course.")
-        
-        # unique_values_major = df["Major"].unique()
-        # major=st.selectbox("Select a school:", unique_values_major)
-        # if major == "All":
-        # # If so, display the entire DataFrame
-        #   filtered_df = df.copy()
-        # else:
-        # # Otherwise, filter the DataFrame based on the selected value
-        #   filtered_df = df[df["Major"] == major]
-        #   filtered_df  = filtered_df.dropna(axis=1, how="all")
-        
-        # # Select course dropdown
-        # df=filtered_df
-        # unique_values = df["MaSV_school"].unique()
-        # all_values = np.concatenate([["All"],unique_values ])
-        # no_numbers = [x for x in all_values if not re.search(r'\d', str(x))]
-        # school = st.selectbox("Select a major:", no_numbers)
-        # if school == "All":
-        # # If so, display the entire DataFrame
-        #   filtered_df = df.copy()
-        # else:
-        # # Otherwise, filter the DataFrame based on the selected value
-        #   filtered_df = df[df["MaSV_school"] == school]
-        #   filtered_df  = filtered_df.dropna(axis=1, how="all")
-        
-        # # Select course dropdown
-        # df=filtered_df
-        # unique_values_year = df["Year"].unique()
-        # all_values_year = np.concatenate([["All"],unique_values_year ])
-        # year = st.selectbox("Select a year:", all_values_year)
 
-        # if year == "All":
-        #     # If so, display the entire DataFrame
-        #     filtered_df = df.copy()
-        # else:
-        #     # Otherwise, filter the DataFrame based on the selected value
-        #     filtered_df = df[df["Year"] == year]
-        #     filtered_df = filtered_df.dropna(axis=1, how="all")
-        
-        
-        # df=filtered_df
-        # df = df.dropna(axis=1, thresh=1)
-        
-        # options = df.columns[:-3]
-        # course = st.selectbox("Select a course:", options)
+        col1, col2,col3= st.columns(3)
 
-        # # Filter the data for the selected course
-        # course_data = df[course].dropna()
-        
-        # # Calculate summary statistics for the course
+        with col1:
+            fig = go.Figure()
+            fig.add_trace(
+                go.Histogram(
+                    x=course_data, nbinsx=40, name="Histogram"
+                )
+            )
+            fig.update_layout(
+                title="Histogram of Scores for {}".format(course),
+                xaxis_title="Score",
+                yaxis_title="Count",
+                height=400,
+                width=400
+            )
+            st.plotly_chart(fig)
 
-        
-        # st.write(generate_comment(course_data.median()))
-        # # Show summary statistics
-        
-        # st.write("Course:", course, " of ", school," student" )
+        with col2:
+            fig = go.Figure()
+            fig.add_trace(
+                go.Box(
+                    y=course_data, name="Box plot"
+                )
+            )
+            fig.update_layout(
+                title="Box plot of Scores for {}".format(course),
+                yaxis_title="Score",
+                height=400,
+                width=400
+            )
+            st.plotly_chart(fig)
+        with col3:
+            raw_data['major'] = raw_data['MaSV'].str.slice(0, 2)
+            raw_data.replace(['WH', 'VT',"I"], np.nan, inplace=True)
+            raw_data = raw_data[~raw_data['DiemHP'].isin(['P','F','PC'])]
+            if major != "All":
+                raw_data = raw_data[raw_data["major"] == major]
 
+            # Filter by MaSV_school
+            raw_data['MaSV_school'] = raw_data['MaSV'].str.slice(2, 4)
+            if school != "All":
+                raw_data = raw_data[raw_data["MaSV_school"] == school]
 
-        
+            # Prepare DataFrame for visualization
+            df1 = raw_data[['TenMH', 'NHHK', 'DiemHP']].copy()
+            df1['DiemHP'] = df1['DiemHP'].astype(float)
+            df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
+
+            # Filter by selected_TenMH
+            selected_TenMH = " " + course
+            filtered_df1 = df1[df1['TenMH'] == selected_TenMH]
+
+            # Calculate mean DiemHP
+            mean_DiemHP = filtered_df1.groupby('NHHK')['DiemHP'].mean().round(1).reset_index(name='Mean')
+
+            # Create Plotly line graph
+            fig = px.line(mean_DiemHP, x='NHHK', y='Mean', title=f"Mean DiemHP for{selected_TenMH} thought period")
+            fig.update_layout(
+                height=400,
+                width=400
+            )
+            st.plotly_chart(fig)
         #     raw_data['major'] = raw_data['MaSV'].str.slice(0, 2)
         #     if school == "All":
         # # If so, display the entire DataFrame
