@@ -165,7 +165,7 @@ if tabs == "Dashboard":
 
         # Generate comment and summary statistics
         if len(course_data) > 1:
-            st.write("Course:", course, " of ", school, " student")
+            st.write("Course:", course, " of ", school,major " student")
             st.write(generate_comment(course_data.median()))
         else:
             st.write("No data available for the selected course.")
