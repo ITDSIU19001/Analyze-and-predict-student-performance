@@ -149,10 +149,19 @@ if tabs == "Dashboard":
 
         # Select course dropdown
         options = df.columns[:-3]
-        course = st.selectbox("Select a course:", options)
+        course_data_dict = {course: df[course].dropna() for course in options}
+        valid_courses = [course for course, data in course_data_dict.items() if len(data) > 1]
+
+        if len(valid_courses) > 1:
+            course = st.selectbox("Select a course:", valid_courses)
+        elif len(valid_courses) == 1:
+            course = valid_courses[0]
+        else:
+            st.write("No valid course data found!")
+            st.stop()
 
         # Filter the data for the selected course
-        course_data = df[course].dropna()
+        course_data = course_data_dict[course]
 
         # Generate comment and summary statistics
         if len(course_data) > 1:
