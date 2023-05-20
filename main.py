@@ -155,7 +155,7 @@ if tabs == "Dashboard":
         course_data = df[course].dropna()
 
         # Generate comment and summary statistics
-        if len(course_data) > 2:
+        if len(course_data) > 1:
             st.write("Course:", course, " of ", school, " student")
             st.write(generate_comment(course_data.median()))
         else:
