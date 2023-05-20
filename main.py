@@ -132,8 +132,11 @@ if tabs == "Dashboard":
         unique_values_school = df["MaSV_school"].unique()
         all_values_school = np.concatenate([["All"], unique_values_school])
         no_numbers = [x for x in all_values_school if not re.search(r'\d', str(x))]
-        school = st.selectbox("Select a major:", no_numbers)
-        df = filter_dataframe(df, "MaSV_school", school)
+        if len(no_numbers) == 2:
+            school = no_numbers[1]
+        else:
+            school = st.selectbox("Select a major:", no_numbers)
+            df = filter_dataframe(df, "MaSV_school", school)
 
         # Filter by Year
         unique_values_year = df["Year"].unique()
