@@ -152,7 +152,7 @@ if tabs == "Dashboard":
         course_data_dict = {course: df[course].dropna() for course in options}
         valid_courses = [course for course, data in course_data_dict.items() if len(data) > 1]
 
-        if len(valid_courses) > 1:
+        if len(valid_courses) > 10:
             course = st.selectbox("Select a course:", valid_courses)
         elif len(valid_courses) == 1:
             course = valid_courses[0]
