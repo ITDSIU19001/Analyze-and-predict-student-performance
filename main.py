@@ -168,7 +168,7 @@ if tabs == "Dashboard":
             if school == "All":
                 st.write("Course:", course, " of ",major, " student")
             else:
-                st.write("Course:", course, " of ", school,major, " student")
+                st.write("Course:", course, " of ", major,"",school, " student")
             st.write(generate_comment(course_data.median()))
         else:
             st.write("No data available for the selected course.")
