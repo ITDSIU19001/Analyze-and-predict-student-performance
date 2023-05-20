@@ -249,6 +249,7 @@ if tabs == "Dashboard":
             st.plotly_chart(fig)
         with col3:
             raw_data['major'] = raw_data['MaSV'].str.slice(0, 2)
+            raw_data = raw_data[~raw_data['DiemHP'].isin(['P','F','PC'])]
             if major != "All":
                 raw_data = raw_data[raw_data["major"] == major]
 
