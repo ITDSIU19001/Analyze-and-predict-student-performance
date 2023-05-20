@@ -117,63 +117,102 @@ tabs = st.sidebar.selectbox("Select an option", option)
 # Streamlit app
 if tabs == "Dashboard":
 #     try:
-       
-        
-        unique_values_major = df["Major"].unique()
-        major=st.selectbox("Select a school:", unique_values_major)
-        if major == "All":
-        # If so, display the entire DataFrame
-          filtered_df = df.copy()
-        else:
-        # Otherwise, filter the DataFrame based on the selected value
-          filtered_df = df[df["Major"] == major]
-          filtered_df  = filtered_df.dropna(axis=1, how="all")
-        
-        # Select course dropdown
-        df=filtered_df
-        unique_values = df["MaSV_school"].unique()
-        all_values = np.concatenate([["All"],unique_values ])
-        no_numbers = [x for x in all_values if not re.search(r'\d', str(x))]
-        school = st.selectbox("Select a major:", no_numbers)
-        if school == "All":
-        # If so, display the entire DataFrame
-          filtered_df = df.copy()
-        else:
-        # Otherwise, filter the DataFrame based on the selected value
-          filtered_df = df[df["MaSV_school"] == school]
-          filtered_df  = filtered_df.dropna(axis=1, how="all")
-        
-        # Select course dropdown
-        df=filtered_df
-        unique_values_year = df["Year"].unique()
-        all_values_year = np.concatenate([["All"],unique_values_year ])
-        year = st.selectbox("Select a year:", all_values_year)
+        def filter_dataframe(df, column, value):
+            if value == "All":
+                return df
+            else:
+                return df[df[column] == value]
 
-        if year == "All":
-            # If so, display the entire DataFrame
-            filtered_df = df.copy()
-        else:
-            # Otherwise, filter the DataFrame based on the selected value
-            filtered_df = df[df["Year"] == year]
-            filtered_df = filtered_df.dropna(axis=1, how="all")
-        
-        
-        df=filtered_df
-        df = df.dropna(axis=1, thresh=1)
-        
+        # Filter by Major
+        unique_values_major = df["Major"].unique()
+        major = st.selectbox("Select a school:", unique_values_major)
+        df = filter_dataframe(df, "Major", major)
+
+        # Filter by MaSV_school
+        unique_values_school = df["MaSV_school"].unique()
+        all_values_school = np.concatenate([["All"], unique_values_school])
+        no_numbers = [x for x in all_values_school if not re.search(r'\d', str(x))]
+        school = st.selectbox("Select a major:", no_numbers)
+        df = filter_dataframe(df, "MaSV_school", school)
+
+        # Filter by Year
+        unique_values_year = df["Year"].unique()
+        all_values_year = np.concatenate([["All"], unique_values_year])
+        year = st.selectbox("Select a year:", all_values_year)
+        df = filter_dataframe(df, "Year", year)
+
+        # Drop NaN columns
+        df.dropna(axis=1, thresh=1, inplace=True)
+
+        # Select course dropdown
         options = df.columns[:-3]
         course = st.selectbox("Select a course:", options)
 
         # Filter the data for the selected course
         course_data = df[course].dropna()
+
+        # Generate comment and summary statistics
+        if len(course_data) > 0:
+            st.write("Course:", course, " of ", school, " student")
+            st.write(generate_comment(course_data.median()))
+        else:
+            st.write("No data available for the selected course.")
         
-        # Calculate summary statistics for the course
+        # unique_values_major = df["Major"].unique()
+        # major=st.selectbox("Select a school:", unique_values_major)
+        # if major == "All":
+        # # If so, display the entire DataFrame
+        #   filtered_df = df.copy()
+        # else:
+        # # Otherwise, filter the DataFrame based on the selected value
+        #   filtered_df = df[df["Major"] == major]
+        #   filtered_df  = filtered_df.dropna(axis=1, how="all")
+        
+        # # Select course dropdown
+        # df=filtered_df
+        # unique_values = df["MaSV_school"].unique()
+        # all_values = np.concatenate([["All"],unique_values ])
+        # no_numbers = [x for x in all_values if not re.search(r'\d', str(x))]
+        # school = st.selectbox("Select a major:", no_numbers)
+        # if school == "All":
+        # # If so, display the entire DataFrame
+        #   filtered_df = df.copy()
+        # else:
+        # # Otherwise, filter the DataFrame based on the selected value
+        #   filtered_df = df[df["MaSV_school"] == school]
+        #   filtered_df  = filtered_df.dropna(axis=1, how="all")
+        
+        # # Select course dropdown
+        # df=filtered_df
+        # unique_values_year = df["Year"].unique()
+        # all_values_year = np.concatenate([["All"],unique_values_year ])
+        # year = st.selectbox("Select a year:", all_values_year)
+
+        # if year == "All":
+        #     # If so, display the entire DataFrame
+        #     filtered_df = df.copy()
+        # else:
+        #     # Otherwise, filter the DataFrame based on the selected value
+        #     filtered_df = df[df["Year"] == year]
+        #     filtered_df = filtered_df.dropna(axis=1, how="all")
+        
+        
+        # df=filtered_df
+        # df = df.dropna(axis=1, thresh=1)
+        
+        # options = df.columns[:-3]
+        # course = st.selectbox("Select a course:", options)
+
+        # # Filter the data for the selected course
+        # course_data = df[course].dropna()
+        
+        # # Calculate summary statistics for the course
 
         
-        st.write(generate_comment(course_data.median()))
-        # Show summary statistics
+        # st.write(generate_comment(course_data.median()))
+        # # Show summary statistics
         
-        st.write("Course:", course, " of ", school," student" )
+        # st.write("Course:", course, " of ", school," student" )
 
 
         col1, col2,col3= st.columns(3)
