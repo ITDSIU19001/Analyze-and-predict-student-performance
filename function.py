@@ -44,7 +44,6 @@ def process_data_per(raw_data):
     pivot_df.columns.name = None
     pivot_df = pivot_df.dropna(thresh=50, axis=1)
     pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
     # Drop unnecessary columns
     pivot_df.replace('WH', np.nan, inplace=True)
     pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
@@ -141,10 +140,13 @@ def predict_late_student(test_df):
     return test_dfed
 def predict_rank(raw_data):
     # Pivot the DataFrame
+    
     raw_data = raw_data[raw_data["MaSV"].str.startswith("IT")]
-    raw_data = raw_data[raw_data['MaMH'].str.startswith('IT')]
+    raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
+    raw_data= raw_data[raw_data['MaMH'].str.contains('IT')]
+
     pivot_df = pd.pivot_table(
-        raw_data, values="DiemHP", index="MaSV", columns="TenMH", aggfunc="first"
+        raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
     )
     pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
     pivot_df.columns.name = None
