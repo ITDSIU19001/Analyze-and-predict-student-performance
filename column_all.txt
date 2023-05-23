@@ -1,78 +1,91 @@
-Algorithms & Data Structures
-Analytics for Observational Data
-Applied Artificial Intelligence
-Basic Electrical Concepts & Circuits
-Blockchain
-C/C++ Programming
-C/C++ Programming in Unix
-Circuit Analysis
-Communication Networks
-Computer Architecture
-Computer Graphics
-Computer Networks
-Data Analysis
-Data Science and Data Visualization
-Decision Support System
-Digital Communications
-Digital Image Processing
-Digital Logic Design
-Digital Logic Design Laboratory
-Digital Signal Processing
-Discrete Mathematics
-Electronic Devices & Circuits
-Embedded Systems
-Entrepreneurship
-Formal Programming Methods
-Functional Programming
-Fundamental Concepts of Data Security
-Fundamentals of Big Data Technology
-Fundamentals of Programming
-Human-Computer Interaction
-IT Project Management
-Information System Management
-Information Theory & Coding
-Internet of Things
-Internship
-Introduction to Artificial Intelligence
-Introduction to Computing
-Introduction to Data Mining
-Introduction to Data Science
-Introduction to Distributed Computing
-Introduction to Wireless Network
-Linear Algebra
-Micro-processing Systems
-Microprocessor Systems & Interfacing
-Mobile Application Development
-Net-Centric Programming
-Network Design and Evaluation
-Network Management and Protocols
-Network Programming
-Networks & Systems Security
-Object Oriented Data Engineering (Java)
-Object-Oriented Analysis and Design
-Object-Oriented Programming
-Operating Systems
-Optimization
-Principles of Database Management
-Principles of EE1
-Principles of EE1 Laboratory
-Principles of Programming Languages
-Probability, Statistic & Random Process
-Programming Languages & Translators
-Projects
-Regression Analysis
-Scalable and Distributed Computing
-Signals & Systems
-Signals & Systems Laboratory
-Skills for Communicating Information
-Software Architecture
-Software Engineering
-Software Implementation
-Special Study of the Field
-Statistical Methods
-System & Network Administration
-System and Network Security
-Theoretical Models in Computing
-Thesis
-Web Application Development
-Web Programming
+IT001
+IT002
+IT003
+IT004
+IT006
+IT007
+IT008
+IT009
+IT010
+IT011
+IT012
+IT013
+IT014
+IT015
+IT016
+IT017
+IT018
+IT019
+IT020
+IT022
+IT024
+IT025
+IT027
+IT031
+IT034
+IT041
+IT044
+IT045
+IT046
+IT056
+IT057
+IT058
+IT060
+IT063
+IT064
+IT065
+IT067
+IT068
+IT069
+IT072
+IT073
+IT075
+IT076
+IT077
+IT079
+IT080
+IT082
+IT083
+IT089
+IT090
+IT091
+IT092
+IT093
+IT094
+IT096
+IT097
+IT098
+IT099
+IT100
+IT103
+IT107
+IT112
+IT114
+IT115
+IT116
+IT117
+IT119
+IT120
+IT122
+IT124
+IT125
+IT130
+IT131
+IT132
+IT133
+IT134
+IT135
+IT136
+IT137
+IT138
+IT139
+IT140
+IT142
+IT143
+IT145
+IT149
+IT150
+IT151
+IT153
+IT154
+IT155

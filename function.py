@@ -11,7 +11,7 @@ def get_year(student_id):
 @st.cache_data()
 def process_data(raw_data):
     # Pivot the DataFrame
-    raw_data = raw_data[~raw_data['TenMH'].str.contains('IE|Intensive English')]
+    raw_data = raw_data[~raw_data['TenMH'].str.contains('IE|Intensive English|IE2|IE1|IE3|IE0')]
 #     raw_data = raw_data[~raw_data['DiemHP'].isin(['P','F','PC'])]
     pivot_df = pd.pivot_table(raw_data, values='DiemHP', index='MaSV', columns='TenMH', aggfunc='first')
     pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
@@ -38,6 +38,7 @@ def process_data(raw_data):
     
 def process_data_per(raw_data):
     # Pivot the DataFrame
+    raw_data = raw_data[~raw_data['TenMH'].str.contains('IE|Intensive English|IE2|IE1|IE3|IE0')]
     pivot_df = pd.pivot_table(raw_data, values='DiemHP', index='MaSV', columns='TenMH', aggfunc='first')
     pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
     pivot_df.columns.name = None
@@ -45,13 +46,6 @@ def process_data_per(raw_data):
     pivot_df = pivot_df.rename(columns=lambda x: x.strip())
 
     # Drop unnecessary columns
-    cols_to_drop = []
-    with open('cols_to_drop.txt', 'r') as f:
-      for line in f:
-        cols_to_drop.append(str(line.strip()))
-    existing_cols = [col for col in cols_to_drop if col in pivot_df.columns]
-    if existing_cols:
-        pivot_df.drop(existing_cols, axis=1, inplace=True)
     pivot_df.replace('WH', np.nan, inplace=True)
     pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
     # Merge with the XepLoaiNH column
