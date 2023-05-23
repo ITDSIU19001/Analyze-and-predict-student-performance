@@ -275,7 +275,7 @@ if tabs == "Dashboard":
 # predict student
 
 elif tabs == "Predict":
-    try:
+    # try:
         raw_data = pd.read_csv("dataScore.csv")
         predict = predict_late_student(raw_data)
         rank = predict_rank(raw_data)
@@ -370,5 +370,5 @@ elif tabs == "Predict":
 
         # display the grid of pie charts using Streamlit
 
-    except:
-        st.write('Add CSV to analysis')
+    # except:
+    #     st.write('Add CSV to analysis')
