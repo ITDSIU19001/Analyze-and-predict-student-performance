@@ -125,6 +125,7 @@ if tabs == "Dashboard":
 
         # Filter by Major
         unique_values_major = df["Major"].unique()
+        unique_values_major = ['BA','BM','BT','CE','CH','EE','EN','EV','FN','IE','MA','PH']
         major = st.selectbox("Select a school:", unique_values_major)
         df = filter_dataframe(df, "Major", major)
 
