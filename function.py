@@ -162,7 +162,7 @@ def predict_rank(raw_data):
     col=df.drop(['MaSV', 'DTBTK'], axis=1)
     
     columns_data = []
-    with open('column_all.txt', 'r') as f:
+    with open('Columns/column_IT.txt', 'r') as f:
       for line in f:
         columns_data.append(str(line.strip()))
     
