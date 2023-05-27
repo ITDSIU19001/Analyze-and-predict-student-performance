@@ -125,6 +125,8 @@ if tabs == "Dashboard":
 
         # Filter by Major
         unique_values_major = df["Major"].unique()
+        unique_values_major = ['BA','BE','BT','CE','CH','EE','EN','EV','IE','MA','SE','IT','FA']
+        unique_values_major = sorted(unique_values_major, key=lambda s: s)
         major = st.selectbox("Select a school:", unique_values_major)
         df = filter_dataframe(df, "Major", major)
 
@@ -152,7 +154,7 @@ if tabs == "Dashboard":
         course_data_dict = {course: df[course].dropna() for course in options}
         valid_courses = [course for course, data in course_data_dict.items() if len(data) > 1]
 
-        if len(valid_courses) > 10:
+        if len(valid_courses) > 5:
             course = st.selectbox("Select a course:", valid_courses)
         elif len(valid_courses) == 1:
             course = valid_courses[0]
