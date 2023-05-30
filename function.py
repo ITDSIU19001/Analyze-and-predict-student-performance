@@ -219,9 +219,9 @@ def predict_rank(raw_data):
         df.insert(0, 'MaSV', std_id)
         df = df[['MaSV', 'Pred Rank']]
         return df
-    elif raw_data['Major'].str.contains('BE').any():
+    elif raw_data['Major'].str.contains('BT').any():
         raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
-        raw_data = raw_data[raw_data['MaMH'].str.startswith('BME')]
+        raw_data = raw_data[raw_data['MaMH'].str.startswith('BT')]
 
         pivot_df = pd.pivot_table(
             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
@@ -240,7 +240,7 @@ def predict_rank(raw_data):
         col = df.drop(['MaSV', 'DTBTK'], axis=1)
 
         columns_data = []
-        with open('Columns/column_BE.txt', 'r') as f:
+        with open('Columns/column_BT.txt', 'r') as f:
             for line in f:
                 columns_data.append(str(line.strip()))
 
@@ -252,7 +252,7 @@ def predict_rank(raw_data):
         std_id = df['MaSV'].copy()
         df = df.drop(['MaSV', 'DTBTK'], axis=1)
         df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/BE_rank.joblib")
+        model = joblib.load("model/BT_rank.joblib")
         prediction = model.predict(df)
         df['Pred Rank'] = prediction
         df.insert(0, 'MaSV', std_id)
