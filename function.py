@@ -4,16 +4,15 @@ import plotly.express as px
 import plotly.graph_objs as go
 import streamlit as st
 import joblib
-
+import re
 
 def get_year(student_id):
-    year_str = ""
-    for char in student_id:
-        if char.isdigit():
-            year_str += char
-            if len(year_str) == 2:  # Stop when we have extracted two numbers
-                break
-    return int(year_str)
+    pattern = r"\b\d{2}"  # Matches the first 2 digits
+    match = re.search(pattern, student_id)
+    if match:
+        return match.group()
+    else:
+        return None
 
 
 @st.cache_data()
