@@ -138,10 +138,9 @@ def predict_late_student(test_df):
         test_dfed.loc[index, 'Period'] = row['Period'] / 2
 
     return test_dfed
-
-
 def predict_rank(raw_data):
-    if raw_data[raw_data["MaSV"].str.startswith("IT")].empty:
+    if raw_data[raw_data["MaSV"].str.startswith("IT")].any():
+        raw_data = raw_data[raw_data["MaSV"].str.startswith("IT")]
         raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
         raw_data = raw_data[raw_data['MaMH'].str.contains('IT')]
 
@@ -176,14 +175,15 @@ def predict_rank(raw_data):
         std_id = df['MaSV'].copy()
         df = df.drop(['MaSV', 'DTBTK'], axis=1)
         df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/IT_rank.joblib")
+        model = joblib.load("model/IT/IT_rank.joblib")
         prediction = model.predict(df)
         df['Pred Rank'] = prediction
         df.insert(0, 'MaSV', std_id)
         df = df[['MaSV', 'Pred Rank']]
         return df
 
-    elif raw_data[raw_data["MaSV"].str.startswith("BA")].empty:
+    elif raw_data[raw_data["MaSV"].str.startswith("BA")].any():
+        raw_data = raw_data[raw_data["MaSV"].str.startswith("BA")]
         raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
         raw_data = raw_data[raw_data['MaMH'].str.contains('BA')]
 
@@ -194,6 +194,7 @@ def predict_rank(raw_data):
         pivot_df.columns.name = None
         pivot_df = pivot_df.dropna(thresh=50, axis=1)
         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
         pivot_df.replace(['WH', 'VT', 'I'], np.nan, inplace=True)
         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
 
@@ -223,7 +224,6 @@ def predict_rank(raw_data):
         df.insert(0, 'MaSV', std_id)
         df = df[['MaSV', 'Pred Rank']]
         return df
-
 
 def predict_one_student(raw_data, student_id):
     # Subset the DataFrame to relevant columns and rows
