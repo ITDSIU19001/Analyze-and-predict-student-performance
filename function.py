@@ -45,14 +45,15 @@ def process_data_per(raw_data):
     pivot_df = pivot_df.dropna(thresh=50, axis=1)
     pivot_df = pivot_df.rename(columns=lambda x: x.strip())
     # Drop unnecessary columns
-    pivot_df.replace('WH', np.nan, inplace=True)
+    pivot_df.pivot_df.apply(pd.to_numeric, errors='coerce')
     pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
     # Merge with the XepLoaiNH column
-    df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
-    df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
-    df.drop(['XepLoaiNH'], axis=1, inplace=True)
+    # df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
+    # df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
+    # df.drop(['XepLoaiNH'], axis=1, inplace=True)
     
-    return df
+    
+    return pivot_df
 
 
 def process_predict_data(raw_data):
