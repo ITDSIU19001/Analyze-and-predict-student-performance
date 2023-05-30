@@ -414,9 +414,9 @@ def predict_rank(raw_data):
         df.insert(0, 'MaSV', std_id)
         df = df[['MaSV', 'Pred Rank']]
         return df
-    elif raw_data['Major'].str.contains('EV').any():
+    elif raw_data['Major'].str.contains('IE').any():
         raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
-        raw_data = raw_data[raw_data['MaMH'].str.startswith('ENEE')]
+        raw_data = raw_data[raw_data['MaMH'].str.startswith('IS')]
 
         pivot_df = pd.pivot_table(
             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
@@ -435,7 +435,7 @@ def predict_rank(raw_data):
         col = df.drop(['MaSV', 'DTBTK'], axis=1)
 
         columns_data = []
-        with open('Columns/column_EV.txt', 'r') as f:
+        with open('Columns/column_IE.txt', 'r') as f:
             for line in f:
                 columns_data.append(str(line.strip()))
 
@@ -447,7 +447,7 @@ def predict_rank(raw_data):
         std_id = df['MaSV'].copy()
         df = df.drop(['MaSV', 'DTBTK'], axis=1)
         df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/EV_rank.joblib")
+        model = joblib.load("model/IE_rank.joblib")
         prediction = model.predict(df)
         df['Pred Rank'] = prediction
         df.insert(0, 'MaSV', std_id)
