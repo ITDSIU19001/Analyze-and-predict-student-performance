@@ -569,7 +569,7 @@ def predict_rank(raw_data):
         df['Pred Rank'] = prediction
         df.insert(0, 'MaSV', std_id)
         df = df[['MaSV', 'Pred Rank']]
-        return df
+        return raw_data
 def predict_one_student(raw_data, student_id):
     # Subset the DataFrame to relevant columns and rows
       student = process_data_per(raw_data)
