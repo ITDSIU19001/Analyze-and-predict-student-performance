@@ -153,7 +153,7 @@ def predict_rank(raw_data):
         pivot_df = pivot_df.dropna(thresh=50, axis=1)
         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
 
-        pivot_df.replace("WH", np.nan, inplace=True)
+        pivot_df.replace(['WH', 'VT',"I"], np.nan, inplace=True)
         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
 
         # Merge with the XepLoaiNH column
@@ -192,7 +192,7 @@ def predict_rank(raw_data):
         pivot_df = pivot_df.dropna(thresh=50, axis=1)
         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
 
-        pivot_df.replace("WH", np.nan, inplace=True)
+        pivot_df.replace(['WH', 'VT',"I"], np.nan, inplace=True)
         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
 
         # Merge with the XepLoaiNH column
