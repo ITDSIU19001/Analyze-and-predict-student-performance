@@ -180,7 +180,7 @@ def predict_rank(raw_data):
         df.insert(0, 'MaSV', std_id)
         df = df[['MaSV', 'Pred Rank']]
         return df
-    elif raw_data['Major'].str.startwith('BA').any():
+    elif raw_data['Major'].str.contains('BA').any():
         raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
         raw_data = raw_data[raw_data['MaMH'].str.startswith('BA')]
 
