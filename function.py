@@ -45,7 +45,7 @@ def process_data_per(raw_data):
     pivot_df = pivot_df.dropna(thresh=50, axis=1)
     pivot_df = pivot_df.rename(columns=lambda x: x.strip())
     # Drop unnecessary columns
-    pivot_df.replace(to_replace=r'^[^\d.-]+$', value=np.nan, regex=True)
+    pivot_df.replace('WH', value=np.nan, regex=True)
     pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
     # Merge with the XepLoaiNH column
     # df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
