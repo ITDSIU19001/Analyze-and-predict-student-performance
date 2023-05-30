@@ -26,7 +26,7 @@ def color_cell(val):
 
 
 def get_year(student_id):
-    return int(student_id[6:8])
+    return int(student_id[:2])
 
 
 def generate_comment(median):
