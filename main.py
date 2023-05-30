@@ -284,13 +284,12 @@ elif tabs == "Predict":
         # raw_data = pd.read_csv("dataScore.csv")
         df = read_sql_query()
         df['Major'] = df['MaSV'].str.slice(0, 2)
-        unique_values_major = ['BA','BE','BT','CE','CH','EE','EN','EV','IE','MA','SE','IT']
+        unique_values_major = ['BA','BE','BT','CE','EE','EN','EV','IE','MA','SE','IT']
         unique_values_major = sorted(unique_values_major, key=lambda s: s)
         major = st.selectbox("Select a school:", unique_values_major)
         df = filter_dataframe(df, "Major", major)
         predict = predict_late_student(df)
         rank = predict_rank(df)
-        st.write(rank)
         predict = pd.merge(predict, rank, on="MaSV")
         rank_mapping = {
             "Khá": "Good",
