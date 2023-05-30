@@ -94,7 +94,7 @@ with col3:
 def read_sql_query():
     """Reads the SQL query from the database and returns a DataFrame."""
     conn = sqlite3.connect('database.db')
-    query='''SELECT MaSV, TenMH, DiemHP,NHHK
+    query='''SELECT MaSV, TenMH, DiemHP,NHHK,DTBTKH4
     FROM scoreTable;
     '''
     df = pd.read_sql_query(query, conn)
@@ -112,16 +112,17 @@ option = ["Dashboard", "Predict"]
 # Add an expander to the sidebar
 tabs = st.sidebar.selectbox("Select an option", option)
 
+def filter_dataframe(df, column, value):
+    if value == "All":
+        return df
+    else:
+        return df[df[column] == value]
 
 # draw histogram
 # Streamlit app
 if tabs == "Dashboard":
 #     try:
-        def filter_dataframe(df, column, value):
-            if value == "All":
-                return df
-            else:
-                return df[df[column] == value]
+
 
         # Filter by Major
         unique_values_major = df["Major"].unique()
@@ -278,8 +279,13 @@ if tabs == "Dashboard":
 
 elif tabs == "Predict":
     # try:
-        raw_data = pd.read_csv("dataScore.csv")
-        predict = predict_late_student(raw_data)
+        # raw_data = pd.read_csv("dataScore.csv")
+        
+        unique_values_major = ['BA','BE','BT','CE','CH','EE','EN','EV','IE','MA','SE','IT']
+        unique_values_major = sorted(unique_values_major, key=lambda s: s)
+        major = st.selectbox("Select a school:", unique_values_major)
+        df = filter_dataframe(df, "Major", major)
+        predict = predict_late_student(df)
         rank = predict_rank(raw_data)
 
         predict = pd.merge(predict, rank, on="MaSV")
