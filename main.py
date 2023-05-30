@@ -94,11 +94,13 @@ with col3:
 def read_sql_query():
     """Reads the SQL query from the database and returns a DataFrame."""
     conn = sqlite3.connect('database.db')
-    query='''SELECT MaSV, TenMH, DiemHP,NHHK,DTBTKH4,MaMH,SoTCDat
+    query='''SELECT MaSV, TenMH, DiemHP, NHHK, DTBTKH4, MaMH, SoTCDat, DTBTK
     FROM scoreTable;
     '''
     df = pd.read_sql_query(query, conn)
     return df
+
+
 
 raw_data = read_sql_query()
 
