@@ -60,7 +60,7 @@ def process_predict_data(raw_data):
     dtk.drop_duplicates(subset="MaSV", keep="last", inplace=True)
 
     count_duplicates = raw_data.groupby(["MaSV", "MaMH"]).size().reset_index(name="Times")
-    courses = raw_data[raw_data['MaMH'].str.startswith(['IT', 'BA', 'BM', 'BT', 'MA','CE', 'EE', 'EL','ENEE','IS','MAFE','PH'])]
+    courses = raw_data[raw_data['MaMH'].str.startswith([['IT', 'BA', 'BM', 'BT', 'MA','CE', 'EE', 'EL','ENEE','IS','MAFE','PH']])]
     courses_list=courses['MaMH'].unique().tolist()
 
   # Create two new columns for counting courses that are in the courses_list or not
