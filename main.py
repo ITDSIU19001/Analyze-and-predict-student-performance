@@ -26,7 +26,13 @@ def color_cell(val):
 
 
 def get_year(student_id):
-    return int(student_id[:2])
+    year_str = ""
+    for char in student_id:
+        if char.isdigit():
+            year_str += char
+        else:
+            break
+    return int(year_str[:2])
 
 
 def generate_comment(median):
