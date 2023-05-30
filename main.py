@@ -286,7 +286,7 @@ elif tabs == "Predict":
         major = st.selectbox("Select a school:", unique_values_major)
         df = filter_dataframe(df, "Major", major)
         predict = predict_late_student(df)
-        rank = predict_rank(raw_data)
+        rank = predict_rank(df)
 
         predict = pd.merge(predict, rank, on="MaSV")
         rank_mapping = {
@@ -314,7 +314,7 @@ elif tabs == "Predict":
             
             with st.container():
                 st.write(styled_table)
-                predict_one_student(raw_data,MaSV)
+                predict_one_student(df,MaSV)
         else:
             df_late = predict
             # df_late = predict[(predict['Pred Rank'] == 'Yếu') | (predict['Pred Rank'] == 'Kém')]
