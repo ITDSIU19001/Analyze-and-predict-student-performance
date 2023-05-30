@@ -139,7 +139,8 @@ def predict_late_student(test_df):
 
     return test_dfed
 def predict_rank(raw_data):
-    if raw_data[raw_data["MaSV"].str.startswith("IT")].any():
+    raw_data['Major'] = raw_data['MaSV'].str.slice(0, 2)
+    if raw_data['Major'] =='IT':
         raw_data = raw_data[raw_data["MaSV"].str.startswith("IT")]
         raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
         raw_data = raw_data[raw_data['MaMH'].str.contains('IT')]
@@ -182,7 +183,7 @@ def predict_rank(raw_data):
         df = df[['MaSV', 'Pred Rank']]
         return df
 
-    elif raw_data[raw_data["MaSV"].str.startswith("BA")].any():
+    elif raw_data['Major'] =='BA':
         raw_data = raw_data[raw_data["MaSV"].str.startswith("BA")]
         raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
         raw_data = raw_data[raw_data['MaMH'].str.contains('BA')]
