@@ -131,7 +131,7 @@ def filter_dataframe(df, column, value):
 if tabs == "Dashboard":
 #     try:
 
-
+        st.write(df['Year'])
         # Filter by Major
         unique_values_major = df["Major"].unique()
         unique_values_major = ['BA','BE','BT','CE','CH','EE','EN','EV','IE','MA','SE','IT']
