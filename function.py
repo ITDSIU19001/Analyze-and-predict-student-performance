@@ -138,51 +138,91 @@ def predict_late_student(test_df):
         test_dfed.loc[index, 'Period'] = row['Period'] / 2
 
     return test_dfed
+
+
 def predict_rank(raw_data):
-    # Pivot the DataFrame
-    
-    raw_data = raw_data[raw_data["MaSV"].str.startswith("IT")]
-    raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
-    raw_data= raw_data[raw_data['MaMH'].str.contains('IT')]
+    if raw_data[raw_data["MaSV"].str.startswith("IT")]:
+        raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
+        raw_data = raw_data[raw_data['MaMH'].str.contains('IT')]
 
-    pivot_df = pd.pivot_table(
-        raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-    )
-    pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-    pivot_df.columns.name = None
-    pivot_df = pivot_df.dropna(thresh=50, axis=1)
-    pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+        pivot_df = pd.pivot_table(
+            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+        )
+        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+        pivot_df.columns.name = None
+        pivot_df = pivot_df.dropna(thresh=50, axis=1)
+        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
 
-    pivot_df.replace("WH", np.nan, inplace=True)
-    pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+        pivot_df.replace(['WH', 'VT', 'I'], np.nan, inplace=True)
+        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
 
-    # Merge with the XepLoaiNH column
-    df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-    df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-    col=df.drop(['MaSV', 'DTBTK'], axis=1)
-    
-    columns_data = []
-    with open('Columns/column_IT.txt', 'r') as f:
-      for line in f:
-        columns_data.append(str(line.strip()))
-    
+        # Merge with the XepLoaiNH column
+        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+        col = df.drop(['MaSV', 'DTBTK'], axis=1)
 
-    r=df.drop(columns=['MaSV','DTBTK'])
-    merge=r.columns.tolist()
-    dup=pd.DataFrame(columns=columns_data)
-    df= pd.merge(dup, df, on=merge, how='outer')
-    for col in df.columns:
-          if df[col].isnull().values.any():
-            df[col].fillna(value=df["DTBTK"], inplace=True)
-    std_id = df['MaSV'].copy()
-    df=df.drop(['MaSV', 'DTBTK'], axis=1)
-    df.sort_index(axis=1, inplace=True)
-    model=joblib.load("model/IT/IT_rank.joblib")
-    prediction = model.predict(df)
-    df['Pred Rank'] = prediction
-    df.insert(0, 'MaSV', std_id)
-    df=df[['MaSV','Pred Rank']]
-    return df
+        columns_data = []
+        with open('Columns/column_IT.txt', 'r') as f:
+            for line in f:
+                columns_data.append(str(line.strip()))
+
+        r = df.drop(columns=['MaSV', 'DTBTK'])
+        merge = r.columns.tolist()
+        dup = pd.DataFrame(columns=columns_data)
+        df = pd.merge(dup, df, on=merge, how='outer')
+        for col in df.columns:
+            if df[col].isnull().values.any():
+                df[col].fillna(value=df["DTBTK"], inplace=True)
+        std_id = df['MaSV'].copy()
+        df = df.drop(['MaSV', 'DTBTK'], axis=1)
+        df.sort_index(axis=1, inplace=True)
+        model = joblib.load("model/IT_rank.joblib")
+        prediction = model.predict(df)
+        df['Pred Rank'] = prediction
+        df.insert(0, 'MaSV', std_id)
+        df = df[['MaSV', 'Pred Rank']]
+        return df
+
+    elif raw_data[raw_data["MaSV"].str.startswith("BA")]:
+        raw_data['MaMH'] = raw_data['MaMH'].str[:-2]
+        raw_data = raw_data[raw_data['MaMH'].str.contains('BA')]
+
+        pivot_df = pd.pivot_table(
+            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+        )
+        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+        pivot_df.columns.name = None
+        pivot_df = pivot_df.dropna(thresh=50, axis=1)
+        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+        pivot_df.replace(['WH', 'VT', 'I'], np.nan, inplace=True)
+        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+        # Merge with the XepLoaiNH column
+        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+        col = df.drop(['MaSV', 'DTBTK'], axis=1)
+
+        columns_data = []
+        with open('Columns/column_BA.txt', 'r') as f:
+            for line in f:
+                columns_data.append(str(line.strip()))
+
+        r = df.drop(columns=['MaSV', 'DTBTK'])
+        merge = r.columns.tolist()
+        dup = pd.DataFrame(columns=columns_data)
+        df = pd.merge(dup, df, on=merge, how='outer')
+        for col in df.columns:
+            if df[col].isnull().values.any():
+                df[col].fillna(value=df["DTBTK"], inplace=True)
+        std_id = df['MaSV'].copy()
+        df = df.drop(['MaSV', 'DTBTK'], axis=1)
+        df.sort_index(axis=1, inplace=True)
+        model = joblib.load("model/BA_rank.joblib")
+        prediction = model.predict(df)
+        df['Pred Rank'] = prediction
+        df.insert(0, 'MaSV', std_id)
+        df = df[['MaSV', 'Pred Rank']]
+        return df
 
 
 def predict_one_student(raw_data, student_id):
