@@ -290,7 +290,7 @@ elif tabs == "Predict":
         df = filter_dataframe(df, "Major", major)
         predict = predict_late_student(df)
         rank = predict_rank(df)
-
+        st.write(rank)
         predict = pd.merge(predict, rank, on="MaSV")
         rank_mapping = {
             "Khá": "Good",
