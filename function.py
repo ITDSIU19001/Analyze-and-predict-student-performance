@@ -51,9 +51,9 @@ def process_data_per(raw_data):
     # df = pd.merge(pivot_df, raw_data[['MaSV', 'XepLoaiNH']], on='MaSV')
     # df.drop_duplicates(subset='MaSV', keep='last', inplace=True)
     # df.drop(['XepLoaiNH'], axis=1, inplace=True)
+    df=pivot_df
     
-    
-    return pivot_df
+    return df
 
 
 def process_predict_data(raw_data):
