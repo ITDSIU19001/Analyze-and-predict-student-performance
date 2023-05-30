@@ -280,7 +280,7 @@ if tabs == "Dashboard":
 elif tabs == "Predict":
     # try:
         # raw_data = pd.read_csv("dataScore.csv")
-        
+        df = read_sql_query()
         unique_values_major = ['BA','BE','BT','CE','CH','EE','EN','EV','IE','MA','SE','IT']
         unique_values_major = sorted(unique_values_major, key=lambda s: s)
         major = st.selectbox("Select a school:", unique_values_major)
