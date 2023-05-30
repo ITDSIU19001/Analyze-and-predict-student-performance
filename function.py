@@ -7,7 +7,15 @@ import joblib
 
 
 def get_year(student_id):
-    return int(student_id[6:8])
+    year_str = ""
+    for char in student_id:
+        if char.isdigit():
+            year_str += char
+            if len(year_str) == 2:  # Stop when we have extracted two numbers
+                break
+    return int(year_str)
+
+
 @st.cache_data()
 def process_data(raw_data):
     # Pivot the DataFrame
