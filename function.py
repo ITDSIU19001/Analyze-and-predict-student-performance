@@ -547,29 +547,29 @@ def predict_rank(raw_data):
         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
 
         # Merge with the XepLoaiNH column
-        # df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        # df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        # col = df.drop(['MaSV', 'DTBTK'], axis=1)
+        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+        col = df.drop(['MaSV', 'DTBTK'], axis=1)
 
-        # columns_data = []
-        # with open('Columns/column_EV.txt', 'r') as f:
-        #     for line in f:
-        #         columns_data.append(str(line.strip()))
+        columns_data = []
+        with open('Columns/column_EV.txt', 'r') as f:
+            for line in f:
+                columns_data.append(str(line.strip()))
 
-        # dup = pd.DataFrame(columns=columns_data)
-        # df = pd.merge(dup, df, on=col.columns.tolist(), how='outer')
-        # for col in df.columns:
-        #     if df[col].isnull().values.any():
-        #         df[col].fillna(value=df["DTBTK"], inplace=True)
-        # std_id = df['MaSV'].copy()
-        # df = df.drop(['MaSV', 'DTBTK'], axis=1)
-        # df.sort_index(axis=1, inplace=True)
-        # model = joblib.load("model/EV_rank.joblib")
-        # prediction = model.predict(df)
-        # df['Pred Rank'] = prediction
-        # df.insert(0, 'MaSV', std_id)
-        # df = df[['MaSV', 'Pred Rank']]
-        return raw_data
+        dup = pd.DataFrame(columns=columns_data)
+        df = pd.merge(dup, df, on=col.columns.tolist(), how='outer')
+        for col in df.columns:
+            if df[col].isnull().values.any():
+                df[col].fillna(value=df["DTBTK"], inplace=True)
+        std_id = df['MaSV'].copy()
+        df = df.drop(['MaSV', 'DTBTK'], axis=1)
+        df.sort_index(axis=1, inplace=True)
+        model = joblib.load("model/EV_rank.joblib")
+        prediction = model.predict(df)
+        df['Pred Rank'] = prediction
+        df.insert(0, 'MaSV', std_id)
+        df = df[['MaSV', 'Pred Rank']]
+        return df
 def predict_one_student(raw_data, student_id):
     # Subset the DataFrame to relevant columns and rows
       student = process_data_per(raw_data)
