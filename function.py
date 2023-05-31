@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objs as go
 import streamlit as st
 import joblib
-import re
+
 
 def get_year(student_id):
     year_str = ""
