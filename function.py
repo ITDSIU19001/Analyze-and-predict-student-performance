@@ -111,8 +111,8 @@ def process_predict_data(raw_data):
 
 def predict_late_student(test_df):
     # Load the pre-trained model
-    model=joblib.load("model/IT/IT_Late.joblib")
-    model1=joblib.load("model/IT/IT_Sem.joblib")
+    model=joblib.load("model/Time/Late.joblib")
+    model1=joblib.load("model/Time/Sem.joblib")
     # Process the student data
     test_dfed = process_predict_data(test_df)
 
