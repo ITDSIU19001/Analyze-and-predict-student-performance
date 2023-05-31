@@ -76,21 +76,7 @@ with col3:
     st.image(hcm, width=250)
 
 
-# Load the raw data
-# uploaded_file = st.file_uploader("Choose a score file", type=["xlsx", "csv"])
 
-# if uploaded_file is not None:
-#     file_contents = uploaded_file.read()
-#     file_ext = uploaded_file.name.split(".")[-1].lower()  # Get the file extension
-    
-#     if file_ext == "csv":
-#         df = pd.read_csv(BytesIO(file_contents))
-#     elif file_ext in ["xls", "xlsx"]:
-#         df = pd.read_excel(BytesIO(file_contents))
-#     else:
-#         st.error("Invalid file format. Please upload a CSV or Excel file.")
-
-# raw_data = df.copy()
 
 
 
@@ -249,33 +235,7 @@ if tabs == "Dashboard":
                     width=400
                 )
                 st.plotly_chart(fig)
-        #     raw_data['major'] = raw_data['MaSV'].str.slice(0, 2)
-        #     if school == "All":
-        # # If so, display the entire DataFrame
-        #         data = raw_data.copy()
-        #     else:
-        # # Otherwise, filter the DataFrame based on the selected value
-        #         data = raw_data[raw_data["major"] == major]
-            
-        #     data['MaSV_school'] = data['MaSV'].str.slice(2, 4)
-        #     if school == "All":
-        # # If so, display the entire DataFrame
-        #         data = data.copy()
-        #     else:
-        # # Otherwise, filter the DataFrame based on the selected value
-        #         data = data[data["MaSV_school"] == school]
-        #     df1=data[['TenMH','NHHK','DiemHP']].copy()
-        #     df1['DiemHP'] = pd.to_numeric(df1['DiemHP'], errors='coerce')
-        #     df1['NHHK'] = df1['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
-        #     selected_TenMH = " " + course
-        #     filtered_df1 = df1[df1['TenMH'] == selected_TenMH]
-        #     mean_DiemHP = filtered_df1.groupby('NHHK')['DiemHP'].mean().round(1).reset_index(name='Mean')
-        #     # Create Plotly line graph
-        #     fig = px.line(mean_DiemHP, x='NHHK', y='Mean', title=f"Mean DiemHP for{selected_TenMH} thought period")
-        #     fig.update_layout(
-        #       height=400,
-        #       width=400)           
-        #     st.plotly_chart(fig)
+
 
 
 #     except:
@@ -286,7 +246,7 @@ if tabs == "Dashboard":
 
 elif tabs == "Predict":
     # try:
-        # raw_data = pd.read_csv("dataScore.csv")
+        
         df = read_sql_query()
         df['Major'] = df['MaSV'].str.slice(0, 2)
         unique_values_major = ['BA','BE','BT','CE','EE','EN','EV','IE','MA','SE','IT']
