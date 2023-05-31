@@ -3,8 +3,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objs as go
 import streamlit as st
-import joblib
-
+from sklearn.externals import joblib
 
 def get_year(student_id):
     year_str = ""
