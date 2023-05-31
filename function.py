@@ -577,34 +577,9 @@ def predict_late_student(test_df):
 #         df = df[["MaSV", "Pred Rank"]]
 #         return df
 
-def predict_rank(raw_data):
-    raw_data["Major"] = raw_data["MaSV"].str.slice(0, 2)
-    major, ma_mh = get_major(raw_data)
-    if major:
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith(ma_mh)]
 
-        pivot_df = create_pivot_table(raw_data)
-        pivot_df = drop_nan_columns(pivot_df)
-
-        df = merge_with_xeploainh(pivot_df, raw_data)
-        df = fill_missing_values(df)
-
-        std_id = df["MaSV"].copy()
-        df = prepare_data(df)
-
-        model = joblib.load(f"model/{major}_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    else:
-        return None
 
 def get_major(raw_data):
-    
     major_mapping = {
         "BA":"BA",
         "BE":"BM",
@@ -667,6 +642,32 @@ def prepare_data(df):
     df = df.drop(["MaSV", "DTBTK"], axis=1)
     df.sort_index(axis=1, inplace=True)
     return df
+
+def predict_rank(raw_data):
+    raw_data["Major"] = raw_data["MaSV"].str.slice(0, 2)
+    major, ma_mh = get_major(raw_data)
+    if major:
+        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+        raw_data = raw_data[raw_data["MaMH"].str.startswith(ma_mh)]
+
+        pivot_df = create_pivot_table(raw_data)
+        pivot_df = drop_nan_columns(pivot_df)
+
+        df = merge_with_xeploainh(pivot_df, raw_data)
+        df = fill_missing_values(df)
+
+        std_id = df["MaSV"].copy()
+        df = prepare_data(df)
+
+        model = joblib.load(f"model/{major}_rank.joblib")
+        prediction = model.predict(df)
+        df["Pred Rank"] = prediction
+
+        df.insert(0, "MaSV", std_id)
+        df = df[["MaSV", "Pred Rank"]]
+        return df
+    else:
+        return None
 
 
 def predict_one_student(raw_data, student_id):
