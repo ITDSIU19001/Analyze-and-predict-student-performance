@@ -603,6 +603,7 @@ def predict_rank(raw_data):
         return None
 
 def get_major(raw_data):
+    raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
     major_mapping = {
         "BA":"BA",
         "BE":"BM",
