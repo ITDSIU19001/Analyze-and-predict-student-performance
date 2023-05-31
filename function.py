@@ -607,7 +607,6 @@ def create_pivot_table(raw_data):
     return pivot_df
 
 def drop_nan_columns(pivot_df):
-    pivot_df = pivot_df.dropna(thresh=50, axis=1)
     pivot_df = pivot_df.rename(columns=lambda x: x.strip())
     pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
     pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
