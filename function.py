@@ -145,437 +145,533 @@ def predict_late_student(test_df):
         test_dfed.loc[index, 'Period'] = row['Period'] / 2
 
     return test_dfed
+# def predict_rank(raw_data):
+#     # Pivot the DataFrame
+#     raw_data["Major"] = raw_data["MaSV"].str.slice(0, 2)
+#     if raw_data["Major"].str.contains("IT").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.contains("IT")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_IT.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/IT/IT_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("BA").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("BA")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_BA.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/BA_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("BT").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("BT")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_BT.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/BT_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("CE").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("CE")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_CE.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/CE_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("EE").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("EE")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_EE.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/EE_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("EN").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("EL")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_EN.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/EN_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("BE").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("BM")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_BE.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/BE_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("IE").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("IS")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_IE.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/IE_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("MA").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("MAFE")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_MA.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/MA_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("SE").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("PH")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.dropna(thresh=50, axis=1)
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_PH.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/PH_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+#     elif raw_data["Major"].str.contains("EV").any():
+#         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
+#         raw_data = raw_data[raw_data["MaMH"].str.startswith("ENEE")]
+
+#         pivot_df = pd.pivot_table(
+#             raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+#         )
+#         pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+#         pivot_df.columns.name = None
+#         pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+
+#         pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+#         pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+
+#         # Merge with the XepLoaiNH column
+#         df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+#         df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+#         col = df.drop(["MaSV", "DTBTK"], axis=1)
+
+#         columns_data = []
+#         with open("Columns/column_EV.txt", "r") as f:
+#             for line in f:
+#                 columns_data.append(str(line.strip()))
+
+#         dup = pd.DataFrame(columns=columns_data)
+#         df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+#         for col in df.columns:
+#             if df[col].isnull().values.any():
+#                 df[col].fillna(value=df["DTBTK"], inplace=True)
+#         std_id = df["MaSV"].copy()
+#         df = df.drop(["MaSV", "DTBTK"], axis=1)
+#         df.sort_index(axis=1, inplace=True)
+#         model = joblib.load("model/EV_rank.joblib")
+#         prediction = model.predict(df)
+#         df["Pred Rank"] = prediction
+#         df.insert(0, "MaSV", std_id)
+#         df = df[["MaSV", "Pred Rank"]]
+#         return df
+
+import pandas as pd
+import numpy as np
+from sklearn.externals import joblib
+
 def predict_rank(raw_data):
-    # Pivot the DataFrame
-    raw_data["Major"] = raw_data["MaSV"].str.slice(0, 2)
-    if raw_data["Major"].str.contains("IT").any():
+    major, ma_mh = get_major(raw_data)
+    if major:
         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.contains("IT")]
+        raw_data = raw_data[raw_data["MaMH"].str.startswith(ma_mh)]
 
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+        pivot_df = create_pivot_table(raw_data)
+        pivot_df = drop_nan_columns(pivot_df)
 
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+        df = merge_with_xeploainh(pivot_df, raw_data)
+        df = fill_missing_values(df)
 
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
-
-        columns_data = []
-        with open("Columns/column_IT.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
-
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
         std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/IT/IT_rank.joblib")
+        df = prepare_data(df)
+
+        model = joblib.load(f"model/{major}_rank.joblib")
         prediction = model.predict(df)
         df["Pred Rank"] = prediction
+
         df.insert(0, "MaSV", std_id)
         df = df[["MaSV", "Pred Rank"]]
         return df
-    elif raw_data["Major"].str.contains("BA").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("BA")]
+    else:
+        return None
 
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+def get_major(raw_data):
+    major_mapping = {
+        "EN": "EL",
+        "EV": "ENEE",
+        "MA": "MAFE",
+        "SE": "PH",
+        "IT": "IT",
+        "BA":"BA",
+        "EE": "EE",
+        "BE":"BM",
+        "CE":"CE",
+        "IE":"IS"
+    }
+    for major, ma_mh in major_mapping.items():
+        if raw_data["Major"].str.contains(major).any():
+            return major, ma_mh
+    return None, None
 
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+def create_pivot_table(raw_data):
+    pivot_df = pd.pivot_table(
+        raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
+    )
+    pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
+    pivot_df.columns.name = None
+    return pivot_df
 
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
+def drop_nan_columns(pivot_df):
+    pivot_df = pivot_df.dropna(thresh=50, axis=1)
+    pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+    pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
+    pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+    return pivot_df
 
-        columns_data = []
-        with open("Columns/column_BA.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
+def merge_with_xeploainh(pivot_df, raw_data):
+    df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
+    df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
+    return df
 
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/BA_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    elif raw_data["Major"].str.contains("BT").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("BT")]
+def fill_missing_values(df):
+    col = df.drop(["MaSV", "DTBTK"], axis=1)
+    columns_data = get_column_data(df)
+    dup = pd.DataFrame(columns=columns_data)
+    df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
+    for col in df.columns:
+        if df[col].isnull().values.any():
+            df[col].fillna(value=df["DTBTK"], inplace=True)
+    return df
 
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+def get_column_data(df):
+    major = df["Major"].unique()[0]
+    column_file = f"Columns/column_{major}.txt"
+    columns_data = []
+    with open(column_file, "r") as f:
+        for line in f:
+            columns_data.append(str(line.strip()))
+    return columns_data
 
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
+def prepare_data(df):
+    std_id = df["MaSV"].copy()
+    df = df.drop(["MaSV", "DTBTK"], axis=1)
+    df.sort_index(axis=1, inplace=True)
+    return df
 
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
 
-        columns_data = []
-        with open("Columns/column_BT.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
 
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/BT_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    elif raw_data["Major"].str.contains("CE").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("CE")]
 
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
-
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
-
-        columns_data = []
-        with open("Columns/column_CE.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
-
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/CE_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    elif raw_data["Major"].str.contains("EE").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("EE")]
-
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
-
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
-
-        columns_data = []
-        with open("Columns/column_EE.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
-
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/EE_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    elif raw_data["Major"].str.contains("EN").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("EL")]
-
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
-
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
-
-        columns_data = []
-        with open("Columns/column_EN.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
-
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/EN_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    elif raw_data["Major"].str.contains("BE").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("BM")]
-
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
-
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
-
-        columns_data = []
-        with open("Columns/column_BE.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
-
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/BE_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    elif raw_data["Major"].str.contains("IE").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("IS")]
-
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
-
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
-
-        columns_data = []
-        with open("Columns/column_IE.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
-
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/IE_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    elif raw_data["Major"].str.contains("MA").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("MAFE")]
-
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
-
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
-
-        columns_data = []
-        with open("Columns/column_MA.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
-
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/MA_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    elif raw_data["Major"].str.contains("SE").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("PH")]
-
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.dropna(thresh=50, axis=1)
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
-
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
-
-        columns_data = []
-        with open("Columns/column_PH.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
-
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/PH_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
-    elif raw_data["Major"].str.contains("EV").any():
-        raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
-        raw_data = raw_data[raw_data["MaMH"].str.startswith("ENEE")]
-
-        pivot_df = pd.pivot_table(
-            raw_data, values="DiemHP", index="MaSV", columns="MaMH", aggfunc="first"
-        )
-        pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-        pivot_df.columns.name = None
-        pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-
-        pivot_df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-        pivot_df.iloc[:, 1:] = pivot_df.iloc[:, 1:].apply(pd.to_numeric)
-
-        # Merge with the XepLoaiNH column
-        df = pd.merge(pivot_df, raw_data[["MaSV", "DTBTK"]], on="MaSV")
-        df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-        col = df.drop(["MaSV", "DTBTK"], axis=1)
-
-        columns_data = []
-        with open("Columns/column_EV.txt", "r") as f:
-            for line in f:
-                columns_data.append(str(line.strip()))
-
-        dup = pd.DataFrame(columns=columns_data)
-        df = pd.merge(dup, df, on=col.columns.tolist(), how="outer")
-        for col in df.columns:
-            if df[col].isnull().values.any():
-                df[col].fillna(value=df["DTBTK"], inplace=True)
-        std_id = df["MaSV"].copy()
-        df = df.drop(["MaSV", "DTBTK"], axis=1)
-        df.sort_index(axis=1, inplace=True)
-        model = joblib.load("model/EV_rank.joblib")
-        prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
-        return df
 
 def predict_one_student(raw_data, student_id):
     # Subset the DataFrame to relevant columns and rows
