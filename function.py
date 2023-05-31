@@ -594,7 +594,7 @@ def get_major(raw_data):
         "SE": "PH"
     }
     for major, ma_mh in major_mapping.items():
-        if raw_data["Major"].str.contains(major).any():
+        if raw_data["MaSV"].str[:2].str.contains(major).any():
             return major, ma_mh
     return None, None
 
@@ -644,7 +644,6 @@ def prepare_data(df):
     return df
 
 def predict_rank(raw_data):
-    raw_data["Major"] = raw_data["MaSV"].str.slice(0, 2)
     major, ma_mh = get_major(raw_data)
     if major:
         raw_data["MaMH"] = raw_data["MaMH"].str[:-2]
