@@ -300,8 +300,11 @@ elif tabs == "Predict":
     df_late = predict
     
     
-    clear_button = st.button("Clear", on_click=MaSV.clear)
     MaSV = st.text_input("Enter Student ID:", on_change=clear_button)
+
+    def clear_button(MaSV):
+      MaSV.clear()
+
     # Create a clear button
     
 
