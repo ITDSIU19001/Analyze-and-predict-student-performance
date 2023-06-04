@@ -298,11 +298,13 @@ elif tabs == "Predict":
 
     # Filter students who have a Result value of "late"
     df_late = predict
-
-    MaSV = st.text_input("Enter Student ID:", on_change=clear_button)
-
-    # Create a clear button
+    
+    
     clear_button = st.button("Clear", on_click=MaSV.clear)
+    MaSV = st.text_input("Enter Student ID:", on_change=clear_button)
+    # Create a clear button
+    
+
 
     if MaSV:
         df_filtered = predict[predict["MaSV"] == MaSV]
