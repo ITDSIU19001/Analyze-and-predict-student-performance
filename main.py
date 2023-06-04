@@ -299,7 +299,66 @@ elif tabs == "Predict":
     # Filter students who have a Result value of "late"
     df_late = predict
 
+    style = """
+    <style>
+    .clear-button {
+        position: relative;
+        display: inline-block;
+        border: none;
+        background: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .clear-button:focus {
+        outline: none;
+    }
+
+    .clear-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    .clear-icon:hover {
+        color: red;
+    }
+    </style>
+    """
+
+    # Add the custom CSS styles
+    st.markdown(style, unsafe_allow_html=True)
+
+    # Text input with clear button
     MaSV = st.text_input("Enter Student ID:")
+
+    # Clear button HTML code
+    clear_button = """
+    <button class="clear-button" onclick="document.getElementById('input_field').value = '';">
+        <i class="clear-icon material-icons">clear</i>
+    </button>
+    """
+
+    # Render the clear button
+    st.markdown(clear_button, unsafe_allow_html=True)
+
+    # Hide clear button when the input field is empty
+    hide_clear_button_script = """
+    <script>
+    var inputField = document.getElementById('input_field');
+    var clearButton = document.querySelector('.clear-button');
+
+    inputField.addEventListener('input', function() {
+        clearButton.style.display = inputField.value ? 'inline-block' : 'none';
+    });
+    </script>
+    """
+
+    # Add the script to hide the clear button
+    st.markdown(hide_clear_button_script, unsafe_allow_html=True)
     if MaSV:
         df_filtered = predict[predict["MaSV"] == MaSV]
         styled_table = (
