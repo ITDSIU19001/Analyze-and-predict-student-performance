@@ -307,7 +307,7 @@ elif tabs == "Predict":
         MaSV = ""  # Clear the input value
 
     # Use a callback function to update the text input field
-    st.text_input("Enter Student ID:", key="MaSV", value=MaSV)
+    st.text_input("Enter Student ID:", key="MaSV_output", value=MaSV)
 
 
     
