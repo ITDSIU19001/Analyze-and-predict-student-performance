@@ -303,7 +303,11 @@ elif tabs == "Predict":
     MaSV = st.text_input("Enter Student ID:", key="MaSV")
 
     # Add a clear button
-    st.button("Clear", on_click=lambda: MaSV.clear())
+    if st.button("Clear"):
+        MaSV = ""  # Clear the input value
+
+    # Use a callback function to update the text input field
+    st.text_input("Enter Student ID:", key="MaSV", value=MaSV)
 
 
     
