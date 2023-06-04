@@ -329,7 +329,7 @@ elif tabs == "Predict":
         MaSV = ""
 
     # Create the text input and clear button
-    col1, col2 = st.beta_columns([9, 1])
+    col1, col2 = st.columns([9, 1])
     with col1:
         MaSV = st.text_input("Enter Student ID:")
 
