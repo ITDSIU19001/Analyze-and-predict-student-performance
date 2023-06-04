@@ -299,23 +299,10 @@ elif tabs == "Predict":
     # Filter students who have a Result value of "late"
     df_late = predict
     
-    clear_text_input_js = """
-    <script>
-    function clearTextInput() {
-        var input = document.getElementById("text-input");
-        input.value = "";
-    }
-    </script>
-    """
+   
 
-    # Add the JavaScript code to the Streamlit app
-    st.markdown(clear_text_input_js, unsafe_allow_html=True)
 
-    # Create the text input and clear button
-    MaSV = st.text_input("Enter Student ID:", key="text-input")
-    if st.button("Clear", on_click="clearTextInput"):
-
-    # Create a clear button
+    MaSV = st.text_input("Enter Student ID:") 
     
 
     if MaSV:
