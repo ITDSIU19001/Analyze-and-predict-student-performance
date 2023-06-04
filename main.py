@@ -303,11 +303,13 @@ elif tabs == "Predict":
     MaSV = st.text_input("Enter Student ID:", key="MaSV")
 
     # Add a clear button
-    if st.button("Clear"):
+
+
+    def clear_form():
+        st.session_state["MaSV"] = ""
+
+    if st.button("Clear", on_click=clear_form):
         MaSV = ""  # Clear the input value
-
-
-    
 
     if MaSV:
         df_filtered = predict[predict["MaSV"] == MaSV]
