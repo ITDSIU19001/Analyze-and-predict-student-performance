@@ -300,27 +300,27 @@ elif tabs == "Predict":
     df_late = predict
 
     st.markdown(
-        """
-        <style>
-        .clear-button {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            height: 20px;
-            width: 20px;
-            margin-left: -30px;
-            background-color: transparent;
-            border: none;
-            outline: none;
-            cursor: pointer;
-        }
-        .clear-button:hover {
-            color: red;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
+    """
+    <style>
+    .clear-button {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 20px;
+        width: 20px;
+        margin-left: -30px;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+    .clear-button:hover {
+        color: red;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
     )
 
     # Function to clear the text input
@@ -329,13 +329,12 @@ elif tabs == "Predict":
         MaSV = ""
 
     # Create the text input and clear button
-    col1, col2 = st.columns([9, 1])
+    col1, col2 = st.beta_columns([9, 1])
     with col1:
         MaSV = st.text_input("Enter Student ID:")
-
     with col2:
-        if st.button("", class_="clear-button", key="clear_button", on_click=clear_text_input):
-            st.markdown('<i class="fa fa-times"></i>', unsafe_allow_html=True)
+        if st.button("", unsafe_allow_html=True, on_click=clear_text_input):
+            st.markdown('<i class="clear-button">&times;</i>', unsafe_allow_html=True)
 
     if MaSV:
         df_filtered = predict[predict["MaSV"] == MaSV]
