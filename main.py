@@ -299,42 +299,10 @@ elif tabs == "Predict":
     # Filter students who have a Result value of "late"
     df_late = predict
 
-    st.markdown(
-    """
-    <style>
-    .clear-button {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        height: 20px;
-        width: 20px;
-        margin-left: -30px;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        cursor: pointer;
-    }
-    .clear-button:hover {
-        color: red;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-    )
+    MaSV = st.text_input("Enter Student ID:", on_change=clear_button)
 
-    # Function to clear the text input
-    def clear_text_input():
-        global MaSV
-        MaSV = ""
-
-    # Create the text input and clear button
-    col1, col2 = st.beta_columns([9, 1])
-    with col1:
-        MaSV = st.text_input("Enter Student ID:")
-    with col2:
-        if st.button("", unsafe_allow_html=True, on_click=clear_text_input):
-            st.markdown('<i class="clear-button">&times;</i>', unsafe_allow_html=True)
+    # Create a clear button
+    clear_button = st.button("Clear", on_click=MaSV.clear)
 
     if MaSV:
         df_filtered = predict[predict["MaSV"] == MaSV]
