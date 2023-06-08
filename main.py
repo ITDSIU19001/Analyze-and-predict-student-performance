@@ -169,6 +169,9 @@ if tabs == "Dashboard":
     # Convert the columns to numeric
     new_df = new_df.apply(pd.to_numeric)
 
+    # Concatenate the columns using pd.concat(axis=1)
+    new_df = pd.concat([new_df[col] for col in new_df.columns], axis=1)
+
     # Create a checkbox to toggle the visibility of the box plot
     show_boxplot = st.checkbox("Show Boxplot")
 
