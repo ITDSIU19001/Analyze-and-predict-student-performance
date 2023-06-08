@@ -180,7 +180,7 @@ if tabs == "Dashboard":
         fig.update_layout(title="Boxplot for Each Column")
 
         # Adjust the width of the boxplot
-        fig.update_layout(width=800)  # Increase the value as needed to scale wider
+        fig.update_layout(width=1250)  # Increase the value as needed to scale wider
 
         # Display the plot using Streamlit
         st.plotly_chart(fig)
