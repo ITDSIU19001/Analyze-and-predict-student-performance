@@ -189,9 +189,6 @@ if tabs == "Dashboard":
     else:
         st.write("No data available for the selected course.")
 
-
-    course_data_dict1 = {course: df1[course].dropna() for course in options}
-    course_data1 = course_data_dict1[course]
     col1, col2, col3 = st.columns(3)
 
     with col1:
