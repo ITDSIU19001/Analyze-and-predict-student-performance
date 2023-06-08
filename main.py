@@ -225,7 +225,7 @@ if tabs == "Dashboard":
         # Filter by MaSV_school
         raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
         if school != "All":
-            raw_data1 = raw_data1[raw_data["MaSV_school"] == school]
+            raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
 
         # Prepare DataFrame for visualization
         df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
