@@ -201,7 +201,6 @@ if tabs == "Dashboard":
         # Concatenate the columns using pd.concat(axis=1)
         new_dfa = pd.concat([new_dfa[col] for col in new_dfa.columns], axis=1)
 
-
         show_boxplot = st.checkbox("Show Boxplot for All Course")
 
         if show_boxplot:
@@ -294,6 +293,11 @@ if tabs == "Dashboard":
     valid_courses = [
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
+    
+    dfac=dfa.columns[:-3].tolist()
+    if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
+        valid_courses= np.intersect1d(valid_courses, dfac)
+
 
     if len(valid_courses) > 5:
         course = st.selectbox("Select a course:", valid_courses)
