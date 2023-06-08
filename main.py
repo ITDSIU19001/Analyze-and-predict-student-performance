@@ -225,7 +225,7 @@ if tabs == "Dashboard":
         # Filter by MaSV_school
         raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
         if school != "All":
-            raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
+            raw_data1 = raw_data1[raw_data["MaSV_school"] == school]
 
         # Prepare DataFrame for visualization
         df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
@@ -289,19 +289,18 @@ if tabs == "Dashboard":
             st.plotly_chart(fig)
             
         with col3:
-            raw_data2=raw_data.copy()
-            raw_data2["major"] = raw_data2["MaSV"].str.slice(0, 2)
-            raw_data2.replace(["WH", "VT", "I"], np.nan, inplace=True)
-            raw_data2 = raw_data2[~raw_data2["DiemHP"].isin(["P", "F", "PC"])]
+            raw_data["major"] = raw_data["MaSV"].str.slice(0, 2)
+            raw_data.replace(["WH", "VT", "I"], np.nan, inplace=True)
+            raw_data = raw_data[~raw_data["DiemHP"].isin(["P", "F", "PC"])]
             if major != "All":
-                raw_data2 = raw_data2[raw_data2["major"] == major]
+                raw_data = raw_data[raw_data["major"] == major]
 
             # Filter by MaSV_school
-            raw_data2["MaSV_school"] = raw_data2["MaSV"].str.slice(2, 4)
-            raw_data2 = raw_data2[raw_data2["MaSV_school"] == additional_selection]
+            raw_data["MaSV_school"] = raw_data["MaSV"].str.slice(2, 4)
+            raw_data = raw_data[raw_data["MaSV_school"] == additional_selection]
 
             # Prepare DataFrame for visualization
-            df1 = raw_data2[["TenMH", "NHHK", "DiemHP"]].copy()
+            df1 = raw_data[["TenMH", "NHHK", "DiemHP"]].copy()
             df1["DiemHP"] = df1["DiemHP"].astype(float)
             df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
 
