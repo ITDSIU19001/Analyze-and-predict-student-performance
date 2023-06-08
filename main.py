@@ -503,9 +503,9 @@ elif tabs == "Prediction Performance":
     if MaSV:
         df_filtered = predict[predict["MaSV"] == MaSV]
         styled_table = (
-            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Progress", "Semeters"]]
+            df_filtered[["MaSV", "GPA", "Mean Credits", "Pred Rank", "Progress", "Semeters"]]
             .style.applymap(color_cell)
-            .format({"GPA": "{:.2f}", "Mean_Cre": "{:.1f}", "Semeters": "{:.1f}"})
+            .format({"GPA": "{:.2f}", "Mean Credits": "{:.1f}", "Semeters": "{:.1f}"})
         )
 
         with st.container():
@@ -521,9 +521,9 @@ elif tabs == "Prediction Performance":
         year = st.selectbox("Select Year", options=df_late["Year"].unique())
         df_filtered = df_late[df_late["Year"] == year]
         styled_table = (
-            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Progress", "Semeters"]]
+            df_filtered[["MaSV", "GPA", "Mean Credits", "Pred Rank", "Progress", "Semeters"]]
             .style.applymap(color_cell)
-            .format({"GPA": "{:.2f}", "Mean_Cre": "{:.2f}", "Semeters": "{:.2f}"})
+            .format({"GPA": "{:.2f}", "Mean Credits": "{:.2f}", "Semeters": "{:.2f}"})
         )
         csv = df_filtered.to_csv(index=False)
         b64 = base64.b64encode(csv.encode()).decode()
