@@ -148,7 +148,7 @@ if tabs == "Dashboard":
     unique_values_year = df["Year"].unique()
     all_values_year = np.concatenate([["All"], unique_values_year])
     year = st.selectbox("Select a year:", all_values_year)
-    year_a=1
+    year_a=" "
     if year != "All" and additional_selection == " ":
         year_list = [x for x in all_values_year if x != "All" and x != year ]
         year_list = np.concatenate([[" "], year_list])
