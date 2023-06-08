@@ -138,9 +138,9 @@ if tabs == "Dashboard":
         school = st.selectbox("Select a school:", no_numbers)
     if school != "All":
         values = [x for x in no_numbers if x != "All" and x != school ]
-        values = np.concatenate([["No"], values])
+        values = np.concatenate([[" "], values])
         additional_selection = st.selectbox("Select another course for comparisons:", values)
-        if additional_selection != "No":
+        if additional_selection != " ":
             dfa = filter_dataframe(dfa, "MaSV_school", additional_selection)
         
     df = filter_dataframe(df, "MaSV_school", school)
@@ -150,9 +150,9 @@ if tabs == "Dashboard":
     year = st.selectbox("Select a year:", all_values_year)
     if year != "All":
         year_list = [x for x in all_values_year if x != "All" and x != year ]
-        year_list = np.concatenate([["No"], year_list])
+        year_list = np.concatenate([[" "], year_list])
         year_a = st.selectbox("Select another year for comparisons:", year_list)
-        if year_a != "No":
+        if year_a != " ":
             dfa = filter_dataframe(dfa, "Year", year_a)
             dfa.dropna(axis=1, thresh=1, inplace=True)
     
