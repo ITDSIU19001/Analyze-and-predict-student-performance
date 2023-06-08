@@ -135,13 +135,22 @@ if tabs == "Dashboard":
     if len(no_numbers) == 2:
         school = no_numbers[1]
     else:
-        school = st.selectbox("Select a major:", no_numbers,width=500)
+        school = st.selectbox("Select a major:", no_numbers, width=500)
     if school != "All":
-        values = [x for x in no_numbers if x != "All" and x != school ]
+        values = [x for x in no_numbers if x != "All" and x != school]
         values = np.concatenate([[" "], values])
         additional_selection = st.selectbox("Select another major for comparisons:", values)
-        if additional_selection != " ":
-            dfa = filter_dataframe(dfa, "MaSV_school", additional_selection)
+
+    # Display the two select boxes in two columns
+    col1, col2 = st.beta_columns(2)  # Two-column layout
+    with col1:
+        school = st.selectbox("Select a major:", no_numbers, width=500)
+    with col2:
+        additional_selection = st.selectbox("Select another major for comparisons:", values)
+
+# Filter the dataframe based on selections
+if additional_selection != " ":
+    dfa = filter_dataframe(dfa, "MaSV_school", additional_selection)
         
     df = filter_dataframe(df, "MaSV_school", school)
     # Filter by Year
