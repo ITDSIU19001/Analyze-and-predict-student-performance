@@ -176,18 +176,18 @@ if tabs == "Dashboard":
     if additional_selection == " ":
         show_boxplot = st.checkbox("Show Boxplot for All Course")
 
-    if show_boxplot:
-        # Use Plotly Express to create a boxplot for each column
-        fig = px.box(new_df)
+        if show_boxplot:
+            # Use Plotly Express to create a boxplot for each column
+            fig = px.box(new_df)
 
-        # Set the title
-        fig.update_layout(title="Boxplot for Each Column")
+            # Set the title
+            fig.update_layout(title="Boxplot for Each Column")
 
-        # Adjust the width of the boxplot
-        fig.update_layout(width=1250)  # Increase the value as needed to scale wider
+            # Adjust the width of the boxplot
+            fig.update_layout(width=1250)  # Increase the value as needed to scale wider
 
-        # Display the plot using Streamlit
-        st.plotly_chart(fig)
+            # Display the plot using Streamlit
+            st.plotly_chart(fig)
 
 
     # Select course dropdown
