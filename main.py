@@ -260,8 +260,7 @@ if tabs == "Dashboard":
     course_data_dict = {course: dfa[course].dropna() for course in options}
     course_data = course_data_dict[course]
 
-    if year!="All" | school!="All":
-
+    if year != "All" or school != "All":
         col1, col2, col3 = st.columns(3)
 
         with col1:
