@@ -164,18 +164,18 @@ def predict_late_student(test_df):
     prediction1 = model1.predict(test_dfed)
 
     # Add a new column to the student data indicating if the student is late
-    test_dfed["Period"] = prediction1
+    test_dfed["Semeters"] = prediction1
     test_dfed["Progress"] = ["late" if p == 1 else "not late" for p in prediction]
 
     # Add the student ID column back to the beginning of the DataFrame
     test_dfed.insert(0, "MaSV", std_id)
 
     for index, row in test_dfed.iterrows():
-        if row["Period"] <= 9 and row["Progress"] == "late":
-            test_dfed.loc[index, "Period"] = row["Period"] / 2
+        if row["Semeters"] <= 9 and row["Progress"] == "late":
+            test_dfed.loc[index, "Semeters"] = row["Semeters"] / 2
             test_dfed.loc[index, "Progress"] = "may late"
         else:
-            test_dfed.loc[index, "Period"] = row["Period"] / 2
+            test_dfed.loc[index, "Semeters"] = row["Semeters"] / 2
 
     return test_dfed
 
