@@ -124,7 +124,7 @@ if tabs == "Dashboard":
     # Filter by Major
     unique_values_major = df["Major"].unique()
     unique_values_major = sorted(unique_values_major, key=lambda s: s)
-    major = st.selectbox("Select a major:", unique_values_major)
+    major = st.selectbox("Select a school:", unique_values_major)
     df = filter_dataframe(df, "Major", major)
     dfa= filter_dataframe(df, "Major", major)
 
@@ -135,11 +135,11 @@ if tabs == "Dashboard":
     if len(no_numbers) == 2:
         school = no_numbers[1]
     else:
-        school = st.selectbox("Select a school:", no_numbers)
+        school = st.selectbox("Select a major:", no_numbers)
     if school != "All":
         values = [x for x in no_numbers if x != "All" and x != school ]
         values = np.concatenate([[" "], values])
-        additional_selection = st.selectbox("Select another course for comparisons:", values)
+        additional_selection = st.selectbox("Select another major for comparisons:", values)
         if additional_selection != " ":
             dfa = filter_dataframe(dfa, "MaSV_school", additional_selection)
         
