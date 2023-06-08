@@ -203,7 +203,7 @@ if tabs == "Dashboard":
             st.plotly_chart(fig)
             st.plotly_chart(fig1)
     # Create a checkbox to toggle the visibility of the box plot
-    if additional_selection == " ":
+    elif additional_selection == " ":
         new_df = df.copy()
         # Drop the last 3 columns from the new DataFrame
         new_df = new_df.iloc[:, :-3]
