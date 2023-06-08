@@ -167,6 +167,7 @@ if tabs == "Dashboard":
     fig = px.box(dfl)
     # Set the title
     fig.update_layout(title="Boxplot for Each Column")
+    fig.update_layout(width=800)
     st.plotly_chart(fig)
 
     # Select course dropdown
