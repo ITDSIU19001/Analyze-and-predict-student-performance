@@ -123,22 +123,8 @@ if tabs == "Dashboard":
 
     # Filter by Major
     unique_values_major = df["Major"].unique()
-    unique_values_major = [
-        "BA",
-        "BE",
-        "BT",
-        "CE",
-        "CH",
-        "EE",
-        "EN",
-        "EV",
-        "IE",
-        "MA",
-        "SE",
-        "IT",
-    ]
     unique_values_major = sorted(unique_values_major, key=lambda s: s)
-    major = st.selectbox("Select a school:", unique_values_major)
+    major = st.selectbox("Select a major:", unique_values_major)
     df = filter_dataframe(df, "Major", major)
 
     # Filter by MaSV_school
@@ -148,8 +134,8 @@ if tabs == "Dashboard":
     if len(no_numbers) == 2:
         school = no_numbers[1]
     else:
-        school = st.selectbox("Select a major:", no_numbers)
-        df = filter_dataframe(df, "MaSV_school", school)
+        school = st.selectbox("Select a school:", no_numbers)
+    df = filter_dataframe(df, "MaSV_school", school)
 
     # Filter by Year
     unique_values_year = df["Year"].unique()
@@ -212,6 +198,7 @@ if tabs == "Dashboard":
             width=400,
         )
         st.plotly_chart(fig)
+        
     with col3:
         raw_data["major"] = raw_data["MaSV"].str.slice(0, 2)
         raw_data.replace(["WH", "VT", "I"], np.nan, inplace=True)
