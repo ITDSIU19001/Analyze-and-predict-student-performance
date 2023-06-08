@@ -289,23 +289,17 @@ if tabs == "Dashboard":
 
     # Select course dropdown
     options = df.columns[:-3]
+
+
     course_data_dict = {course: df[course].dropna() for course in options}
     valid_courses = [
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
-    
-    dfac=dfa.columns[:-3].tolist()
-    if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
-        common_elements = np.intersect1d(valid_courses, dfac)
-
-        # Merge arrays with common elements
-        merged_array = np.concatenate((valid_courses, dfac), axis=None)
-
-        # Filter merged array to retain only common elements
-        valid_courses  = np.intersect1d(merged_array, common_elements)
-
     st.write(valid_courses)
-    st.write(dfac)
+    if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
+        dfac=dfa.columns[:-3]
+        
+
 
     if len(valid_courses) > 5:
         course = st.selectbox("Select a course:", valid_courses)
