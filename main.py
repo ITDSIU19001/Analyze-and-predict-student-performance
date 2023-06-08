@@ -305,6 +305,7 @@ if tabs == "Dashboard":
         valid_courses  = np.intersect1d(merged_array, common_elements)
 
     st.write(valid_courses)
+    st.write(dfac)
 
     if len(valid_courses) > 5:
         course = st.selectbox("Select a course:", valid_courses)
