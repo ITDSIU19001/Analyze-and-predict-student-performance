@@ -257,7 +257,7 @@ if tabs == "Dashboard":
             st.plotly_chart(fig)
 
     
-    course_data_dict = {course: dfa[course]) for course in options}
+    course_data_dict = {course: dfa[course] for course in options}
     course_data = course_data_dict[course]
 
     if year != "All" or school != "All":
