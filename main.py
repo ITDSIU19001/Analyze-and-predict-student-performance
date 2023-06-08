@@ -274,7 +274,7 @@ if tabs == "Dashboard":
 
     # Select course dropdown
     options = df.columns[:-3]
-    course_data_dict = {course: df[course]}
+    course_data_dict = {course: df[course].dropna() for course in options}
     valid_courses = [
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
@@ -371,7 +371,7 @@ if tabs == "Dashboard":
 
 
 
-    course_data_dict = {course: dfa[course] for course in options}
+    course_data_dict = {course: dfa[course]}
     course_data = course_data_dict[course]
 
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
