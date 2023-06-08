@@ -149,7 +149,7 @@ if tabs == "Dashboard":
     all_values_year = np.concatenate([["All"], unique_values_year])
     year = st.selectbox("Select a year:", all_values_year)
     if year != "All":
-        year_list = [x for x in year if x != "All" and x != year ]
+        year_list = [x for x in all_values_year if x != "All" and x != year ]
         year_list = np.concatenate([["No"], year_list])
         year_a = st.selectbox("Select another year for comparisons:", year_list)
         if year_a != "No":
