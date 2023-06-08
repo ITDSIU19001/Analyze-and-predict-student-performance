@@ -264,7 +264,7 @@ if tabs == "Dashboard":
 
     with col1:
         fig = go.Figure()
-        fig.add_trace(go.Histogram(x=course_data1 , nbinsx=40, name="Histogram"))
+        fig.add_trace(go.Histogram(x=course_data , nbinsx=40, name="Histogram"))
         fig.update_layout(
             title="Histogram of Scores for {}".format(course),
             xaxis_title="Score",
@@ -276,7 +276,7 @@ if tabs == "Dashboard":
 
     with col2:
         fig = go.Figure()
-        fig.add_trace(go.Box(y=course_data1 , name="Box plot"))
+        fig.add_trace(go.Box(y=course_data , name="Box plot"))
         fig.update_layout(
             title="Box plot of Scores for {}".format(course),
             yaxis_title="Score",
