@@ -161,19 +161,19 @@ if tabs == "Dashboard":
 
     # Drop NaN columns
     df.dropna(axis=1, thresh=1, inplace=True)
-    new_df = df.copy()
-
-    # Drop the last 3 columns from the new DataFrame
-    new_df = new_df.iloc[:, :-3]
-
-    # Convert the columns to numeric
-    new_df = new_df.apply(pd.to_numeric)
-
-    # Concatenate the columns using pd.concat(axis=1)
-    new_df = pd.concat([new_df[col] for col in new_df.columns], axis=1)
+    
 
     # Create a checkbox to toggle the visibility of the box plot
     if additional_selection == " ":
+        new_df = df.copy()
+        # Drop the last 3 columns from the new DataFrame
+        new_df = new_df.iloc[:, :-3]
+
+        # Convert the columns to numeric
+        new_df = new_df.apply(pd.to_numeric)
+
+        # Concatenate the columns using pd.concat(axis=1)
+        new_df = pd.concat([new_df[col] for col in new_df.columns], axis=1)
         show_boxplot = st.checkbox("Show Boxplot for All Course")
 
         if show_boxplot:
