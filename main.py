@@ -249,7 +249,7 @@ if tabs == "Dashboard":
                 mean_DiemHP,
                 x="NHHK",
                 y="Mean",
-                title=f"Mean DiemHP for{selected_TenMH} thought period",
+                title=f"Mean DiemHP for{selected_TenMH} through period",
             )
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig)
