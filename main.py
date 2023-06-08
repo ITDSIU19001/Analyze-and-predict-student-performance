@@ -168,7 +168,7 @@ if tabs == "Dashboard":
         new_df = df.copy()
         # Drop the last 3 columns from the new DataFrame
         new_df = new_df.iloc[:, :-3]
-
+        df.dropna(axis=1, thresh=10, inplace=True)
         # Convert the columns to numeric
         new_df = new_df.apply(pd.to_numeric)
 
