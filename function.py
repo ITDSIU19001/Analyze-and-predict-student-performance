@@ -267,13 +267,16 @@ def predict_rank(raw_data):
 
         model = joblib.load(f"model/{major}_rank.joblib")
         prediction = model.predict(df)
-        df["Pred Rank"] = prediction
-
-        df.insert(0, "MaSV", std_id)
-        df = df[["MaSV", "Pred Rank"]]
+        
+        new_columns = pd.concat([pd.Series(std_id, name="MaSV"), pd.Series(prediction, name="Pred Rank")], axis=1)
+        df = pd.concat([new_columns, df], axis=1)
+        newframe = df.copy()
+        
+        df = newframe[["MaSV", "Pred Rank"]]
         return df
     else:
         return None
+
 
 
 def predict_one_student(raw_data, student_id):
