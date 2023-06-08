@@ -160,15 +160,31 @@ if tabs == "Dashboard":
 
     # Drop NaN columns
     df.dropna(axis=1, thresh=1, inplace=True)
-    show_boxplot = st.checkbox("Show Boxplot for all course")
+    new_df = df.copy()
+
+    # Drop the last 3 columns from the new DataFrame
+    new_df = new_df.iloc[:, :-3]
+
+    # Convert the columns to numeric
+    new_df = new_df.apply(pd.to_numeric)
+
+    # Create a checkbox to toggle the visibility of the box plot
+    show_boxplot = st.checkbox("Show Boxplot")
+
     if show_boxplot:
-        dfl = df.iloc[:, :-3].apply(pd.to_numeric)
         # Use Plotly Express to create a boxplot for each column
-        fig = px.box(dfl)
+        fig = px.box(new_df)
+
         # Set the title
         fig.update_layout(title="Boxplot for Each Column")
-        fig.update_layout(width=1250)
+
+        # Adjust the width of the boxplot
+        fig.update_layout(width=800)  # Increase the value as needed to scale wider
+
+        # Display the plot using Streamlit
         st.plotly_chart(fig)
+
+
     # Select course dropdown
     options = df.columns[:-3]
     course_data_dict = {course: df[course].dropna() for course in options}
@@ -264,8 +280,6 @@ if tabs == "Dashboard":
             )
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig)
-
-
 
 
 
