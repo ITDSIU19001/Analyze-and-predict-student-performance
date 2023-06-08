@@ -162,14 +162,6 @@ if tabs == "Dashboard":
     df.dropna(axis=1, thresh=1, inplace=True)
     
     
-    dfl = df.iloc[:, :-3].apply(pd.to_numeric)
-    # Use Plotly Express to create a boxplot for each column
-    fig = px.box(dfl)
-    # Set the title
-    fig.update_layout(title="Boxplot for Each Column")
-    fig.update_layout(width=1250)
-    st.plotly_chart(fig)
-
     # Select course dropdown
     options = df.columns[:-3]
     course_data_dict = {course: df[course].dropna() for course in options}
@@ -266,7 +258,13 @@ if tabs == "Dashboard":
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig)
 
-    
+    dfl = df.iloc[:, :-3].apply(pd.to_numeric)
+    # Use Plotly Express to create a boxplot for each column
+    fig = px.box(dfl)
+    # Set the title
+    fig.update_layout(title="Boxplot for Each Column")
+    fig.update_layout(width=1250)
+    st.plotly_chart(fig)
 
 
 
