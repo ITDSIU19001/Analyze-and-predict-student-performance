@@ -104,7 +104,7 @@ df = process_data(raw_data)
 # raw_data = pd.read_csv("All_major.csv")
 st.sidebar.title("Analysis Tool")
 
-option = ["Dashboard", "Predict"]
+option = ["Dashboard", "Prediction Performance"]
 # Add an expander to the sidebar
 tabs = st.sidebar.selectbox("Select an option", option)
 
@@ -325,7 +325,7 @@ if tabs == "Dashboard":
 
 # predict student
 
-elif tabs == "Predict":
+elif tabs == "Prediction Performance":
     # try:
 
     df = read_sql_query()
