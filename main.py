@@ -372,78 +372,75 @@ if tabs == "Dashboard":
 
     course_data_dict = {course: dfa[course]}
     course_data = course_data_dict[course]
-    try:
-        if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
+    
+    if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
+        
+        st.write("Course:", course, " of ", major + additional_selection, " student in ", year_a)
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            fig = go.Figure()
+            fig.add_trace(go.Histogram(x=course_data , nbinsx=40, name="Histogram"))
+            fig.update_layout(
+                title="Histogram of Scores for {}".format(course),
+                xaxis_title="Score",
+                yaxis_title="Count",
+                height=400,
+                width=400,
+            )
+            st.plotly_chart(fig)
+
+        with col2:
+            fig = go.Figure()
+            fig.add_trace(go.Box(y=course_data , name="Box plot"))
+            fig.update_layout(
+                title="Box plot of Scores for {}".format(course),
+                yaxis_title="Score",
+                height=400,
+                width=400,
+            )
+            st.plotly_chart(fig)
             
-            st.write("Course:", course, " of ", major + additional_selection, " student in ", year_a)
-            col1, col2, col3 = st.columns(3)
+        with col3:
+            raw_data["major"] = raw_data["MaSV"].str.slice(0, 2)
+            raw_data.replace(["WH", "VT", "I"], np.nan, inplace=True)
+            raw_data = raw_data[~raw_data["DiemHP"].isin(["P", "F", "PC"])]
+            if major != "All":
+                raw_data = raw_data[raw_data["major"] == major]
 
-            with col1:
-                fig = go.Figure()
-                fig.add_trace(go.Histogram(x=course_data , nbinsx=40, name="Histogram"))
-                fig.update_layout(
-                    title="Histogram of Scores for {}".format(course),
-                    xaxis_title="Score",
-                    yaxis_title="Count",
-                    height=400,
-                    width=400,
+            # Filter by MaSV_school
+            raw_data["MaSV_school"] = raw_data["MaSV"].str.slice(2, 4)
+            raw_data = raw_data[raw_data["MaSV_school"] == additional_selection]
+
+            # Prepare DataFrame for visualization
+            df1 = raw_data[["TenMH", "NHHK", "DiemHP"]].copy()
+            df1["DiemHP"] = df1["DiemHP"].astype(float)
+            df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
+
+            # Filter by selected_TenMH
+            selected_TenMH = " " + course
+            filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
+
+            # Calculate mean DiemHP
+            mean_DiemHP = (
+                filtered_df1.groupby("NHHK")["DiemHP"]
+                .mean()
+                .round(1)
+                .reset_index(name="Mean")
+            )
+
+            # Create Plotly line graph
+            if year != "All":
+                st.write("")
+            else:
+                fig = px.line(
+                    mean_DiemHP,
+                    x="NHHK",
+                    y="Mean",
+                    title=f"Mean DiemHP for{selected_TenMH} through Semeters",
                 )
+                fig.update_layout(height=400, width=400)
                 st.plotly_chart(fig)
-
-            with col2:
-                fig = go.Figure()
-                fig.add_trace(go.Box(y=course_data , name="Box plot"))
-                fig.update_layout(
-                    title="Box plot of Scores for {}".format(course),
-                    yaxis_title="Score",
-                    height=400,
-                    width=400,
-                )
-                st.plotly_chart(fig)
-                
-            with col3:
-                raw_data["major"] = raw_data["MaSV"].str.slice(0, 2)
-                raw_data.replace(["WH", "VT", "I"], np.nan, inplace=True)
-                raw_data = raw_data[~raw_data["DiemHP"].isin(["P", "F", "PC"])]
-                if major != "All":
-                    raw_data = raw_data[raw_data["major"] == major]
-
-                # Filter by MaSV_school
-                raw_data["MaSV_school"] = raw_data["MaSV"].str.slice(2, 4)
-                raw_data = raw_data[raw_data["MaSV_school"] == additional_selection]
-
-                # Prepare DataFrame for visualization
-                df1 = raw_data[["TenMH", "NHHK", "DiemHP"]].copy()
-                df1["DiemHP"] = df1["DiemHP"].astype(float)
-                df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
-
-                # Filter by selected_TenMH
-                selected_TenMH = " " + course
-                filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
-
-                # Calculate mean DiemHP
-                mean_DiemHP = (
-                    filtered_df1.groupby("NHHK")["DiemHP"]
-                    .mean()
-                    .round(1)
-                    .reset_index(name="Mean")
-                )
-
-                # Create Plotly line graph
-                if year != "All":
-                    st.write("")
-                else:
-                    fig = px.line(
-                        mean_DiemHP,
-                        x="NHHK",
-                        y="Mean",
-                        title=f"Mean DiemHP for{selected_TenMH} through Semeters",
-                    )
-                    fig.update_layout(height=400, width=400)
-                    st.plotly_chart(fig)
-    except: 
-        st.write("There is no", course, " of ", major + additional_selection, " student in ", year_a)
-
 
 
 
