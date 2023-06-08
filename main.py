@@ -154,20 +154,23 @@ if tabs == "Dashboard":
     # Filter by Year
     unique_values_year = df["Year"].unique()
     all_values_year = np.concatenate([["All"], unique_values_year])
-    year = st.selectbox("Select a year:", all_values_year)
-    year_a = " "
 
-    if year != "All" and additional_selection == " ":
-        year_list = [x for x in all_values_year if x != "All" and x != year]
-        year_list = np.concatenate([[" "], year_list])
+    # Split the selectboxes into two columns
+    col1, col2 = st.beta_columns(2)
 
-        col1, col2 = st.columns(2)  # Split the screen into two columns
+    # First selectbox in the first column
+    with col1:
+        year = st.selectbox("Select a year:", all_values_year)
 
-        with col1:
+    # Second selectbox in the second column
+    with col2:
+        year_a = " "
+        if year != "All" and additional_selection == " ":
+            year_list = [x for x in all_values_year if x != "All" and x != year]
+            year_list = np.concatenate([[" "], year_list])
             year_a = st.selectbox("Select another year for comparisons:", year_list)
 
-        if year_a != " ":
-            with col2:
+            if year_a != " ":
                 dfa = filter_dataframe(dfa, "Year", year_a)
                 dfa.dropna(axis=1, thresh=1, inplace=True)
     
