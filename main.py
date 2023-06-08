@@ -257,11 +257,21 @@ if tabs == "Dashboard":
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig)
 
-    
+    if additional_selection == " ":
+        dfl = df.iloc[:, :-3]
+        # Use Plotly Express to create a boxplot for each column
+        fig = px.box(dfl)
+
+        # Set the title
+        fig.update_layout(title="Boxplot for Each Column")
+
+
+
     course_data_dict = {course: dfa[course] for course in options}
     course_data = course_data_dict[course]
 
     if year != "All" or (school != "All" and additional_selection != " "):
+        
         st.write("Course:", course, " of ", major + additional_selection, " student in ", year)
         col1, col2, col3 = st.columns(3)
 
