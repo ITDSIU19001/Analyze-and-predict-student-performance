@@ -249,7 +249,7 @@ if tabs == "Dashboard":
                 mean_DiemHP,
                 x="NHHK",
                 y="Mean",
-                title=f"Mean DiemHP for{selected_TenMH} through period",
+                title=f"Mean DiemHP for{selected_TenMH} through Semeters",
             )
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig)
@@ -314,9 +314,9 @@ elif tabs == "Predict":
     if MaSV:
         df_filtered = predict[predict["MaSV"] == MaSV]
         styled_table = (
-            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Progress", "Period"]]
+            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Progress", "Semeters"]]
             .style.applymap(color_cell)
-            .format({"GPA": "{:.2f}", "Mean_Cre": "{:.1f}", "Period": "{:.1f}"})
+            .format({"GPA": "{:.2f}", "Mean_Cre": "{:.1f}", "Semeters": "{:.1f}"})
         )
 
         with st.container():
@@ -332,9 +332,9 @@ elif tabs == "Predict":
         year = st.selectbox("Select Year", options=df_late["Year"].unique())
         df_filtered = df_late[df_late["Year"] == year]
         styled_table = (
-            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Progress", "Period"]]
+            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Progress", "Semeters"]]
             .style.applymap(color_cell)
-            .format({"GPA": "{:.2f}", "Mean_Cre": "{:.2f}", "Period": "{:.2f}"})
+            .format({"GPA": "{:.2f}", "Mean_Cre": "{:.2f}", "Semeters": "{:.2f}"})
         )
         csv = df_filtered.to_csv(index=False)
         b64 = base64.b64encode(csv.encode()).decode()
