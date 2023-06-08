@@ -298,6 +298,7 @@ if tabs == "Dashboard":
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
         valid_courses= np.intersect1d(valid_courses, dfac)
 
+    st.write(valid_courses)
 
     if len(valid_courses) > 5:
         course = st.selectbox("Select a course:", valid_courses)
