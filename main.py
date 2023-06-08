@@ -153,8 +153,8 @@ if tabs == "Dashboard":
         year_list = np.concatenate([["No"], year_list])
         year_a = st.selectbox("Select another course for comparisons:", values)
         if year_a != "No":
-            df1 = filter_dataframe(df1, "Year", year_a)
-            df1.dropna(axis=1, thresh=1, inplace=True)
+            dfa = filter_dataframe(dfa, "Year", year_a)
+            dfa.dropna(axis=1, thresh=1, inplace=True)
     
     df = filter_dataframe(df, "Year", year)
 
