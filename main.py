@@ -375,7 +375,7 @@ if tabs == "Dashboard":
 
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
         
-        st.write("Course:", course, " of ", major + additional_selection, " student in ", year)
+        st.write("Course:", course, " of ", major + additional_selection, " student in ", year_a)
         col1, col2, col3 = st.columns(3)
 
         with col1:
