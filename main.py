@@ -173,7 +173,7 @@ if tabs == "Dashboard":
     new_df = pd.concat([new_df[col] for col in new_df.columns], axis=1)
 
     # Create a checkbox to toggle the visibility of the box plot
-    show_boxplot = st.checkbox("Show Boxplot")
+    show_boxplot = st.checkbox("Show Boxplot for All Course")
 
     if show_boxplot:
         # Use Plotly Express to create a boxplot for each column
