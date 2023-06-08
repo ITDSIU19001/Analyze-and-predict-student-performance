@@ -136,7 +136,7 @@ if tabs == "Dashboard":
     if len(no_numbers) == 2:
         school = no_numbers[1]
     else:
-        col1, col2 = st.beta_columns(2)  # Split the screen into two columns
+        col1, col2 = st.columns(2)  # Split the screen into two columns
 
         with col1:
             school = st.selectbox("Select a major:", no_numbers)
