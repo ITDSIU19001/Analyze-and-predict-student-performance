@@ -156,7 +156,7 @@ if tabs == "Dashboard":
     all_values_year = np.concatenate([["All"], unique_values_year])
 
     # Split the selectboxes into two columns
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)
 
     # First selectbox in the first column
     with col1:
