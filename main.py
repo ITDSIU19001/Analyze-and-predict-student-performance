@@ -142,7 +142,7 @@ if tabs == "Dashboard":
         values = [x for x in no_numbers if x != "All" and x != school]
         values = np.concatenate([[" "], values])
 
-        col1, col2 = st.beta_columns(2)  # Split the screen into two columns
+        col1, col2 = st.columns(2)  # Split the screen into two columns
 
         with col1:
             additional_selection = st.selectbox("Select another major for comparisons:", values)
