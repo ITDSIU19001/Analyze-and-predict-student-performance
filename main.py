@@ -160,7 +160,7 @@ if tabs == "Dashboard":
 
     # Drop NaN columns
     df.dropna(axis=1, thresh=1, inplace=True)
-    show_boxplot = st.checkbox("Show Boxplot")
+    show_boxplot = st.checkbox("Show Boxplot for all course")
     if show_boxplot:
         dfl = df.iloc[:, :-3].apply(pd.to_numeric)
         # Use Plotly Express to create a boxplot for each column
