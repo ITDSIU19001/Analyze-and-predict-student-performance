@@ -302,7 +302,7 @@ if tabs == "Dashboard":
         merged_array = np.concatenate((valid_courses, dfac), axis=None)
 
         # Filter merged array to retain only common elements
-        filtered_array = np.intersect1d(merged_array, common_elements)
+        valid_courses = np.intersect1d(merged_array, common_elements)
 
 
     if len(valid_courses) > 5:
