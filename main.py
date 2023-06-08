@@ -474,6 +474,8 @@ elif tabs == "Prediction Performance":
     predict = predict_late_student(df)
     rank = predict_rank(df)
     predict = pd.merge(predict, rank, on="MaSV")
+    predict.rename(columns={'Mean_Cre': 'Mean Credits'}, inplace=True)
+    
     rank_mapping = {
         "Khá": "Good",
         "Trung Bình Khá": "Average good",
