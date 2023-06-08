@@ -120,7 +120,7 @@ def filter_dataframe(df, column, value):
 # Streamlit app
 if tabs == "Dashboard":
     #     try:
-
+    additional_selection=" "
     # Filter by Major
     unique_values_major = df["Major"].unique()
     unique_values_major = sorted(unique_values_major, key=lambda s: s)
@@ -136,7 +136,7 @@ if tabs == "Dashboard":
         school = no_numbers[1]
     else:
         school = st.selectbox("Select a school:", no_numbers)
-        additional_selection=" "
+        
     if school != "All":
         values = [x for x in no_numbers if x != "All" and x != school ]
         values = np.concatenate([[" "], values])
