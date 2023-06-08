@@ -296,7 +296,7 @@ elif tabs == "Predict":
     }
     predict["Pred Rank"].replace(rank_mapping, inplace=True)
 
-    # Filter students who have a Result value of "late"
+    # Filter students who have a Progress value of "late"
     df_late = predict
     
    
@@ -314,7 +314,7 @@ elif tabs == "Predict":
     if MaSV:
         df_filtered = predict[predict["MaSV"] == MaSV]
         styled_table = (
-            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Result", "Period"]]
+            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Progress", "Period"]]
             .style.applymap(color_cell)
             .format({"GPA": "{:.2f}", "Mean_Cre": "{:.1f}", "Period": "{:.1f}"})
         )
@@ -332,7 +332,7 @@ elif tabs == "Predict":
         year = st.selectbox("Select Year", options=df_late["Year"].unique())
         df_filtered = df_late[df_late["Year"] == year]
         styled_table = (
-            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Result", "Period"]]
+            df_filtered[["MaSV", "GPA", "Mean_Cre", "Pred Rank", "Progress", "Period"]]
             .style.applymap(color_cell)
             .format({"GPA": "{:.2f}", "Mean_Cre": "{:.2f}", "Period": "{:.2f}"})
         )
@@ -350,8 +350,8 @@ elif tabs == "Predict":
         )
         fig2 = px.pie(
             df_filtered,
-            names="Result",
-            title="Result",
+            names="Progress",
+            title="Progress",
             color_discrete_sequence=px.colors.sequential.Peach,
             height=400,
             width=400,
@@ -367,7 +367,7 @@ elif tabs == "Predict":
         )
         fig2.update_layout(
             title={
-                "text": "Result",
+                "text": "Progress",
                 "y": 0.95,
                 "x": 0.5,
                 "xanchor": "center",
