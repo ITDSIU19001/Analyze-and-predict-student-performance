@@ -370,7 +370,7 @@ if tabs == "Dashboard":
 
 
 
-    course_data_dict = {course: dfa[course] for course in options}
+    course_data_dict = {course: dfa[course]}
     course_data = course_data_dict[course]
 
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
