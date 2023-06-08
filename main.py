@@ -256,6 +256,10 @@ if tabs == "Dashboard":
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig)
 
+    
+    course_data_dict = {course: dfa[course].dropna() for course in options}
+    course_data = course_data_dict[course]
+
     col1, col2, col3 = st.columns(3)
 
     with col1:
