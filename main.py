@@ -136,6 +136,7 @@ if tabs == "Dashboard":
         school = no_numbers[1]
     else:
         school = st.selectbox("Select a school:", no_numbers)
+        additional_selection=" "
     if school != "All":
         values = [x for x in no_numbers if x != "All" and x != school ]
         values = np.concatenate([[" "], values])
