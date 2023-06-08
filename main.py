@@ -256,10 +256,8 @@ if tabs == "Dashboard":
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig)
 
-    course_data_dict = {}
-    for course in options:
-        if course in dfa.columns:
-            course_data_dict[course] = dfa[course].dropna()
+    
+    course_data_dict = {course: dfa[course]) for course in options}
     course_data = course_data_dict[course]
 
     if year != "All" or school != "All":
