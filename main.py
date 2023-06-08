@@ -138,7 +138,7 @@ if tabs == "Dashboard":
     if school != "All":
         values = [x for x in no_numbers if x != "All" and x != school ]
         values = np.concatenate([["No"], values])
-        additional_selection = st.selectbox("Select another course to comapa:", values)
+        additional_selection = st.selectbox("Select another course for comparisons:", values)
         if additional_selection != "No":
             df1 = filter_dataframe(df, "MaSV_school", additional_selection)
         
