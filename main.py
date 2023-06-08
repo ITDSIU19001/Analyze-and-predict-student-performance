@@ -192,8 +192,8 @@ if tabs == "Dashboard":
             fig = px.box(new_df)
             fig1 = px.box(new_dfa)
             # Set the title
-            fig.update_layout(title="Boxplot for Each Column")
-            fig1.update_layout(title="Boxplot for Each Column")
+            fig.update_layout(title="Boxplot of " + major + " " + school + " student")
+            fig1.update_layout(title="Boxplot of " + major + " " + additional_selection + " student")
 
             # Adjust the width of the boxplot
             fig.update_layout(width=1250)
