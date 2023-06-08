@@ -120,7 +120,7 @@ def filter_dataframe(df, column, value):
 # Streamlit app
 if tabs == "Dashboard":
     #     try:
-    additional_selection=" "
+    additional_selection = " "
     # Filter by Major
     unique_values_major = df["Major"].unique()
     unique_values_major = sorted(unique_values_major, key=lambda s: s)
@@ -136,7 +136,6 @@ if tabs == "Dashboard":
         school = no_numbers[1]
     else:
         school = st.selectbox("Select a school:", no_numbers)
-        
     if school != "All":
         values = [x for x in no_numbers if x != "All" and x != school ]
         values = np.concatenate([[" "], values])
@@ -235,8 +234,8 @@ if tabs == "Dashboard":
                 fig = px.box(new_df)
                 fig1 = px.box(new_dfa)
                 # Set the title
-                fig.update_layout(title="Boxplot of " + major  + school + " student " + year)
-                fig1.update_layout(title="Boxplot of " + major  + school + " student " + year_a)
+                fig.update_layout(title="Boxplot of " + major  + school + " student" + year)
+                fig1.update_layout(title="Boxplot of " + major  + school + " student" + year_a)
 
                 # Adjust the width of the boxplot
                 fig.update_layout(width=1250)
@@ -371,7 +370,7 @@ if tabs == "Dashboard":
 
 
 
-    course_data_dict = {course: dfa[course]}
+    course_data_dict = {course: dfa[course] for course in options}
     course_data = course_data_dict[course]
 
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
