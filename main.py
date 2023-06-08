@@ -136,7 +136,7 @@ if tabs == "Dashboard":
     else:
         school = st.selectbox("Select a school:", no_numbers)
     if school != "All":
-        additional_selection = st.selectbox("Select another option:", options)
+        additional_selection = st.selectbox("Select another option:", no_numbers)
     df = filter_dataframe(df, "MaSV_school", school)
 
     # Filter by Year
