@@ -546,8 +546,10 @@ elif tabs == "Prediction Performance":
                 "yanchor": "top",
             }
         )
-        st.dataframe(styled_table)
-        col1, col2 = st.columns([1, 1])
+        
+        col1, col2,col3 = st.columns([1, 1,1])
+        with col3:
+            st.dataframe(styled_table)
         with col1:
             st.plotly_chart(fig1,use_container_width=True)
         with col2:
