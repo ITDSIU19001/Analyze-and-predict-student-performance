@@ -236,7 +236,7 @@ if tabs == "Dashboard":
 
         if show_boxplot:
             fig = px.box(new_df)
-            fig.update_layout(title="Boxplot of " + major + school + " student at " + year)
+            fig.update_layout(title="Boxplot of " + major + " student at " + year)
             # fig.update_layout(width=1250)
             st.plotly_chart(fig,use_container_width=True)
 
