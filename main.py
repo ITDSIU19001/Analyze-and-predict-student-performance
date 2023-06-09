@@ -202,8 +202,9 @@ if tabs == "Dashboard":
         merged_array = np.concatenate((list1, list2), axis=None)
 
         # Filter merged array to retain only common elements
-        list1 = np.intersect1d(merged_array, common_elements)
-        list2 = np.intersect1d(merged_array, common_elements)
+        list3 = np.intersect1d(merged_array, common_elements)
+        new_df = new_df[list3]
+        new_dfa = new_dfa[list3]
     if additional_selection != " ":
         show_boxplot = st.checkbox("Show Boxplot for All Course")
 
