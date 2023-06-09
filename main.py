@@ -209,12 +209,12 @@ if tabs == "Dashboard":
         show_boxplot = st.checkbox("Show Boxplot for All Course")
 
         if show_boxplot:
-            fig = px.box(new_df,use_container_width=True)
-            fig1 = px.box(new_dfa,use_container_width=True)
+            fig = px.box(new_df)
+            fig1 = px.box(new_dfa)
             fig.update_layout(title="Boxplot of " + major + school + " student")
             fig1.update_layout(title="Boxplot of " + major + additional_selection + " student")
-            # fig.update_layout(width=1250)
-            # fig1.update_layout(width=1250)
+            fig.update_layout(width=1250)
+            fig1.update_layout(width=1250)
             st.plotly_chart(fig)
             st.plotly_chart(fig1)
 
@@ -222,12 +222,12 @@ if tabs == "Dashboard":
         show_boxplot = st.checkbox("Show Boxplot for All Course")
 
         if show_boxplot:
-            fig = px.box(new_df,use_container_width=True)
-            fig1 = px.box(new_dfa,use_container_width=True)
+            fig = px.box(new_df)
+            fig1 = px.box(new_dfa)
             fig.update_layout(title="Boxplot of " + major + school + " student" + year)
             fig1.update_layout(title="Boxplot of " + major + school + " student" + year_a)
-            # fig.update_layout(width=1250)
-            # fig1.update_layout(width=1250)
+            fig.update_layout(width=1250)
+            fig1.update_layout(width=1250)
             st.plotly_chart(fig)
             st.plotly_chart(fig1)
 
@@ -235,9 +235,9 @@ if tabs == "Dashboard":
         show_boxplot = st.checkbox("Show Boxplot for All Course")
 
         if show_boxplot:
-            fig = px.box(new_df,use_container_width=True)
+            fig = px.box(new_df)
             fig.update_layout(title="Boxplot for Each Column")
-            # fig.update_layout(width=1250)
+            fig.update_layout(width=1250)
             st.plotly_chart(fig)
 
 
