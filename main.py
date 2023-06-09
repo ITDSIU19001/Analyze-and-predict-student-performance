@@ -531,8 +531,6 @@ elif tabs == "Prediction Performance":
         fig1.update_layout(
             title={
                 "text": "Pred Rank",
-                "y": 0.95,
-                "x": 0.5,
                 "xanchor": "center",
                 "yanchor": "top",
             }
@@ -540,8 +538,6 @@ elif tabs == "Prediction Performance":
         fig2.update_layout(
             title={
                 "text": "Progress",
-                "y": 0.95,
-                "x": 0.5,
                 "xanchor": "center",
                 "yanchor": "top",
             }
