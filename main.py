@@ -547,7 +547,7 @@ elif tabs == "Prediction Performance":
             }
         )
         
-        col1, col2,col3 = st.columns([1, 1,1])
+        col3,col1, col2= st.columns([2, 1,1])
         with col3:
             st.dataframe(styled_table)
         with col1:
