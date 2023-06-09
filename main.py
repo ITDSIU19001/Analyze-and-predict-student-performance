@@ -532,7 +532,7 @@ elif tabs == "Prediction Performance":
             title={
                 "text": "Pred Rank",
                 "y": 0.95,
-                "x": 0.25,
+                "x": 0.35,
                 "xanchor": "center",
                 "yanchor": "top",
             }
@@ -541,7 +541,7 @@ elif tabs == "Prediction Performance":
             title={
                 "text": "Progress",
                 "y": 0.95,
-                "x": 0.25,
+                "x": 0.35,
                 "xanchor": "center",
                 "yanchor": "top",
             }
