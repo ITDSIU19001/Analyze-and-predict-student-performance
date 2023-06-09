@@ -303,7 +303,7 @@ if tabs == "Dashboard":
             height=400,
             width=400,
         )
-        st.plotly_chart(fig)
+        st.plotly_chart(fig,use_container_width=True)
         
     with col3:
         raw_data1=raw_data.copy()
@@ -346,7 +346,7 @@ if tabs == "Dashboard":
                 title=f"Mean DiemHP for{selected_TenMH} through Semeters",
             )
             fig.update_layout(height=400, width=400)
-            st.plotly_chart(fig)
+            st.plotly_chart(fig,use_container_width=True)
 
 
 
@@ -369,7 +369,7 @@ if tabs == "Dashboard":
                 height=400,
                 width=400,
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig,use_container_width=True)
 
         with col2:
             fig = go.Figure()
@@ -380,7 +380,7 @@ if tabs == "Dashboard":
                 height=400,
                 width=400,
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig,use_container_width=True)
             
         with col3:
             raw_data["major"] = raw_data["MaSV"].str.slice(0, 2)
@@ -421,7 +421,7 @@ if tabs == "Dashboard":
                     title=f"Mean DiemHP for{selected_TenMH} through Semeters",
                 )
                 fig.update_layout(height=400, width=400)
-                st.plotly_chart(fig)
+                st.plotly_chart(fig,use_container_width=True)
 
 
 
@@ -549,9 +549,9 @@ elif tabs == "Prediction Performance":
         st.dataframe(styled_table)
         col1, col2 = st.columns([1, 1])
         with col1:
-            st.plotly_chart(fig1)
+            st.plotly_chart(fig1,use_container_width=True)
         with col2:
-            st.plotly_chart(fig2)
+            st.plotly_chart(fig2,use_container_width=True)
 
     # display the grid of pie charts using Streamlit
 
