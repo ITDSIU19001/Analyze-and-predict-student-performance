@@ -191,111 +191,42 @@ if tabs == "Dashboard":
     # Drop NaN columns
     df.dropna(axis=1, thresh=1, inplace=True)
     
+    new_df = df.iloc[:, :-3].dropna(axis=1, thresh=10).apply(pd.to_numeric)
+    new_dfa = dfa.iloc[:, :-3].dropna(axis=1, thresh=10).apply(pd.to_numeric)
+
     if additional_selection != " ":
-        new_df = df.copy()
-        # Drop the last 3 columns from the new DataFrame
-        new_df = new_df.iloc[:, :-3]
-        new_df.dropna(axis=1, thresh=10, inplace=True)
-        # Convert the columns to numeric
-        new_df = new_df.apply(pd.to_numeric)
-
-        # Concatenate the columns using pd.concat(axis=1)
-        new_df = pd.concat([new_df[col] for col in new_df.columns], axis=1)
-
-
-        new_dfa = dfa.copy()
-        # Drop the last 3 columns from the new DataFrame
-        new_dfa = new_dfa.iloc[:, :-3]
-        new_dfa.dropna(axis=1, thresh=10, inplace=True)
-        # Convert the columns to numeric
-        new_dfa = new_dfa.apply(pd.to_numeric)
-
-        # Concatenate the columns using pd.concat(axis=1)
-        new_dfa = pd.concat([new_dfa[col] for col in new_dfa.columns], axis=1)
-
         show_boxplot = st.checkbox("Show Boxplot for All Course")
 
         if show_boxplot:
-            # Use Plotly Express to create a boxplot for each column
             fig = px.box(new_df)
             fig1 = px.box(new_dfa)
-            # Set the title
-            fig.update_layout(title="Boxplot of " + major  + school + " student")
-            fig1.update_layout(title="Boxplot of " + major  + additional_selection + " student")
-
-            # Adjust the width of the boxplot
+            fig.update_layout(title="Boxplot of " + major + school + " student")
+            fig1.update_layout(title="Boxplot of " + major + additional_selection + " student")
             fig.update_layout(width=1250)
-            fig1.update_layout(width=1250)  # Increase the value as needed to scale wider
-
-            # Display the plot using Streamlit
+            fig1.update_layout(width=1250)
             st.plotly_chart(fig)
             st.plotly_chart(fig1)
-    # Create a checkbox to toggle the visibility of the box plot
 
-    elif additional_selection == " " and year_a!=" ":
-            new_df = df.copy()
-            # Drop the last 3 columns from the new DataFrame
-            new_df = new_df.iloc[:, :-3]
-            new_df.dropna(axis=1, thresh=10, inplace=True)
-            # Convert the columns to numeric
-            new_df = new_df.apply(pd.to_numeric)
-
-            # Concatenate the columns using pd.concat(axis=1)
-            new_df = pd.concat([new_df[col] for col in new_df.columns], axis=1)
-
-
-            new_dfa = dfa.copy()
-            # Drop the last 3 columns from the new DataFrame
-            new_dfa = new_dfa.iloc[:, :-3]
-            new_dfa.dropna(axis=1, thresh=10, inplace=True)
-            # Convert the columns to numeric
-            new_dfa = new_dfa.apply(pd.to_numeric)
-
-            # Concatenate the columns using pd.concat(axis=1)
-            new_dfa = pd.concat([new_dfa[col] for col in new_dfa.columns], axis=1)
-
-
-            show_boxplot = st.checkbox("Show Boxplot for All Course")
-
-            if show_boxplot:
-                # Use Plotly Express to create a boxplot for each column
-                fig = px.box(new_df)
-                fig1 = px.box(new_dfa)
-                # Set the title
-                fig.update_layout(title="Boxplot of " + major  + school + " student" + year)
-                fig1.update_layout(title="Boxplot of " + major  + school + " student" + year_a)
-
-                # Adjust the width of the boxplot
-                fig.update_layout(width=1250)
-                fig1.update_layout(width=1250)  # Increase the value as needed to scale wider
-
-                # Display the plot using Streamlit
-                st.plotly_chart(fig)
-                st.plotly_chart(fig1)
-
-    elif additional_selection == " ":
-        new_df = df.copy()
-        # Drop the last 3 columns from the new DataFrame
-        new_df = new_df.iloc[:, :-3]
-        new_df.dropna(axis=1, thresh=10, inplace=True)
-        # Convert the columns to numeric
-        new_df = new_df.apply(pd.to_numeric)
-
-        # Concatenate the columns using pd.concat(axis=1)
-        new_df = pd.concat([new_df[col] for col in new_df.columns], axis=1)
+    elif additional_selection == " " and year_a != " ":
         show_boxplot = st.checkbox("Show Boxplot for All Course")
 
         if show_boxplot:
-            # Use Plotly Express to create a boxplot for each column
             fig = px.box(new_df)
+            fig1 = px.box(new_dfa)
+            fig.update_layout(title="Boxplot of " + major + school + " student" + year)
+            fig1.update_layout(title="Boxplot of " + major + school + " student" + year_a)
+            fig.update_layout(width=1250)
+            fig1.update_layout(width=1250)
+            st.plotly_chart(fig)
+            st.plotly_chart(fig1)
 
-            # Set the title
+    elif additional_selection == " ":
+        show_boxplot = st.checkbox("Show Boxplot for All Course")
+
+        if show_boxplot:
+            fig = px.box(new_df)
             fig.update_layout(title="Boxplot for Each Column")
-
-            # Adjust the width of the boxplot
-            fig.update_layout(width=1250)  # Increase the value as needed to scale wider
-
-            # Display the plot using Streamlit
+            fig.update_layout(width=1250)
             st.plotly_chart(fig)
 
 
