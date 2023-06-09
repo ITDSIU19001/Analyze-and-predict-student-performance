@@ -193,6 +193,16 @@ if tabs == "Dashboard":
     
     new_df = df.iloc[:, :-3].dropna(axis=1, thresh=10).apply(pd.to_numeric)
     new_dfa = dfa.iloc[:, :-3].dropna(axis=1, thresh=10).apply(pd.to_numeric)
+    list1=new_df.columns.tolist()
+    list2=new_dfa.columns.tolist()
+    if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
+        dfac=new_dfa.columns[:-3].tolist()
+        common_elements = np.intersect1d(list1, list2)
+        # Merge arrays with common elements
+        merged_array = np.concatenate((list1, list2), axis=None)
+
+        # Filter merged array to retain only common elements
+        list1,list2 = np.intersect1d(merged_array, common_elements)
 
     if additional_selection != " ":
         show_boxplot = st.checkbox("Show Boxplot for All Course")
