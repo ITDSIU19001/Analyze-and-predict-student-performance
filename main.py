@@ -70,7 +70,7 @@ col1, col2, col3 = st.columns([1, 3, 1])
 
 # add a centered image to the first and third columns
 with col1:
-    st.image(im1, width=150)
+    st.image(im1, use_column_width=True)
 
 
 # add a centered title to the second column
@@ -82,7 +82,7 @@ with col2:
 #     st.header("Student Performance Prediction System")
 
 with col3:
-    st.image(hcm, width=250)
+    st.image(hcm, use_column_width=True)
 
 
 @st.cache_data()
