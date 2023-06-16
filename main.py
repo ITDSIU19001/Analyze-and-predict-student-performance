@@ -188,10 +188,12 @@ if tabs == "Dashboard":
     
     df = filter_dataframe(df, "Year", year)
 
+    
+
     new1_df = df.DTBTK
     new1_dfa = dfa.DTBTK
     if additional_selection != " ":
-        show_boxplot = st.checkbox("Show Boxplot for All Course")
+        show_boxplot = st.checkbox("Show Boxplot for Student")
 
         if show_boxplot:
             fig = px.box(new1_df)
@@ -204,7 +206,7 @@ if tabs == "Dashboard":
             st.plotly_chart(fig1,use_container_width=True)
 
     elif additional_selection == " " and year_a != " ":
-        show_boxplot = st.checkbox("Show Boxplot for All Course")
+        show_boxplot = st.checkbox("Show Boxplot for Student")
 
         if show_boxplot:
             fig = px.box(new1_df)
@@ -217,7 +219,7 @@ if tabs == "Dashboard":
             st.plotly_chart(fig1,use_container_width=True)
 
     elif additional_selection == " ":
-        show_boxplot = st.checkbox("Show Boxplot for All Course")
+        show_boxplot = st.checkbox("Show Boxplot for Student")
 
         if show_boxplot:
             fig = px.box(new1_df)
