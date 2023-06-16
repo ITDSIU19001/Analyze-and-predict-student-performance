@@ -574,21 +574,10 @@ elif tabs == "Prediction Performance":
             title="Pred Rank",
             color_discrete_sequence=px.colors.sequential.Mint,
             height=400,
-            width=400,
-        )
+            width=400,category_orders=legend_order)
+        
 
         # Set the category order for the legend labels
-        fig1.update_layout(
-            legend=dict(
-                traceorder="normal",
-                itemorder="array",
-                itemclick="toggleothers",
-                itemsizing="constant",
-                itemsuffix=True,
-                itemtextposition="inside",
-                itemarray=legend_order
-            )
-        )
         
         fig2 = px.pie(
             df_filtered,
