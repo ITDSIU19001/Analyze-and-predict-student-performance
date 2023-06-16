@@ -104,7 +104,7 @@ df = process_data(raw_data)
 
 # raw_data = pd.read_csv("All_major.csv")
 st.sidebar.image(im3)
-st.sidebar.title("Student Performance Prediction System")
+st.sidebar.markdown("<h1 style='text-align: center;'>Student Performance Prediction System</h1>",unsafe_allow_html=True)
 
 option = ["Dashboard", "Prediction Performance"]
 # Add an expander to the sidebar
