@@ -104,9 +104,9 @@ df = process_data(raw_data)
 
 # raw_data = pd.read_csv("All_major.csv")
 st.sidebar.image(im3)
-st.sidebar.markdown("<h1 style='text-align: center;'>Student Performance Prediction System</h1>",unsafe_allow_html=True)
+st.sidebar.title("Student Performance Prediction System")
 
-option = ["Dashboard", "Prediction Performance"]
+option = ["Prediction Performance","Dashboard"]
 # Add an expander to the sidebar
 tabs = st.sidebar.selectbox("Select an option", option)
 
