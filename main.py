@@ -567,7 +567,7 @@ elif tabs == "Prediction Performance":
         st.markdown(href, unsafe_allow_html=True)
         layout = go.Layout(legend=dict(itemorder='normal'))
 
-        fig = px.pie(
+        fig1 = px.pie(
             df_filtered,
             names="Pred Rank",
             title="Pred Rank",
@@ -576,9 +576,9 @@ elif tabs == "Prediction Performance":
             width=400
         )
 
-        fig.update_layout(layout)
+        fig1.update_layout(layout)
 
-
+        
         fig2 = px.pie(
             df_filtered,
             names="Progress",
