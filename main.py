@@ -54,6 +54,7 @@ def generate_comment(median):
 
 favicon = "R.png"
 hcm = "HCM.png"
+intera="Logo-iuoss-trans.png"
 st.set_page_config(
     page_title="Student System",
     page_icon=favicon,
@@ -61,7 +62,7 @@ st.set_page_config(
 )
 currentYear = datetime.now().year
 im1 = Image.open("R.png")
-
+im3=Image.open("Logo-iuoss-trans.png")
 # get the image from the URL
 
 
@@ -102,7 +103,8 @@ raw_data = read_sql_query()
 df = process_data(raw_data)
 
 # raw_data = pd.read_csv("All_major.csv")
-st.sidebar.title("Analysis Tool")
+st.sidebar.image(im3)
+st.sidebar.title("Student Performance Prediction System")
 
 option = ["Dashboard", "Prediction Performance"]
 # Add an expander to the sidebar
