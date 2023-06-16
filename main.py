@@ -77,7 +77,7 @@ with col1:
 # add a centered title to the second column
 with col2:
     st.markdown(
-        "<h1 style='text-align: center;'>Student Performance Prediction System</h1>",
+        "<h1 style='text-align: center;'>TRUONG QUOC AN'S THESIS</h1>",
         unsafe_allow_html=True,
     )
 #     st.header("Student Performance Prediction System")
