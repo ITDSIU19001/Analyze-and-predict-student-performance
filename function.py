@@ -46,7 +46,7 @@ def process_data(raw_data):
     df["Year"] = 2000 + df["MaSV"].apply(get_year)
     df["Year"] = df["Year"].astype(str)
     df = df.drop(columns="MaSV")
-    df=pd.merge(raw_data["MaSV","DTBTK"],df,on="MaSV")
+
 
     return df
 
