@@ -261,7 +261,7 @@ if tabs == "Dashboard":
             st.plotly_chart(fig1,use_container_width=True)
 
     elif additional_selection == " " and year_a != " ":
-        show_boxplot = st.checkbox("Show Boxplot for All Course" key="checkbox1")
+        show_boxplot = st.checkbox("Show Boxplot for All Course", key="checkbox1")
 
         if show_boxplot:
             fig = px.box(new_df)
