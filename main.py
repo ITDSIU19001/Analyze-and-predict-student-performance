@@ -202,8 +202,13 @@ if tabs == "Dashboard":
             fig1.update_layout(title="Boxplot of " + major + additional_selection + " student at " + year)
             # fig.update_layout(width=1250)
             # fig1.update_layout(width=1250)
-            st.plotly_chart(fig,use_container_width=True)
-            st.plotly_chart(fig1,use_container_width=True)
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.plotly_chart(fig, use_container_width=True)
+
+            with col2:
+                st.plotly_chart(fig1, use_container_width=True)
 
     elif additional_selection == " " and year_a != " ":
         show_boxplot = st.checkbox("Show Boxplot for Student", key="checkbox2")
@@ -215,9 +220,13 @@ if tabs == "Dashboard":
             fig1.update_layout(title="Boxplot of " + major + school + " student at " + year_a)
             # fig.update_layout(width=1250)
             # fig1.update_layout(width=1250)
-            st.plotly_chart(fig,use_container_width=True)
-            st.plotly_chart(fig1,use_container_width=True)
+            col1, col2 = st.columns(2)
 
+            with col1:
+                st.plotly_chart(fig, use_container_width=True)
+
+            with col2:
+                st.plotly_chart(fig1, use_container_width=True)
     elif additional_selection == " ":
         show_boxplot = st.checkbox("Show Boxplot for Student", key="checkbox2")
 
