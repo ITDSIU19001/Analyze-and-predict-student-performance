@@ -566,6 +566,8 @@ elif tabs == "Prediction Performance":
         href = f'<a href="data:file/csv;base64,{b64}" download="Preidct data.csv">Download CSV</a>'
         st.markdown(href, unsafe_allow_html=True)
         
+        legend_order = ["Excellent", "Very good", "Good", "Average good", "Ordinary", "Weak", "Very weak"]
+
         fig1 = px.pie(
             df_filtered,
             names="Pred Rank",
@@ -573,6 +575,15 @@ elif tabs == "Prediction Performance":
             color_discrete_sequence=px.colors.sequential.Mint,
             height=400,
             width=400,
+        )
+
+        # Set the category order for the legend labels
+        fig1.update_layout(
+            legend=dict(
+                traceorder="normal",
+                categoryorder="array",
+                categoryarray=legend_order
+            )
         )
         
         fig2 = px.pie(
