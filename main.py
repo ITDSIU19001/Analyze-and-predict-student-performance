@@ -188,7 +188,43 @@ if tabs == "Dashboard":
     
     df = filter_dataframe(df, "Year", year)
 
-    st.write(df.DTBTK)
+    new1_df = df.DTBTK
+    new1_dfa = dfa.DTBTK
+    if additional_selection != " ":
+        show_boxplot = st.checkbox("Show Boxplot for All Course")
+
+        if show_boxplot:
+            fig = px.box(new1_df)
+            fig1 = px.box(new1_dfa)
+            fig.update_layout(title="Boxplot of " + major + school + " student at " + year )
+            fig1.update_layout(title="Boxplot of " + major + additional_selection + " student at " + year)
+            # fig.update_layout(width=1250)
+            # fig1.update_layout(width=1250)
+            st.plotly_chart(fig,use_container_width=True)
+            st.plotly_chart(fig1,use_container_width=True)
+
+    elif additional_selection == " " and year_a != " ":
+        show_boxplot = st.checkbox("Show Boxplot for All Course")
+
+        if show_boxplot:
+            fig = px.box(new1_df)
+            fig1 = px.box(new1_dfa)
+            fig.update_layout(title="Boxplot of " + major + school + " student at " + year)
+            fig1.update_layout(title="Boxplot of " + major + school + " student at " + year_a)
+            # fig.update_layout(width=1250)
+            # fig1.update_layout(width=1250)
+            st.plotly_chart(fig,use_container_width=True)
+            st.plotly_chart(fig1,use_container_width=True)
+
+    elif additional_selection == " ":
+        show_boxplot = st.checkbox("Show Boxplot for All Course")
+
+        if show_boxplot:
+            fig = px.box(new1_df)
+            fig.update_layout(title="Boxplot of " + major + " student at " + year)
+            # fig.update_layout(width=1250)
+            st.plotly_chart(fig,use_container_width=True)
+    
 
 
 
