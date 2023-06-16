@@ -590,15 +590,22 @@ elif tabs == "Prediction Performance":
             height=400,
             width=400,
         )
+        fig1.update_traces(hole=.8)
+
         fig1.update_layout(
-            title={
-                "text": "Pred Rank",
-                "y": 0.95,
-                "x": 0.35,
-                "xanchor": "center",
-                "yanchor": "top",
-            }
-        )
+            title_text="Predict Rank",
+            # Add annotations in the center of the donut pies.
+            annotations=dict(text='RANK', x=0.18, y=0.5, font_size=20, showarrow=False),
+                        )
+        # fig1.update_layout(
+        #     title={
+        #         "text": "Pred Rank",
+        #         "y": 0.95,
+        #         "x": 0.35,
+        #         "xanchor": "center",
+        #         "yanchor": "top",
+        #     }
+        # )
         fig2.update_layout(
             title={
                 "text": "Progress",
