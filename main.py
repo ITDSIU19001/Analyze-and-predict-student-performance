@@ -192,7 +192,7 @@ if tabs == "Dashboard":
     data1=data1.drop_duplicates()
     data1["MaSV_school"] = data1["MaSV"].str.slice(2, 4)
     data1["Major"] = data1["MaSV"].str.slice(0, 2)
-    data1["Year"] = 2000 + df["MaSV"].apply(get_year)
+    data1["Year"] = 2000 + data1["MaSV"].apply(get_year)
     data1["Year"] = data1["Year"].astype(str)
     data1 = filter_dataframe(data1, "Major", major)
     data1 = filter_dataframe(data1, "MaSV_school", additional_selection)
