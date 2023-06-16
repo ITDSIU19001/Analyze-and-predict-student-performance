@@ -201,7 +201,7 @@ if tabs == "Dashboard":
             fig = px.box(new1_df)
             fig1 = px.box(new1_dfa)
             fig.update_layout(title="Boxplot of " + major + school + " student in " + year )
-            fig1.update_layout(title="Boxplot of " + major + additional_selection + " student in " + year)
+            fig1.update_layout(title="Boxplot of " + major + additional_selection + " student in " + year_a)
             # fig.update_layout(width=1250)
             # fig1.update_layout(width=1250)
             col1, col2 = st.columns(2)
