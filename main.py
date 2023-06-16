@@ -566,15 +566,19 @@ elif tabs == "Prediction Performance":
         href = f'<a href="data:file/csv;base64,{b64}" download="Preidct data.csv">Download CSV</a>'
         st.markdown(href, unsafe_allow_html=True)
         layout = go.Layout(legend=dict(itemorder='normal'))
-        fig1 = px.pie(
+
+        fig = px.pie(
             df_filtered,
             names="Pred Rank",
             title="Pred Rank",
             color_discrete_sequence=px.colors.sequential.Mint,
             height=400,
-            width=400,layout=layout
+            width=400
         )
-        
+
+        fig.update_layout(layout)
+
+
         fig2 = px.pie(
             df_filtered,
             names="Progress",
