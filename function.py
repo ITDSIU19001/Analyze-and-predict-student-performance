@@ -45,7 +45,7 @@ def process_data(raw_data):
     df["Major"] = df["MaSV"].str.slice(0, 2)
     df["Year"] = 2000 + df["MaSV"].apply(get_year)
     df["Year"] = df["Year"].astype(str)
-    df=pd.merge(raw_data[["MaSV","DTBTK"]], df,on="MaSV")
+    df=pd.merge( df,raw_data[["MaSV","DTBTK"]].drop_duplicates(),on="MaSV")
     df = df.drop(columns="MaSV")
     
 
