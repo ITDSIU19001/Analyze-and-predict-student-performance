@@ -62,28 +62,29 @@ st.set_page_config(
 )
 currentYear = datetime.now().year
 im1 = Image.open("R.png")
+im2 = Image.open("HCM.png")
 im3=Image.open("Logo-iuoss-trans.png")
 # get the image from the URL
 
 
-# create a three-column layout
-# col1, col2, col3 = st.columns([1, 3, 1])
+create a three-column layout
+col1, col2, col3 = st.columns([1, 3, 1])
 
-# # add a centered image to the first and third columns
-# with col1:
-#     st.image(im1, width=150)
+# add a centered image to the first and third columns
+with col1:
+    st.image(im1, width=150)
 
 
-# # add a centered title to the second column
-# with col2:
-#     st.markdown(
-#         "<h1 style='text-align: center;'>Student Performance Prediction System</h1>",
-#         unsafe_allow_html=True,
-#     )
-# #     st.header("Student Performance Prediction System")
+# add a centered title to the second column
+with col2:
+    st.markdown(
+        "<h1 style='text-align: center;'>Student Performance Prediction System</h1>",
+        unsafe_allow_html=True,
+    )
+#     st.header("Student Performance Prediction System")
 
-# with col3:
-#     st.image(hcm, width=250)
+with col3:
+    st.image(im2, width=250)
 
 
 @st.cache_data()
