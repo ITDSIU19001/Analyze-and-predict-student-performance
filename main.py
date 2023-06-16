@@ -188,6 +188,19 @@ if tabs == "Dashboard":
     
     df = filter_dataframe(df, "Year", year)
 
+    data1=raw_data[["MaSV","DTBTK"]]
+    data1=data1.drop_duplicates()
+    data1["MaSV_school"] = data1["MaSV"].str.slice(2, 4)
+    data1["Major"] = data1["MaSV"].str.slice(0, 2)
+    data1["Year"] = 2000 + df["MaSV"].apply(get_year)
+    data1["Year"] = data1["Year"].astype(str)
+    data1 = filter_dataframe(data1, "Major", major)
+    data1 = filter_dataframe(data1, "MaSV_school", additional_selection)
+    fig = px.box(data1["DTBTK"])
+    st.plotly_chart(fig,use_container_width=True)
+
+
+
     # Drop NaN columns
     df.dropna(axis=1, thresh=1, inplace=True)
     
