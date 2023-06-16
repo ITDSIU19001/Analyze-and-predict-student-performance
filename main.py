@@ -590,7 +590,7 @@ elif tabs == "Prediction Performance":
             height=400,
             width=400,
         )
-        fig1.update_layout(legend_sort=("abc",),
+        fig1.update_layout(
             title={
                 "text": "Pred Rank",
                 "y": 0.95,
