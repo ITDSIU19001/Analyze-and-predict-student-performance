@@ -574,7 +574,7 @@ elif tabs == "Prediction Performance":
             title="Pred Rank",
             color_discrete_sequence=px.colors.sequential.Mint,
             height=400,
-            width=400,category_orders=legend_order)
+            width=400,category_orders={"Pred Rank":legend_order})
         
 
         # Set the category order for the legend labels
