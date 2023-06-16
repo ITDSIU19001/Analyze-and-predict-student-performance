@@ -67,7 +67,6 @@ im3=Image.open("Logo-iuoss-trans.png")
 # get the image from the URL
 
 
-create a three-column layout
 col1, col2, col3 = st.columns([1, 3, 1])
 
 # add a centered image to the first and third columns
