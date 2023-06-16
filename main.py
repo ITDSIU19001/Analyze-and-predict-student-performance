@@ -581,8 +581,12 @@ elif tabs == "Prediction Performance":
         fig1.update_layout(
             legend=dict(
                 traceorder="normal",
-                categoryorder="array",
-                categoryarray=legend_order
+                itemorder="array",
+                itemclick="toggleothers",
+                itemsizing="constant",
+                itemsuffix=True,
+                itemtextposition="inside",
+                itemarray=legend_order
             )
         )
         
