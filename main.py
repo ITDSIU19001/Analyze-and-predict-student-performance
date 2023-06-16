@@ -188,7 +188,7 @@ if tabs == "Dashboard":
     
     df = filter_dataframe(df, "Year", year)
 
-
+    st.write(df.MaSV)
 
 
 
