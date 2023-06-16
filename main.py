@@ -195,12 +195,12 @@ if tabs == "Dashboard":
     # Drop NaN columns
     df.dropna(axis=1, thresh=1, inplace=True)
     
-    new_df = df.iloc[:, :-3].dropna(axis=1, thresh=10).apply(pd.to_numeric)
-    new_dfa = dfa.iloc[:, :-3].dropna(axis=1, thresh=10).apply(pd.to_numeric)
+    new_df = df.iloc[:, :-4].dropna(axis=1, thresh=10).apply(pd.to_numeric)
+    new_dfa = dfa.iloc[:, :-4].dropna(axis=1, thresh=10).apply(pd.to_numeric)
     list1=new_df.columns.tolist()
     list2=new_dfa.columns.tolist()
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
-        dfac=new_dfa.columns[:-3].tolist()
+        dfac=new_dfa.columns[:-4].tolist()
         common_elements = np.intersect1d(list1, list2)
         # Merge arrays with common elements
         merged_array = np.concatenate((list1, list2), axis=None)
@@ -246,7 +246,7 @@ if tabs == "Dashboard":
 
 
     # Select course dropdown
-    options = df.columns[:-3]
+    options = df.columns[:-4]
 
 
     course_data_dict = {course: df[course].dropna() for course in options}
@@ -254,7 +254,7 @@ if tabs == "Dashboard":
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
-        dfac=new_dfa.columns[:-3].tolist()
+        dfac=new_dfa.columns[:-4].tolist()
         common_elements = np.intersect1d(valid_courses, dfac)
         # Merge arrays with common elements
         merged_array = np.concatenate((valid_courses, dfac), axis=None)
