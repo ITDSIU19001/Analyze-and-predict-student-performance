@@ -283,37 +283,19 @@ if tabs == "Dashboard":
     else:
         selected_courses = [course]
 
-    # Preprocess raw_data outside the loop
-    raw_data1 = raw_data.copy()
-    raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
-    raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
-    raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
-    if major != "All":
-        raw_data1 = raw_data1[raw_data1["major"] == major]
-
-    # Filter by MaSV_school
-    raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
-    if school != "All":
-        raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
-
-    # Prepare DataFrame for visualization
-    df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
-    df1["DiemHP"] = df1["DiemHP"].astype(float)
-    df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
-
-    # Calculate frequencies_percentage once
-    counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
-    total_count = len(course_data)
-    frequencies_percentage = (counts / total_count) * 100
-
     for course in selected_courses:
         st.write("Course:", course)  # Update the course information as per your requirement
         course_data = course_data_dict[course]
 
+        # Generate comment and summary statistics
         if len(course_data) > 1:
             col1, col2, col3, col4 = st.columns(4)
 
             with col1:
+                counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
+                total_count = len(course_data)
+                frequencies_percentage = (counts / total_count) * 100
+
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
@@ -347,6 +329,23 @@ if tabs == "Dashboard":
                 st.plotly_chart(fig, use_container_width=True)
 
             with col4:
+                raw_data1 = raw_data.copy()
+                raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
+                raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
+                raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
+                if major != "All":
+                    raw_data1 = raw_data1[raw_data1["major"] == major]
+
+                # Filter by MaSV_school
+                raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
+                if school != "All":
+                    raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
+
+                # Prepare DataFrame for visualization
+                df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
+                df1["DiemHP"] = df1["DiemHP"].astype(float)
+                df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
+
                 # Filter by selected_TenMH
                 selected_TenMH = " " + course
                 filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
@@ -371,9 +370,9 @@ if tabs == "Dashboard":
                     )
                     fig.update_layout(height=400, width=400)
                     st.plotly_chart(fig, use_container_width=True)
+
         else:
             st.write("No data available for the selected course.")
-
 
 
 
