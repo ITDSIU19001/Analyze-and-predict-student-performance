@@ -15,6 +15,7 @@ from PIL import Image
 import base64
 import re
 import sqlite3
+import pdfkit
 
 df = pd.DataFrame()
 
