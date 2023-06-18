@@ -715,7 +715,6 @@ elif tabs == "Report" :
         pattern = r"\b\w+\b"  # Regex pattern to match any word
 
         raw_data1.replace(to_replace=pattern, value=np.nan, regex=True, inplace=True)
-        raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
         raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
         if major != "All":
             raw_data1 = raw_data1[raw_data1["major"] == major]
