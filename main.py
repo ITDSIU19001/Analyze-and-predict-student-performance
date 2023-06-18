@@ -665,8 +665,8 @@ elif tabs == "Grade Distribution Tables" :
     else:
         st.write("No valid course data found!")
         st.stop()
-        
-    if course == ""
+
+    if course == "":
         st.stop()
     elif course == "All":
         courses_per_row = 4
