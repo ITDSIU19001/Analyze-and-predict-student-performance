@@ -195,7 +195,7 @@ if tabs == "Dashboard":
 
     new1_df = df.DTBTK
     new1_dfa = dfa.DTBTK
-    show_boxplot(major, school, year, additional_selection="", year_a="")
+    show_boxplot(new1_df, new1_dfa, major, school, year, additional_selection="", year_a="")
     
 
 
