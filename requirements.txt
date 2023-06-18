@@ -7,3 +7,4 @@ scipy
 pyDOE
 openpyxl
 weasyprint
+pango
