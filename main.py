@@ -307,17 +307,20 @@ if tabs == "Dashboard":
                     range_scores[range_name] += 1
                     break
 
+        score_ranges = list(range_scores.keys())
+        cumulative_frequencies = np.cumsum(list(range_scores.values()))
+
         fig = go.Figure()
-        for range_name, frequency in range_scores.items():
-            fig.add_trace(go.Scatter(x=[range_name], y=[frequency], mode='lines', name=range_name))
+        fig.add_trace(go.Scatter(x=score_ranges, y=cumulative_frequencies, mode='lines', name='Frequency'))
 
         fig.update_layout(
-            title="Frequency of Range Scores",
-            xaxis_title="Range",
-            yaxis_title="Frequency",
+            title="Contribution of Score Ranges",
+            xaxis_title="Score Range",
+            yaxis_title="Cumulative Frequency",
             height=400,
-            width=400,
+            width=800,
         )
+
 
 
         st.plotly_chart(fig,use_container_width=True)
