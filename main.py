@@ -765,15 +765,6 @@ elif tabs == "Grade Distribution Tables" :
                             fig.update_layout(height=400, width=400)
                             st.plotly_chart(fig, use_container_width=True)  
 
-        if st.button("Convert to PDF"):
-        # Specify the output PDF file path
-            pdf_filename = "output.pdf"
-            
-            # Use the current page as the source for PDF conversion
-            wp.to_pdf(pdf_filename)
-            
-            # Provide a download link for the generated PDF
-            st.markdown(f'<a href="{pdf_filename}" download>Click here to download the PDF</a>', unsafe_allow_html=True)
     
     else:
         course_data = course_data_dict[course]
