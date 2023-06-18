@@ -258,7 +258,7 @@ if tabs == "Dashboard":
     valid_courses = [
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
-    if year_a == "" and additional_selection == "":
+    if year_a == " " and additional_selection == " ":
         valid_courses = np.concatenate((valid_courses, ["All"]), axis=None)
     elif (year != "All" and year_a != "") or (school != "All" and additional_selection != ""):
         dfac = new_dfa.columns[:-4].tolist()
