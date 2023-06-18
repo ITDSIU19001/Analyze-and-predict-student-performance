@@ -308,7 +308,7 @@ if tabs == "Dashboard":
         )
         st.plotly_chart(fig,use_container_width=True)
     with col2:
-        rounded_bins = np.round(bins, 2)
+        bins = np.round(bins, 2)
         grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
 
         # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
