@@ -784,7 +784,17 @@ elif tabs == "Grade Distribution Tables" :
 
 
         with col2:
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
+            fig.update_layout(
+                title="Frequency Range for {}".format(course),
+                xaxis_title="Score",
+                yaxis_title="Percentage",
+                height=400,
+                width=400,
+            )
+            st.plotly_chart(fig, use_container_width=True)
 
         with col3:
             fig = go.Figure()
