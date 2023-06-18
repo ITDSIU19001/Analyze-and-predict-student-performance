@@ -311,8 +311,8 @@ if tabs == "Dashboard":
         grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
 
         # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
-        df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
-
+        df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage{:.2f}})
+        df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
         
         st.table(df)
 
