@@ -15,6 +15,7 @@ from PIL import Image
 import base64
 import re
 import sqlite3
+import pdfkit
 
 df = pd.DataFrame()
 
@@ -107,7 +108,7 @@ df = process_data(raw_data)
 st.sidebar.image(im3)
 st.sidebar.title("Student Performance Prediction System")
 
-option = ["Prediction Performance","Dashboard","Report"]
+option = ["Prediction Performance","Dashboard","Grade Distribution Tables"]
 # Add an expander to the sidebar
 tabs = st.sidebar.selectbox("Select an option", option)
 
@@ -608,7 +609,7 @@ elif tabs == "Prediction Performance":
 
 # except:
 #     st.write('Add CSV to analysis')
-elif tabs == "Report" :
+elif tabs == "Grade Distribution Tables" :
     additional_selection = " "
     # Filter by Major
     unique_values_major = df["Major"].unique()
