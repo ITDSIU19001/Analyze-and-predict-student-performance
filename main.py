@@ -309,8 +309,13 @@ if tabs == "Dashboard":
         )
         st.plotly_chart(fig,use_container_width=True)
     with col2:
-        df = pd.DataFrame({'Grade': bins[:-1], 'Grading percentage': frequencies_percentage})
-        st.table(df)
+        df1 = pd.DataFrame({'Grade': bins[:-1], 'Grading percentage': frequencies_percentage})
+        df1 = (
+            df1[['Grade','Grading percentage']]
+
+            .format({"'Grade'": "{:.2f}"})
+        )
+        st.table(df1)
 
         
     with col3:
