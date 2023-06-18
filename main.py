@@ -20,7 +20,7 @@ import requests
 
 df = pd.DataFrame()
 
-@st.experimental_memo
+@st.cache_data
 def load_unpkg(src: str) -> str:
     return requests.get(src).text
 
