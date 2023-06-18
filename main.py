@@ -15,7 +15,7 @@ from PIL import Image
 import base64
 import re
 import sqlite3
-import pdfkit
+
 
 df = pd.DataFrame()
 
@@ -764,8 +764,7 @@ elif tabs == "Grade Distribution Tables" :
                                 title=f"Mean DiemHP for{selected_TenMH} through Semesters",
                             )
                             fig.update_layout(height=400, width=400)
-                            st.plotly_chart(fig, use_container_width=True)
-        
+                            st.plotly_chart(fig, use_container_width=True)  
 
     else:
         course_data = course_data_dict[course]
