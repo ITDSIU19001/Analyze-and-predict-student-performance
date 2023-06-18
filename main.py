@@ -669,16 +669,6 @@ elif tabs == "Report" :
     # Filter the data for the selected course
     course_data = course_data_dict[course]
 
-    # Generate comment and summary statistics
-    if len(course_data) > 1:
-        if school == "All":
-            st.write("Course:", course, " of ", major, " student")
-        else:
-            st.write("Course:", course, " of ", major + school, " student")
-        st.write(generate_comment(course_data.median()))
-    else:
-        st.write("No data available for the selected course.")
-
     col1, col2, col3, col4 = st.columns(4)
     
 
