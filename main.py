@@ -294,7 +294,7 @@ if tabs == "Dashboard":
     with col1:
         counts, bins = np.histogram(course_data, bins=20)
         frequencies = np.cumsum(counts)
-        total_count = frequencies[-1]
+        total_count = np.sum(counts)
         frequencies_percentage = (frequencies / total_count) * 100
 
         fig = go.Figure()
