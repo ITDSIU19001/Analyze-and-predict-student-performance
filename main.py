@@ -304,7 +304,8 @@ if tabs == "Dashboard":
             range_index = 0
             while score > 20 and range_index < len(range_scores):
                 range_index += 1
-            range_scores[f"{range_index}-{range_index + 20}"] += 1
+            if range_index + 20 <= 100:
+                range_scores[f"{range_index}-{range_index + 20}"] += 1
 
         fig = go.Figure()
         for range_name, frequency in range_scores.items():
@@ -316,6 +317,7 @@ if tabs == "Dashboard":
             height=400,
             width=400,
         )
+
         st.plotly_chart(fig,use_container_width=True)
     with col2:
         st.write(":))")
