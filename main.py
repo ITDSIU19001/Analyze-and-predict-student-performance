@@ -258,7 +258,7 @@ if tabs == "Dashboard":
     valid_courses = [
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
-
+    
     if year_a == " " and additional_selection == " ":
         valid_courses = np.concatenate((["All"], valid_courses), axis=None)
     elif (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
@@ -284,13 +284,14 @@ if tabs == "Dashboard":
     
 
     # Generate comment and summary statistics
-    if len(course_data) > 1:
-        if school == "All":
-            st.write("Course:", course, " of ", major, " student")
-        else:
-            st.write("Course:", course, " of ", major + school, " student")
-    else:
-        st.write("No data available for the selected course.")
+    # if len(course_data) > 1:
+    #     if school == "All":
+    #         st.write("Course:", course, " of ", major, " student")
+    #     else:
+    #         st.write("Course:", course, " of ", major + school, " student")
+    #     st.write(generate_comment(course_data.median()))
+    # else:
+    #     st.write("No data available for the selected course.")
 
     course_columns = course_data.columns
     num_columns = len(course_columns)
