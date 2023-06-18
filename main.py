@@ -18,6 +18,15 @@ import sqlite3
 
 df = pd.DataFrame()
 
+@st.experimental_memo
+def load_unpkg(src: str) -> str:
+    return requests.get(src).text
+
+
+HTML_2_CANVAS = load_unpkg("https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.js")
+JSPDF = load_unpkg("https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js")
+BUTTON_TEXT = "Create PDF"
+
 
 def color_cell(val):
     if val == "not late":
@@ -765,6 +774,54 @@ elif tabs == "Grade Distribution Tables" :
                             fig.update_layout(height=400, width=400)
                             st.plotly_chart(fig, use_container_width=True)  
 
+        if st.button(BUTTON_TEXT):
+            components.html(
+                f"""
+    <script>{HTML_2_CANVAS}</script>
+    <script>{JSPDF}</script>
+    <script>
+    const html2canvas = window.html2canvas
+    const {{ jsPDF }} = window.jspdf
+
+    const streamlitDoc = window.parent.document;
+    const stApp = streamlitDoc.querySelector('.main > .block-container');
+
+    const buttons = Array.from(streamlitDoc.querySelectorAll('.stButton > button'));
+    const pdfButton = buttons.find(el => el.innerText === '{BUTTON_TEXT}');
+    const docHeight = stApp.scrollHeight;
+    const docWidth = stApp.scrollWidth;
+
+    let topLeftMargin = 15;
+    let pdfWidth = docHeight + (topLeftMargin * 2);
+    let pdfHeight = (pdfWidth * 1.5) + (topLeftMargin * 2);
+    let canvasImageWidth = docWidth;
+    let canvasImageHeight = docHeight;
+
+    let totalPDFPages = Math.ceil(docHeight / pdfHeight)-1;
+
+    pdfButton.innerText = 'Creating PDF...';
+
+    html2canvas(stApp, {{ allowTaint: true }}).then(function (canvas) {{
+
+        canvas.getContext('2d');
+        let imgData = canvas.toDataURL("image/jpeg", 1.0);
+
+        let pdf = new jsPDF('p', 'px', [pdfWidth, pdfHeight]);
+        pdf.addImage(imgData, 'JPG', topLeftMargin, topLeftMargin, canvasImageWidth, canvasImageHeight);
+
+        for (var i = 1; i <= totalPDFPages; i++) {{
+            pdf.addPage();
+            pdf.addImage(imgData, 'JPG', topLeftMargin, -(pdfHeight * i) + (topLeftMargin*4), canvasImageWidth, canvasImageHeight);
+        }}
+
+        pdf.save('test.pdf');
+        pdfButton.innerText = '{BUTTON_TEXT}';
+    }})
+    </script>
+    """,
+                height=0,
+                width=0,
+            )
     
     else:
         course_data = course_data_dict[course]
