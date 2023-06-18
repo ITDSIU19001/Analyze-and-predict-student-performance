@@ -667,12 +667,12 @@ elif tabs == "Report" :
         st.stop()
 
     # Filter the data for the selected course
-
-
+    course_data = course_data_dict[course].
+    course_data = course_data.astype(float)
     col1, col2, col3, col4 = st.columns(4)
     
+    st.write(course_data )
     with col1:
-        course_data = course_data.astype(float)
         counts, bins = np.histogram(course_data,bins=np.arange(0, 110, 10))
         total_count = len(course_data)
         frequencies_percentage = (counts / total_count) * 100
