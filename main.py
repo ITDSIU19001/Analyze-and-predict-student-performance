@@ -670,7 +670,7 @@ elif tabs == "Grade Distribution Tables" :
         st.stop()
     elif course == "All":
         courses_per_row = 4
-        num_courses = len(valid_courses) - 1
+        num_courses = len(valid_courses) 
         num_rows = (num_courses + courses_per_row - 1) // courses_per_row
 
         for row in range(num_rows):
