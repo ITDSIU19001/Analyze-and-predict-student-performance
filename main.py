@@ -292,18 +292,27 @@ if tabs == "Dashboard":
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        counts, bins = np.histogram(course_data, bins=20)
-        frequencies = np.cumsum(counts)
-        total_count = np.count_nonzero(a)
-        frequencies_percentage = (frequencies / total_count) * 100
+        range_scores = {
+            "0-20": 0,
+            "21-40": 0,
+            "41-60": 0,
+            "61-80": 0,
+            "81-100": 0,
+        }
+
+        for score in course_data:
+            range_index = 0
+            while score > 20 and range_index < len(range_scores):
+                range_index += 1
+            range_scores[f"{range_index}-{range_index + 20}"] += 1
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
-
+        for range_name, frequency in range_scores.items():
+            fig.add_trace(go.Line(x=[range_name], y=[frequency], name=range_name))
         fig.update_layout(
-            title="Frequency Range for {}".format(course),
-            xaxis_title="Score",
-            yaxis_title="Percentage",
+            title="Frequency of Range Scores",
+            xaxis_title="Range",
+            yaxis_title="Frequency",
             height=400,
             width=400,
         )
