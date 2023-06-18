@@ -694,7 +694,7 @@ elif tabs == "Grade Distribution Tables" :
                         fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
                         fig.update_layout(
-                            title="Frequency Range for {}".format(course),
+                            title="Frequency Range",
                             xaxis_title="Score",
                             yaxis_title="Percentage",
                             height=400,
@@ -715,7 +715,7 @@ elif tabs == "Grade Distribution Tables" :
                         fig = go.Figure()
                         fig.add_trace(go.Box(y=course_data, name="Box plot"))
                         fig.update_layout(
-                            title="Box plot of Scores for {}".format(course),
+                            title="Box plot",
                             yaxis_title="Score",
                             height=400,
                             width=400,
@@ -760,7 +760,7 @@ elif tabs == "Grade Distribution Tables" :
                                 mean_DiemHP,
                                 x="NHHK",
                                 y="Mean",
-                                title=f"Mean DiemHP for{selected_TenMH} through Semesters",
+                                title=f"Mean DiemHP through Semesters",
                             )
                             fig.update_layout(height=400, width=400)
                             st.plotly_chart(fig, use_container_width=True)  
