@@ -301,7 +301,7 @@ if tabs == "Dashboard":
         fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
         fig.update_layout(
-            title="Line Chart of Frequency Range for {}".format(course),
+            title="Frequency Range for {}".format(course),
             xaxis_title="Score",
             yaxis_title="Percentage",
             height=400,
@@ -388,7 +388,7 @@ if tabs == "Dashboard":
             fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
             fig.update_layout(
-                title="Line Chart of Frequency Range for {}".format(course),
+                title="Frequency Range for {}".format(course),
                 xaxis_title="Score",
                 yaxis_title="Percentage",
                 height=400,
