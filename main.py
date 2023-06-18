@@ -292,7 +292,7 @@ if tabs == "Dashboard":
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        data=course_data/4
+        data=course_data/25
         counts, bins = np.histogram(data)
         total_count = len(course_data)
         frequencies_percentage = (counts / total_count) * 100
