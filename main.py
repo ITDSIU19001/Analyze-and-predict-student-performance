@@ -292,15 +292,20 @@ if tabs == "Dashboard":
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
+        counts, bins = np.histogram(course_data, bins=40)
+        frequencies = np.cumsum(counts)
+
         fig = go.Figure()
-        fig.add_trace(go.Histogram(x=course_data, nbinsx=40, name="Histogram"))
+        fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies, mode='lines', name='Frequency'))
+
         fig.update_layout(
-            title="Histogram of Scores for {}".format(course),
+            title="Line Chart of Frequency Range for {}".format(course),
             xaxis_title="Score",
-            yaxis_title="Count",
+            yaxis_title="Frequency",
             height=400,
             width=400,
         )
+        
         st.plotly_chart(fig)
 
     with col2:
