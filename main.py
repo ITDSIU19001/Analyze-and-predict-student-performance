@@ -659,7 +659,7 @@ elif tabs == "Report" :
       # Add "All" option
 
     if len(valid_courses) > 1:
-        course = st.selectbox("Select a course:", valid_courses+"All")
+        course = st.selectbox("Select a course:", valid_courses+["All"])
     elif len(valid_courses) == 1:
         course = valid_courses[0]
     else:
