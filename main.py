@@ -258,16 +258,12 @@ if tabs == "Dashboard":
     valid_courses = [
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
-    if (year_a == " " and additional_selection == " ") :
-        valid_courses=np.concatenate((valid_courses, "All"), axis=None) 
-    else (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
-        dfac=new_dfa.columns[:-4].tolist()
+    if year_a == "" and additional_selection == "":
+        valid_courses = np.concatenate((valid_courses, ["All"]), axis=None)
+    elif (year != "All" and year_a != "") or (school != "All" and additional_selection != ""):
+        dfac = new_dfa.columns[:-4].tolist()
         common_elements = np.intersect1d(valid_courses, dfac)
-        # Merge arrays with common elements
-        merged_array = np.concatenate((valid_courses, dfac), axis=None)
-
-        # Filter merged array to retain only common elements
-        valid_courses = np.intersect1d(merged_array, common_elements)
+        valid_courses = common_elements
 
 
     if len(valid_courses) > 5:
