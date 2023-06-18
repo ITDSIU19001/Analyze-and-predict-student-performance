@@ -356,6 +356,8 @@ if tabs == "Dashboard":
             )
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig,use_container_width=True)
+    with col4:
+        st.write(":))")
 
 
 
@@ -431,8 +433,7 @@ if tabs == "Dashboard":
                 )
                 fig.update_layout(height=400, width=400)
                 st.plotly_chart(fig,use_container_width=True)
-        with col4:
-            st.write(":))")
+
 
 
 
