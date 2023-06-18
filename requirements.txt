@@ -7,4 +7,4 @@ scipy
 pyDOE
 openpyxl
 weasyprint
-pango
+libpangocairo-1.0-0
