@@ -15,6 +15,7 @@ from PIL import Image
 import base64
 import re
 import sqlite3
+import matplotlib.pyplot as plt
 
 df = pd.DataFrame()
 
@@ -609,23 +610,22 @@ elif tabs == "Prediction Performance":
 # except:
 #     st.write('Add CSV to analysis')
 elif tabs == "Grade Distribution Tables" :
-    additional_selection = " "
-    # Filter by Major
     unique_values_major = df["Major"].unique()
     unique_values_major = [
-    "BA",
-    "BE",
-    "BT",
-    "CE",
-    "EE",
-    "EN",
-    "EV",
-    "IE",
-    "MA",
-    "SE",
-    "IT"]
+        "BA",
+        "BE",
+        "BT",
+        "CE",
+        "EE",
+        "EN",
+        "EV",
+        "IE",
+        "MA",
+        "SE",
+        "IT"
+    ]
     unique_values_major = sorted(unique_values_major, key=lambda s: s)
-    col1,col2 = st.columns(2)
+    col1, col2 = st.columns(2)
     with col1:
         major = st.selectbox("Select a school:", unique_values_major)
         df = filter_dataframe(df, "Major", major)
@@ -638,16 +638,15 @@ elif tabs == "Grade Distribution Tables" :
             school = no_numbers[1]
     with col2:
         school = st.selectbox("Select a major:", no_numbers)
-        
+
     df = filter_dataframe(df, "MaSV_school", school)
     # Filter by Year
     unique_values_year = df["Year"].unique()
     all_values_year = np.concatenate([["All"], unique_values_year])
 
-    # Split the selectboxes into two columns
+    # Split the select boxes into two columns
 
     year = st.selectbox("Select a year:", all_values_year)
-
 
     # Select course dropdown
     options = df.columns[:-4]
@@ -656,10 +655,10 @@ elif tabs == "Grade Distribution Tables" :
     valid_courses = [
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
-      # Add "All" option
+    # Add "All" option
 
     if len(valid_courses) > 1:
-        course = st.selectbox("Select a course:",[""]+["All"]+valid_courses)
+        course = st.selectbox("Select a course:", [""] + ["All"] + valid_courses)
     elif len(valid_courses) == 1:
         course = valid_courses[0]
     else:
@@ -686,41 +685,36 @@ elif tabs == "Grade Distribution Tables" :
                     col1, col2, col3, col4 = st.columns(4)
 
                     with col1:
-                        counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
+                        counts, bins, _ = plt.hist(
+                            course_data, bins=np.arange(0, 110, 10), alpha=0.75
+                        )
                         total_count = len(course_data)
                         frequencies_percentage = (counts / total_count) * 100
 
-                        fig = go.Figure()
-                        fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
-
-                        fig.update_layout(
-                            title="Frequency Range for {}".format(course),
-                            xaxis_title="Score",
-                            yaxis_title="Percentage",
-                            height=400,
-                            width=400,
+                        plt.plot(
+                            bins[:-1], frequencies_percentage, marker="o", linestyle="-"
                         )
-                        st.plotly_chart(fig, use_container_width=True)
+                        plt.xlabel("Score")
+                        plt.ylabel("Percentage")
+                        plt.title(f"Frequency Range for {course}")
+                        st.pyplot()
 
                     with col2:
-                        grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
+                        grade_bins = [f'{bins[i]}-{bins[i + 1]}' for i in range(len(bins) - 1)]
 
                         # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
-                        df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
+                        df = pd.DataFrame(
+                            {'Grade': grade_bins, 'Grading percentage': frequencies_percentage}
+                        )
                         df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
 
                         st.table(df)
 
                     with col3:
-                        fig = go.Figure()
-                        fig.add_trace(go.Box(y=course_data, name="Box plot"))
-                        fig.update_layout(
-                            title="Box plot of Scores for {}".format(course),
-                            yaxis_title="Score",
-                            height=400,
-                            width=400,
-                        )
-                        st.plotly_chart(fig, use_container_width=True)
+                        plt.boxplot(course_data, vert=False)
+                        plt.xlabel("Score")
+                        plt.title(f"Box plot of Scores for {course}")
+                        st.pyplot()
 
                     with col4:
                         raw_data1 = raw_data.copy()
@@ -752,19 +746,17 @@ elif tabs == "Grade Distribution Tables" :
                             .reset_index(name="Mean")
                         )
 
-                        # Create Plotly line graph
+                        # Create matplotlib line graph
                         if year != "All":
                             st.write("")
                         else:
-                            fig = px.line(
-                                mean_DiemHP,
-                                x="NHHK",
-                                y="Mean",
-                                title=f"Mean DiemHP for{selected_TenMH} through Semesters",
+                            plt.plot(
+                                mean_DiemHP["NHHK"], mean_DiemHP["Mean"], marker="o"
                             )
-                            fig.update_layout(height=400, width=400)
-                            st.plotly_chart(fig, use_container_width=True)  
-
+                            plt.xlabel("Semesters")
+                            plt.ylabel("Mean DiemHP")
+                            plt.title(f"Mean DiemHP for {selected_TenMH} through Semesters")
+                            st.pyplot()
     
     else:
         course_data = course_data_dict[course]
