@@ -15,7 +15,7 @@ from PIL import Image
 import base64
 import re
 import sqlite3
-
+from concurrent.futures import ThreadPoolExecutor
 df = pd.DataFrame()
 
 
@@ -51,6 +51,73 @@ def generate_comment(median):
     else:
         comment = f"The median score for {course} is outstanding at {median}. Students are doing an excellent job in this course."
     return comment
+
+
+@st.cache
+def compute_histogram_data(course_data):
+    counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
+    total_count = len(course_data)
+    frequencies_percentage = (counts / total_count) * 100
+    grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
+
+    return grade_bins, frequencies_percentage
+
+@st.cache
+def compute_mean_diemhp(filtered_df1):
+    mean_DiemHP = (
+        filtered_df1.groupby("NHHK")["DiemHP"]
+        .mean()
+        .round(1)
+        .reset_index(name="Mean")
+    )
+    return mean_DiemHP
+
+def process_course(course,raw_data):
+    course_data = course_data_dict[course]
+    course_data = course_data.astype(float)
+    grade_bins, frequencies_percentage = compute_histogram_data(course_data)
+
+    fig1 = go.Figure()
+    fig1.add_trace(go.Scatter(x=grade_bins, y=frequencies_percentage, mode='lines', name='Frequency'))
+
+    fig1.update_layout(
+        title="Frequency Range for {}".format(course),
+        xaxis_title="Score",
+        yaxis_title="Percentage",
+        height=400,
+        width=400,
+    )
+
+    fig2 = go.Figure()
+    fig2.add_trace(go.Box(y=course_data, name="Box plot"))
+    fig2.update_layout(
+        title="Box plot of Scores for {}".format(course),
+        yaxis_title="Score",
+        height=400,
+        width=400,
+    )
+
+    raw_data1 = raw_data.copy()
+    raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
+    raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
+    raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
+    if major != "All":
+        raw_data1 = raw_data1[raw_data1["major"] == major]
+
+    raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
+    if school != "All":
+        raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
+
+    df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
+    df1["DiemHP"] = df1["DiemHP"].astype(float)
+    df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
+
+    selected_TenMH = " " + course
+    filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
+
+    mean_DiemHP = compute_mean_diemhp(filtered_df1)
+
+    return grade_bins, frequencies_percentage, fig1, fig2, mean_DiemHP
 
 
 favicon = "R.png"
@@ -668,184 +735,75 @@ elif tabs == "Grade Distribution Tables" :
 
     if course == "":
         st.stop()
+
     elif course == "All":
         courses_per_row = 4
         num_courses = len(valid_courses) 
         num_rows = (num_courses + courses_per_row - 1) // courses_per_row
 
-        for row in range(num_rows):
-            start_index = row * courses_per_row
-            end_index = min((row + 1) * courses_per_row, num_courses)
-            courses_in_row = valid_courses[start_index:end_index]
+        with ThreadPoolExecutor() as executor:
+            futures = []
+            for row in range(num_rows):
+                start_index = row * courses_per_row
+                end_index = min((row + 1) * courses_per_row, num_courses)
+                courses_in_row = valid_courses[start_index:end_index]
 
-            for course in courses_in_row:
-                if course != "All":
-                    course_data = course_data_dict[course]
-                    course_data = course_data.astype(float)
-                    st.write("Course ", course)
-                    col1, col2, col3, col4 = st.columns(4)
+                for course in courses_in_row:
+                    if course != "All":
+                        futures.append(executor.submit(process_course, course))
 
-                    with col1:
-                        counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
-                        total_count = len(course_data)
-                        frequencies_percentage = (counts / total_count) * 100
-                        grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
+            for future in futures:
+                course, grade_bins, frequencies_percentage, fig1, fig2, mean_DiemHP = future.result()
 
-                        # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
-                        df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
-                        df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
+                st.write("Course ", course)
 
-                        st.table(df)
+                col1, col2, col3, col4 = st.columns(4)
 
-                    with col2:
-                        fig = go.Figure()
-                        fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
+                with col1:
+                    df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
+                    df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
+                    st.table(df)
 
-                        fig.update_layout(
-                            title="Frequency Range",
-                            xaxis_title="Score",
-                            yaxis_title="Percentage",
-                            height=400,
-                            width=400,
+                with col2:
+                    st.plotly_chart(fig1, use_container_width=True)
+
+                with col3:
+                    st.plotly_chart(fig2, use_container_width=True)
+
+                with col4:
+                    if year == "All":
+                        fig = px.line(
+                            mean_DiemHP,
+                            x="NHHK",
+                            y="Mean",
+                            title=f"Mean DiemHP for{course} through Semesters",
                         )
+                        fig.update_layout(height=400, width=400)
                         st.plotly_chart(fig, use_container_width=True)
 
-                    with col3:
-                        fig = go.Figure()
-                        fig.add_trace(go.Box(y=course_data, name="Box plot"))
-                        fig.update_layout(
-                            title="Box plot",
-                            yaxis_title="Score",
-                            height=400,
-                            width=400,
-                        )
-                        st.plotly_chart(fig, use_container_width=True)
-
-                    with col4:
-                        raw_data1 = raw_data.copy()
-                        raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
-                        raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
-                        raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
-                        if major != "All":
-                            raw_data1 = raw_data1[raw_data1["major"] == major]
-
-                        # Filter by MaSV_school
-                        raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
-                        if school != "All":
-                            raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
-
-                        # Prepare DataFrame for visualization
-                        df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
-                        df1["DiemHP"] = df1["DiemHP"].astype(float)
-                        df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
-
-                        # Filter by selected_TenMH
-                        selected_TenMH = " " + course
-                        filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
-
-                        # Calculate mean DiemHP
-                        mean_DiemHP = (
-                            filtered_df1.groupby("NHHK")["DiemHP"]
-                            .mean()
-                            .round(1)
-                            .reset_index(name="Mean")
-                        )
-
-                        # Create Plotly line graph
-                        if year != "All":
-                            st.write("")
-                        else:
-                            fig = px.line(
-                                mean_DiemHP,
-                                x="NHHK",
-                                y="Mean",
-                                title=f"Mean DiemHP through Semesters",
-                            )
-                            fig.update_layout(height=400, width=400)
-                            st.plotly_chart(fig, use_container_width=True)  
-
-    
     else:
-        course_data = course_data_dict[course]
-        course_data = course_data.astype(float)
+        grade_bins, frequencies_percentage, fig1, fig2, mean_DiemHP = process_course(course)
+
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
-            total_count = len(course_data)
-            frequencies_percentage = (counts / total_count) * 100
-            grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
-
-            # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
             df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
             df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
-
             st.table(df)
 
-
         with col2:
-            fig = go.Figure()
-            fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
-
-            fig.update_layout(
-                title="Frequency Range for {}".format(course),
-                xaxis_title="Score",
-                yaxis_title="Percentage",
-                height=400,
-                width=400,
-            )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig1, use_container_width=True)
 
         with col3:
-            fig = go.Figure()
-            fig.add_trace(go.Box(y=course_data, name="Box plot"))
-            fig.update_layout(
-                title="Box plot of Scores for {}".format(course),
-                yaxis_title="Score",
-                height=400,
-                width=400,
-            )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig2, use_container_width=True)
 
         with col4:
-            raw_data1 = raw_data.copy()
-            raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
-            raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
-            raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
-            if major != "All":
-                raw_data1 = raw_data1[raw_data1["major"] == major]
-
-            # Filter by MaSV_school
-            raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
-            if school != "All":
-                raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
-
-            # Prepare DataFrame for visualization
-            df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
-            df1["DiemHP"] = df1["DiemHP"].astype(float)
-            df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
-
-            # Filter by selected_TenMH
-            selected_TenMH = " " + course
-            filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
-
-            # Calculate mean DiemHP
-            mean_DiemHP = (
-                filtered_df1.groupby("NHHK")["DiemHP"]
-                .mean()
-                .round(1)
-                .reset_index(name="Mean")
-            )
-
-            # Create Plotly line graph
-            if year != "All":
-                st.write("")
-            else:
+            if year == "All":
                 fig = px.line(
                     mean_DiemHP,
                     x="NHHK",
                     y="Mean",
-                    title=f"Mean DiemHP for{selected_TenMH} through Semesters",
+                    title=f"Mean DiemHP for{course} through Semesters",
                 )
                 fig.update_layout(height=400, width=400)
                 st.plotly_chart(fig, use_container_width=True)
