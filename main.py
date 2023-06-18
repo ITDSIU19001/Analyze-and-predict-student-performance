@@ -682,7 +682,7 @@ elif tabs == "Grade Distribution Tables" :
                 if course != "All":
                     course_data = course_data_dict[course]
                     course_data = course_data.astype(float)
-                    st.write("Course", course)
+                    st.write("Course ", course)
                     col1, col2, col3, col4 = st.columns(4)
 
                     with col1:
