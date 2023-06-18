@@ -750,7 +750,7 @@ elif tabs == "Grade Distribution Tables" :
 
                 for course in courses_in_row:
                     if course != "All":
-                        futures.append(executor.submit(process_course, course))
+                        futures.append(executor.submit(process_course, course,raw_data))
 
             for future in futures:
                 course, grade_bins, frequencies_percentage, fig1, fig2, mean_DiemHP = future.result()
@@ -782,7 +782,7 @@ elif tabs == "Grade Distribution Tables" :
                         st.plotly_chart(fig, use_container_width=True)
 
     else:
-        grade_bins, frequencies_percentage, fig1, fig2, mean_DiemHP = process_course(course)
+        grade_bins, frequencies_percentage, fig1, fig2, mean_DiemHP = process_course(course,raw_data)
 
         col1, col2, col3, col4 = st.columns(4)
 
