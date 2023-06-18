@@ -292,37 +292,20 @@ if tabs == "Dashboard":
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        range_scores = {
-            "0-20": 0,
-            "21-40": 0,
-            "41-60": 0,
-            "61-80": 0,
-            "81-100": 0,
-        }
-
-        for score in course_data:
-            for range_name, range_values in range_scores.items():
-                range_start, range_end = map(int, range_name.split("-"))
-                if range_start <= score <= range_end:
-                    range_scores[range_name] += 1
-                    break
-
-        score_ranges = list(range_scores.keys())
-        cumulative_frequencies = np.cumsum(list(range_scores.values()))
+        counts, bins = np.histogram(course_data, bins=20)
+        total_count = len(course_data)
+        frequencies_percentage = (counts / total_count) * 100
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=score_ranges, y=cumulative_frequencies, mode='lines', name='Frequency'))
+        fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
         fig.update_layout(
-            title="Contribution of Score Ranges",
-            xaxis_title="Score Range",
-            yaxis_title="Cumulative Frequency",
+            title="Frequency Range for {}".format(course),
+            xaxis_title="Score",
+            yaxis_title="Percentage",
             height=400,
-            width=800,
+            width=400,
         )
-
-
-
         st.plotly_chart(fig,use_container_width=True)
     with col2:
         st.write(":))")
