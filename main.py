@@ -197,9 +197,6 @@ if tabs == "Dashboard":
     new1_dfa = dfa.DTBTK
     show_boxplot(new1_df, new1_dfa, major, school, year, additional_selection="", year_a="")
     
-
-
-
     # Drop NaN columns
     df.dropna(axis=1, thresh=1, inplace=True)
     
@@ -369,7 +366,7 @@ if tabs == "Dashboard":
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
         
         st.write("Course:", course, " of ", major + additional_selection, " student in ", year_a)
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3,col4 = st.columns(4)
 
         with col1:
             fig = go.Figure()
@@ -434,6 +431,8 @@ if tabs == "Dashboard":
                 )
                 fig.update_layout(height=400, width=400)
                 st.plotly_chart(fig,use_container_width=True)
+        with col4:
+            st.write(":))")
 
 
 
