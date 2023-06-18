@@ -307,10 +307,11 @@ if tabs == "Dashboard":
             height=400,
             width=400,
         )
+        st.plotly_chart(fig)
     with col2:
         st.write(":))")
 
-        st.plotly_chart(fig)
+        
     with col3:
         fig = go.Figure()
         fig.add_trace(go.Box(y=course_data, name="Box plot"))
