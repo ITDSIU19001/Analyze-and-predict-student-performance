@@ -307,7 +307,7 @@ if tabs == "Dashboard":
             height=400,
             width=400,
         )
-        st.plotly_chart(fig)
+        st.plotly_chart(fig,use_container_width=True)
     with col2:
         st.write(":))")
 
