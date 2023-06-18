@@ -659,14 +659,16 @@ elif tabs == "Grade Distribution Tables" :
       # Add "All" option
 
     if len(valid_courses) > 1:
-        course = st.selectbox("Select a course:",["All"]+valid_courses)
+        course = st.selectbox("Select a course:",["All"]+[""]+valid_courses)
     elif len(valid_courses) == 1:
         course = valid_courses[0]
     else:
         st.write("No valid course data found!")
         st.stop()
-
-    if course == "All":
+        
+    if course == ""
+        st.stop()
+    elif course == "All":
         courses_per_row = 4
         num_courses = len(valid_courses) - 1
         num_rows = (num_courses + courses_per_row - 1) // courses_per_row
