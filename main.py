@@ -310,7 +310,14 @@ if tabs == "Dashboard":
         st.plotly_chart(fig,use_container_width=True)
     with col2:
         df = pd.DataFrame({'Grade': bins[:-1], 'Grading percentage': frequencies_percentage})
-        st.write(df)
+        column_widths = [len(str(value)) for value in df.values.flatten()]
+        max_width = max(column_widths)
+
+        # Set the CSS style for the table
+        table_style = f"table {{ width: {max_width}em; }}"
+
+        # Display the table with the custom CSS style
+        st.markdown(f'<style>{table_style}</style>', unsafe_allow_html=True)
 
         
     with col3:
