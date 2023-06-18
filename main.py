@@ -8,6 +8,7 @@ from function import (
     predict_late_student,
     predict_rank,
     predict_one_student,
+    show_boxplot
 )
 from datetime import datetime
 from PIL import Image
@@ -194,49 +195,7 @@ if tabs == "Dashboard":
 
     new1_df = df.DTBTK
     new1_dfa = dfa.DTBTK
-    if additional_selection != " ":
-        show_boxplot = st.checkbox("Show Boxplot for student's performance", key="checkbox2")
-
-        if show_boxplot:
-            fig = px.box(new1_df)
-            fig1 = px.box(new1_dfa)
-            fig.update_layout(title="Boxplot of " + major + school + " student in " + year )
-            fig1.update_layout(title="Boxplot of " + major + additional_selection + " student in " + year_a)
-            # fig.update_layout(width=1250)
-            # fig1.update_layout(width=1250)
-            col1, col2 = st.columns(2)
-
-            with col1:
-                st.plotly_chart(fig, use_container_width=True)
-
-            with col2:
-                st.plotly_chart(fig1, use_container_width=True)
-
-    elif additional_selection == " " and year_a != " ":
-        show_boxplot = st.checkbox("Show Boxplot for student's performance", key="checkbox2")
-
-        if show_boxplot:
-            fig = px.box(new1_df)
-            fig1 = px.box(new1_dfa)
-            fig.update_layout(title="Boxplot of " + major + school + " student in " + year)
-            fig1.update_layout(title="Boxplot of " + major + school + " student in " + year_a)
-            # fig.update_layout(width=1250)
-            # fig1.update_layout(width=1250)
-            col1, col2 = st.columns(2)
-
-            with col1:
-                st.plotly_chart(fig, use_container_width=True)
-
-            with col2:
-                st.plotly_chart(fig1, use_container_width=True)
-    elif additional_selection == " ":
-        show_boxplot = st.checkbox("Show Boxplot for student's performance", key="checkbox2")
-
-        if show_boxplot:
-            fig = px.box(new1_df)
-            fig.update_layout(title="Boxplot of " + major + " student in " + year)
-            # fig.update_layout(width=1250)
-            st.plotly_chart(fig,use_container_width=True)
+    show_boxplot(major, school, year, additional_selection="", year_a="")
     
 
 
