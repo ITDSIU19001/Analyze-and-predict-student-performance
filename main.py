@@ -659,7 +659,7 @@ elif tabs == "Grade Distribution Tables" :
       # Add "All" option
 
     if len(valid_courses) > 1:
-        course = st.selectbox("Select a course:",["All"]+[""]+valid_courses)
+        course = st.selectbox("Select a course:",[""]+["All"]+valid_courses)
     elif len(valid_courses) == 1:
         course = valid_courses[0]
     else:
