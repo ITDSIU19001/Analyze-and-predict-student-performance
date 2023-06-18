@@ -652,83 +652,102 @@ elif tabs == "Report" :
     # Select course dropdown
     options = df.columns[:-4]
 
-    course_data_dict = {course: df[course].dropna().astype(float) for course in options}
-    valid_courses = [course for course, data in course_data_dict.items() if len(data) > 1]
 
-    if len(valid_courses) == 0:
+    course_data_dict = {course: df[course].dropna() for course in options}
+    valid_courses = [
+        course for course, data in course_data_dict.items() if len(data) > 1
+    ]
+    
+    if len(valid_courses) > 5:
+        course = st.selectbox("Select a course:", valid_courses)
+    elif len(valid_courses) == 1:
+        course = valid_courses[0]
+    else:
         st.write("No valid course data found!")
         st.stop()
 
-    if len(valid_courses) > 5:
-        valid_courses.append("All")  # Add "All" option
+    # Filter the data for the selected course
+    course_data = course_data_dict[course]
+    course_data = course_data.astype(float)
+    col1, col2, col3, col4 = st.columns(4)
+    
+    st.write(course_data )
+    with col1:
+        counts, bins = np.histogram(course_data,bins=np.arange(0, 110, 10))
+        total_count = len(course_data)
+        frequencies_percentage = (counts / total_count) * 100
 
-    course = st.selectbox("Select a course:", valid_courses)
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
-    if course == "All":
-        selected_courses = valid_courses[:-1]  # Exclude "All" from the selected courses
-    else:
-        selected_courses = [course]
+        fig.update_layout(
+            title="Frequency Range for {}".format(course),
+            xaxis_title="Score",
+            yaxis_title="Percentage",
+            height=400,
+            width=400,
+        )
+        st.plotly_chart(fig,use_container_width=True)
+    with col2:
+        grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
 
-    for course in selected_courses:
-        st.write("Course:", course)  # Update the course information as per your requirement
-        course_data = course_data_dict[course]
-        col1, col2, col3, col4 = st.columns(4)
+        # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
+        df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
+        df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
+        
+        st.table(df)
 
-        with col1:
-            counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
-            total_count = len(course_data)
-            frequencies_percentage = (counts / total_count) * 100
+        
+    with col3:
+        fig = go.Figure()
+        fig.add_trace(go.Box(y=course_data, name="Box plot"))
+        fig.update_layout(
+            title="Box plot of Scores for {}".format(course),
+            yaxis_title="Score",
+            height=400,
+            width=400,
+        )
+        st.plotly_chart(fig,use_container_width=True)
+        
+    with col4:
+        raw_data1=raw_data.copy()
+        raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
+        raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
+        raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
+        if major != "All":
+            raw_data1 = raw_data1[raw_data1["major"] == major]
 
-            fig = go.Figure()
-            fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
+        # Filter by MaSV_school
+        raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
+        if school != "All":
+            raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
 
-            fig.update_layout(
-                title="Frequency Range for {}".format(course),
-                xaxis_title="Score",
-                yaxis_title="Percentage",
-                height=400,
-                width=400,
+        # Prepare DataFrame for visualization
+        df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
+        df1["DiemHP"] = df1["DiemHP"].astype(float)
+        df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
+
+        # Filter by selected_TenMH
+        selected_TenMH = " " + course
+        filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
+
+        # Calculate mean DiemHP
+        mean_DiemHP = (
+            filtered_df1.groupby("NHHK")["DiemHP"]
+            .mean()
+            .round(1)
+            .reset_index(name="Mean")
+        )
+
+        # Create Plotly line graph
+        if year != "All":
+            st.write("")
+        else:
+            fig = px.line(
+                mean_DiemHP,
+                x="NHHK",
+                y="Mean",
+                title=f"Mean DiemHP for{selected_TenMH} through Semeters",
             )
-            st.plotly_chart(fig, use_container_width=True)
-
-        with col2:
-            grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
-
-            # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
-            df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
-            df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
-
-            st.table(df)
-
-        with col3:
-            fig = go.Figure()
-            fig.add_trace(go.Box(y=course_data, name="Box plot"))
-            fig.update_layout(
-                title="Box plot of Scores for {}".format(course),
-                yaxis_title="Score",
-                height=400,
-                width=400,
-            )
-            st.plotly_chart(fig, use_container_width=True)
-
-        with col4:
-            filtered_df1 = df1[df1["TenMH"] == f" {course}"]
-
-            # Calculate mean DiemHP
-            mean_DiemHP = (
-                filtered_df1.groupby("NHHK")["DiemHP"]
-                .mean()
-                .round(1)
-                .reset_index(name="Mean")
-            )
-
-            # Create Plotly line graph
-            if year == "All":
-                fig = px.line(
-                    mean_DiemHP,
-                    x="NHHK",
-                    y="Mean",
-                    title=f"Mean DiemHP for {course} through Semesters",
-                )
-                fig.update_layout(height=400, width=400)
-                st.plotly_chart(fig, use_container_width=True)
+            fig.update_layout(height=400, width=400)
+            st.plotly_chart(fig,use_container_width=True)
