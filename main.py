@@ -308,8 +308,8 @@ if tabs == "Dashboard":
         )
         st.plotly_chart(fig,use_container_width=True)
     with col2:
-        countable = pd.DataFrame({'Bins': bins, 'Counts': counts})
-        st.write(countable)
+        df = pd.DataFrame({'Grade': bins[:-1], 'Grading percentage': frequencies_percentage})
+        st.write(df)
 
         
     with col3:
