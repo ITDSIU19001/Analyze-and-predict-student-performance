@@ -292,7 +292,7 @@ if tabs == "Dashboard":
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        counts, bins = np.histogram(course_data, bins=40)
+        counts, bins = np.histogram(course_data, bins=20)
         frequencies = np.cumsum(counts)
 
         fig = go.Figure()
