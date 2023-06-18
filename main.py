@@ -625,16 +625,19 @@ elif tabs == "Report" :
     "SE",
     "IT"]
     unique_values_major = sorted(unique_values_major, key=lambda s: s)
-    major = st.selectbox("Select a school:", unique_values_major)
-    df = filter_dataframe(df, "Major", major)
-    # Filter by MaSV_school
-    unique_values_school = df["MaSV_school"].unique()
-    all_values_school = np.concatenate([["All"], unique_values_school])
-    no_numbers = [x for x in all_values_school if not re.search(r"\d", str(x))]
+    col1,col2 = st.columns(2)
+    with col1:
+        major = st.selectbox("Select a school:", unique_values_major)
+        df = filter_dataframe(df, "Major", major)
+        # Filter by MaSV_school
+        unique_values_school = df["MaSV_school"].unique()
+        all_values_school = np.concatenate([["All"], unique_values_school])
+        no_numbers = [x for x in all_values_school if not re.search(r"\d", str(x))]
 
-    if len(no_numbers) == 2:
-        school = no_numbers[1]
-    school = st.selectbox("Select a major:", no_numbers)
+        if len(no_numbers) == 2:
+            school = no_numbers[1]
+    with col2:
+        school = st.selectbox("Select a major:", no_numbers)
         
     df = filter_dataframe(df, "MaSV_school", school)
     # Filter by Year
