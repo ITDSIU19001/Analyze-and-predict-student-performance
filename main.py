@@ -712,6 +712,9 @@ elif tabs == "Report" :
     with col4:
         raw_data1=raw_data.copy()
         raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
+        pattern = r"\b\w+\b"  # Regex pattern to match any word
+
+        raw_data1.replace(to_replace=pattern, value=np.nan, regex=True, inplace=True)
         raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
         raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
         if major != "All":
