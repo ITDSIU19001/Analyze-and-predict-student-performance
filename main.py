@@ -370,8 +370,6 @@ if tabs == "Dashboard":
             )
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig,use_container_width=True)
-    with col4:
-        st.write(":))")
 
 
 
@@ -385,10 +383,9 @@ if tabs == "Dashboard":
         col1, col2, col3,col4 = st.columns(4)
 
         with col1:
-            counts, bins = np.histogram(course_data, bins=20)
-            frequencies = np.cumsum(counts)
-            total_count = frequencies[-1]
-            frequencies_percentage = (frequencies / total_count) * 100
+            counts, bins = np.histogram(course_data)
+            total_count = len(course_data)
+            frequencies_percentage = (counts / total_count) * 100
 
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
@@ -401,8 +398,16 @@ if tabs == "Dashboard":
                 width=400,
             )
             st.plotly_chart(fig,use_container_width=True)
-
         with col2:
+            grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
+
+            # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
+            df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
+            df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
+            
+            st.table(df)
+
+        with col3:
             fig = go.Figure()
             fig.add_trace(go.Box(y=course_data , name="Box plot"))
             fig.update_layout(
@@ -413,7 +418,7 @@ if tabs == "Dashboard":
             )
             st.plotly_chart(fig,use_container_width=True)
             
-        with col3:
+        with col4:
             raw_data["major"] = raw_data["MaSV"].str.slice(0, 2)
             raw_data.replace(["WH", "VT", "I"], np.nan, inplace=True)
             raw_data = raw_data[~raw_data["DiemHP"].isin(["P", "F", "PC"])]
@@ -453,8 +458,6 @@ if tabs == "Dashboard":
                 )
                 fig.update_layout(height=400, width=400)
                 st.plotly_chart(fig,use_container_width=True)
-        with col4:
-            st.write(":))")
 
 
 
