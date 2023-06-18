@@ -383,7 +383,8 @@ if tabs == "Dashboard":
         col1, col2, col3,col4 = st.columns(4)
 
         with col1:
-            counts, bins = np.histogram(course_data)
+            course_data_filtered = [x for x in course_data if not np.isnan(x)]
+            counts, bins = np.histogram(course_data_filtered)
             total_count = len(course_data)
             frequencies_percentage = (counts / total_count) * 100
 
