@@ -260,7 +260,7 @@ if tabs == "Dashboard":
     ]
     if year_a == " " and additional_selection == " ":
         valid_courses = np.concatenate((valid_courses, ["All"]), axis=None)
-    elif (year != "All" and year_a != "") or (school != "All" and additional_selection != ""):
+    elif (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
         dfac = new_dfa.columns[:-4].tolist()
         common_elements = np.intersect1d(valid_courses, dfac)
         valid_courses = common_elements
