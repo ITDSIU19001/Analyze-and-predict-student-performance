@@ -656,10 +656,10 @@ elif tabs == "Report" :
     valid_courses = [
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
-    valid_courses.append("All")  # Add "All" option
+      # Add "All" option
 
     if len(valid_courses) > 1:
-        course = st.selectbox("Select a course:", valid_courses)
+        course = st.selectbox("Select a course:", valid_courses+"All")
     elif len(valid_courses) == 1:
         course = valid_courses[0]
     else:
@@ -754,6 +754,7 @@ elif tabs == "Report" :
                     st.plotly_chart(fig, use_container_width=True)
 
     else:
+
         course_data = course_data_dict[course]
         course_data = course_data.astype(float)
         col1, col2, col3, col4 = st.columns(4)
