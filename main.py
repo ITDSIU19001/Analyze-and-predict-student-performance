@@ -15,7 +15,6 @@ from PIL import Image
 import base64
 import re
 import sqlite3
-import weasyprint as wp
 
 df = pd.DataFrame()
 
