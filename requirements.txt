@@ -6,4 +6,3 @@ plotly
 scipy
 pyDOE
 openpyxl
-weasyprint
