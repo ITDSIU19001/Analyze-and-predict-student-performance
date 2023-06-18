@@ -53,7 +53,7 @@ def generate_comment(median):
     return comment
 
 
-@st.cache
+@st.cache_data
 def compute_histogram_data(course_data):
     counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
     total_count = len(course_data)
@@ -62,7 +62,7 @@ def compute_histogram_data(course_data):
 
     return grade_bins, frequencies_percentage
 
-@st.cache
+@st.cache_data
 def compute_mean_diemhp(filtered_df1):
     mean_DiemHP = (
         filtered_df1.groupby("NHHK")["DiemHP"]
