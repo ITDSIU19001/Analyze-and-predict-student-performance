@@ -667,48 +667,111 @@ elif tabs == "Report" :
         st.stop()
 
     if course == "All":
-        num_cols = 4
-        num_courses = len(valid_courses)
-        num_rows = (num_courses + num_cols - 1) // num_cols
+        courses_per_row = 4
+        num_courses = len(valid_courses) - 1  # Exclude "All" option
+        num_rows = (num_courses + courses_per_row - 1) // courses_per_row
+        
+        col_width = int(12 / courses_per_row)
+        course_index = 0
+        
+        for row in range(num_rows):
+            cols = st.columns(courses_per_row)
+            for col in cols:
+                if course_index >= num_courses:
+                    break
+                
+                course = valid_courses[course_index]
+                course_index += 1
 
-        for i in range(num_rows):
-            row_courses = valid_courses[i * num_cols: (i + 1) * num_cols]
-            col_count = len(row_courses)
-
-            cols = st.columns(col_count)
-            for j, course in enumerate(row_courses):
-                col = cols[j]
                 with col:
-                    if course != "All":
-                        course_data = course_data_dict[course]
-                        course_data = course_data.astype(float)
+                    course_data = course_data_dict[course]
+                    course_data = course_data.astype(float)
+            
+                    counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
+                    total_count = len(course_data)
+                    frequencies_percentage = (counts / total_count) * 100
 
-                        counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
-                        total_count = len(course_data)
-                        frequencies_percentage = (counts / total_count) * 100
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
-                        fig = go.Figure()
-                        fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
+                    fig.update_layout(
+                        title="Frequency Range for {}".format(course),
+                        xaxis_title="Score",
+                        yaxis_title="Percentage",
+                        height=400,
+                        width=400,
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
 
-                        fig.update_layout(
-                            title="Frequency Range for {}".format(course),
-                            xaxis_title="Score",
-                            yaxis_title="Percentage",
-                            height=400,
-                            width=400,
+                    grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
+
+                    # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
+                    df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
+                    df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
+
+                    st.table(df)
+
+                    fig = go.Figure()
+                    fig.add_trace(go.Box(y=course_data, name="Box plot"))
+                    fig.update_layout(
+                        title="Box plot of Scores for {}".format(course),
+                        yaxis_title="Score",
+                        height=400,
+                        width=400,
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+
+                    raw_data1 = raw_data.copy()
+                    raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
+                    raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
+                    raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
+                    if major != "All":
+                        raw_data1 = raw_data1[raw_data1["major"] == major]
+
+                    # Filter by MaSV_school
+                    raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
+                    if school != "All":
+                        raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
+
+                    # Prepare DataFrame for visualization
+                    df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
+                    df1["DiemHP"] = df1["DiemHP"].astype(float)
+                    df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
+
+                    # Filter by selected_TenMH
+                    selected_TenMH = " " + course
+                    filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
+
+                    # Calculate mean DiemHP
+                    mean_DiemHP = (
+                        filtered_df1.groupby("NHHK")["DiemHP"]
+                        .mean()
+                        .round(1)
+                        .reset_index(name="Mean")
+                    )
+
+                    # Create Plotly line graph
+                    if year != "All":
+                        st.write("")
+                    else:
+                        fig = px.line(
+                            mean_DiemHP,
+                            x="NHHK",
+                            y="Mean",
+                            title=f"Mean DiemHP for{selected_TenMH} through Semesters",
                         )
+                        fig.update_layout(height=400, width=400)
                         st.plotly_chart(fig, use_container_width=True)
     else:
         course_data = course_data_dict[course]
         course_data = course_data.astype(float)
-
-        counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
-        total_count = len(course_data)
-        frequencies_percentage = (counts / total_count) * 100
-
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
+            counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
+            total_count = len(course_data)
+            frequencies_percentage = (counts / total_count) * 100
+
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
