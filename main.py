@@ -667,7 +667,7 @@ elif tabs == "Report" :
         st.stop()
 
     # Filter the data for the selected course
-    course_data = course_data_dict[course].
+    course_data = course_data_dict[course]
     course_data = course_data.astype(float)
     col1, col2, col3, col4 = st.columns(4)
     
