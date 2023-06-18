@@ -308,7 +308,8 @@ if tabs == "Dashboard":
         )
         st.plotly_chart(fig,use_container_width=True)
     with col2:
-        st.write(":))")
+        countable = pd.DataFrame({'Bins': bins, 'Counts': counts})
+        st.write(countable)
 
         
     with col3:
