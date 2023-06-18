@@ -681,7 +681,7 @@ elif tabs == "Grade Distribution Tables" :
                 course_data = course_data.astype(float)
                 st.write("Course ", course)
                 col1, col2, col3, col4 = st.columns(4)
-                
+
                 with col1:
                     counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
                     total_count = len(course_data)
@@ -742,7 +742,8 @@ elif tabs == "Grade Distribution Tables" :
 
                     # Calculate mean DiemHP
                     mean_DiemHP = (
-                        filtered_df1.groupby("NHHK")["DiemHP"]
+                        filtered_df1.groupby("NHHK")
+                        ["DiemHP"]
                         .mean()
                         .round(1)
                         .reset_index(name="Mean")
@@ -759,7 +760,7 @@ elif tabs == "Grade Distribution Tables" :
                             title=f"Mean DiemHP through Semesters",
                         )
                         fig.update_layout(height=400, width=400)
-                        st.plotly_chart(fig, use_container_width=True)  
+                        st.plotly_chart(fig, use_container_width=True)
 
 
         # Create a ThreadPoolExecutor
