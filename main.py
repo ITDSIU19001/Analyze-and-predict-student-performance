@@ -670,23 +670,21 @@ elif tabs == "Report" :
         courses_per_row = 4
         num_courses = len(valid_courses) - 1  # Exclude "All" option
         num_rows = (num_courses + courses_per_row - 1) // courses_per_row
-        
+
         col_width = int(12 / courses_per_row)
-        course_index = 0
-        
+
         for row in range(num_rows):
             cols = st.columns(courses_per_row)
-            for col in cols:
-                if course_index >= num_courses:
+            for i, col in enumerate(cols):
+                if (row * courses_per_row) + i >= num_courses:
                     break
-                
-                course = valid_courses[course_index]
-                course_index += 1
+
+                course = valid_courses[(row * courses_per_row) + i]
 
                 with col:
                     course_data = course_data_dict[course]
                     course_data = course_data.astype(float)
-            
+
                     counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
                     total_count = len(course_data)
                     frequencies_percentage = (counts / total_count) * 100
@@ -763,6 +761,7 @@ elif tabs == "Report" :
                         fig.update_layout(height=400, width=400)
                         st.plotly_chart(fig, use_container_width=True)
     else:
+        course = course.strip()
         course_data = course_data_dict[course]
         course_data = course_data.astype(float)
         col1, col2, col3, col4 = st.columns(4)
