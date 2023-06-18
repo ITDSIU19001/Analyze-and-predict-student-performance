@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 df = pd.DataFrame()
 
-
+st.set_option('deprecation.showPyplotGlobalUse', False)
 def color_cell(val):
     if val == "not late":
         color = "green"
