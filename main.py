@@ -301,15 +301,16 @@ if tabs == "Dashboard":
         }
 
         for score in course_data:
-            range_index = 0
-            while score > 20 and range_index < len(range_scores):
-                range_index += 1
-            if range_index + 20 <= 100:
-                range_scores[f"{range_index}-{range_index + 20}"] += 1
+            for range_name, range_values in range_scores.items():
+                range_start, range_end = map(int, range_name.split("-"))
+                if range_start <= score <= range_end:
+                    range_scores[range_name] += 1
+                    break
 
         fig = go.Figure()
         for range_name, frequency in range_scores.items():
-            fig.add_trace(go.Line(x=[range_name], y=[frequency], name=range_name))
+            fig.add_trace(go.Scatter(x=[range_name], y=[frequency], mode='lines', name=range_name))
+
         fig.update_layout(
             title="Frequency of Range Scores",
             xaxis_title="Range",
@@ -317,6 +318,7 @@ if tabs == "Dashboard":
             height=400,
             width=400,
         )
+
 
         st.plotly_chart(fig,use_container_width=True)
     with col2:
