@@ -765,27 +765,7 @@ elif tabs == "Grade Distribution Tables" :
                             )
                             fig.update_layout(height=400, width=400)
                             st.plotly_chart(fig, use_container_width=True)
-        html = st._get_session().__dict__["_browser"]["page"].html
-
-        # Define the filename and path for the PDF
-        pdf_filename = "course_analysis.pdf"
-        pdf_path = f"path/to/save/{pdf_filename}"
-
-        # Convert HTML to PDF
-        pdfkit.from_string(html, pdf_path)
-
-        # Generate base64 encoded PDF data
-        with open(pdf_path, "rb") as f:
-            pdf_data = base64.b64encode(f.read()).decode("utf-8")
-
-        # Create download button
-        download_button_str = (
-            f'<a href="data:application/pdf;base64,{pdf_data}" download="{pdf_filename}">'
-            f'<button type="button">Download PDF</button></a>'
-        )
-
-        # Display the download button
-        st.markdown(download_button_str, unsafe_allow_html=True)
+        
 
     else:
         course_data = course_data_dict[course]
