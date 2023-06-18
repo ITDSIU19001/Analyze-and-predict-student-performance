@@ -260,7 +260,7 @@ if tabs == "Dashboard":
     ]
     if (year_a == " " and additional_selection == " ") :
         valid_courses=np.concatenate((valid_courses, "All"), axis=None) 
-    else ((year != "All" and year_a != " ") or (school != "All" and additional_selection != " ")):
+    else (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
         dfac=new_dfa.columns[:-4].tolist()
         common_elements = np.intersect1d(valid_courses, dfac)
         # Merge arrays with common elements
