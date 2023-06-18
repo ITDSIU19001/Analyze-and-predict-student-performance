@@ -351,3 +351,44 @@ def predict_one_student(raw_data, student_id):
             st.plotly_chart(fig2)
     else:
         st.write("No data found for student {}".format(student_id))
+
+def show_boxplot(new1_df, new1_dfa, major, school, year, additional_selection="", year_a=""):
+    if additional_selection != " ":
+        show_boxplot = st.checkbox("Show Boxplot for student's performance", key="checkbox2")
+
+        if show_boxplot:
+            fig = px.box(new1_df)
+            fig1 = px.box(new1_dfa)
+            fig.update_layout(title="Boxplot of " + major + school + " student in " + year)
+            fig1.update_layout(title="Boxplot of " + major + additional_selection + " student in " + year_a)
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.plotly_chart(fig, use_container_width=True)
+
+            with col2:
+                st.plotly_chart(fig1, use_container_width=True)
+
+    elif additional_selection == " " and year_a != " ":
+        show_boxplot = st.checkbox("Show Boxplot for student's performance", key="checkbox2")
+
+        if show_boxplot:
+            fig = px.box(new1_df)
+            fig1 = px.box(new1_dfa)
+            fig.update_layout(title="Boxplot of " + major + school + " student in " + year)
+            fig1.update_layout(title="Boxplot of " + major + school + " student in " + year_a)
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.plotly_chart(fig, use_container_width=True)
+
+            with col2:
+                st.plotly_chart(fig1, use_container_width=True)
+
+    elif additional_selection == " ":
+        show_boxplot = st.checkbox("Show Boxplot for student's performance", key="checkbox2")
+
+        if show_boxplot:
+            fig = px.box(new1_df)
+            fig.update_layout(title="Boxplot of " + major + " student in " + year)
+            st.plotly_chart(fig, use_container_width=True)
