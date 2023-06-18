@@ -309,7 +309,7 @@ if tabs == "Dashboard":
         st.plotly_chart(fig,use_container_width=True)
     with col2:
         bins = ['0-10', '10-20', '30-40','40-50','50-60','60-70','70-80','80-90','90-100']
-        df = pd.DataFrame({'Grade': bins[:-1], 'Grading percentage': frequencies_percentage})
+        df = pd.DataFrame({'Grade': bins, 'Grading percentage': frequencies_percentage})
 
         st.table(df)
 
