@@ -16,6 +16,7 @@ import base64
 import re
 import sqlite3
 import streamlit.components.v1 as components
+import requests
 
 df = pd.DataFrame()
 
