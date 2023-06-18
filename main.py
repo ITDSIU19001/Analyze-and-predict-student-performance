@@ -266,7 +266,8 @@ if tabs == "Dashboard":
 
         # Filter merged array to retain only common elements
         valid_courses = np.intersect1d(merged_array, common_elements)
-
+    else:
+        valid_courses=np.concatenate((valid_courses, "All"), axis=None)
 
     if len(valid_courses) > 5:
         course = st.selectbox("Select a course:", valid_courses)
@@ -290,6 +291,7 @@ if tabs == "Dashboard":
         st.write("No data available for the selected course.")
 
     col1, col2, col3, col4 = st.columns(4)
+    
 
     with col1:
         counts, bins = np.histogram(course_data,bins=np.arange(0, 110, 10))
