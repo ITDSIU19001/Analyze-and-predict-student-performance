@@ -8,7 +8,7 @@ from function import (
     predict_late_student,
     predict_rank,
     predict_one_student,
-    show_boxplot
+    show_boxplot1
 )
 from datetime import datetime
 from PIL import Image
@@ -195,7 +195,7 @@ if tabs == "Dashboard":
 
     new1_df = df.DTBTK
     new1_dfa = dfa.DTBTK
-    show_boxplot(new1_df, new1_dfa, major, school, year, additional_selection="", year_a="")
+    show_boxplot1(new1_df, new1_dfa, major, school, year, additional_selection="", year_a="")
     
     # Drop NaN columns
     df.dropna(axis=1, thresh=1, inplace=True)
@@ -292,7 +292,7 @@ if tabs == "Dashboard":
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        data = np.round(np.array(course_data) / 25, 2).tolist()
+        data=course_data/25
         counts, bins = np.histogram(data)
         total_count = len(course_data)
         frequencies_percentage = (counts / total_count) * 100

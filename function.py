@@ -352,7 +352,7 @@ def predict_one_student(raw_data, student_id):
     else:
         st.write("No data found for student {}".format(student_id))
 
-def show_boxplot(new1_df, new1_dfa, major, school, year, additional_selection="", year_a=""):
+def show_boxplot1(new1_df, new1_dfa, major, school, year, additional_selection="", year_a=""):
     if additional_selection != " ":
         show_boxplot = st.checkbox("Show Boxplot for student's performance", key="checkbox2")
 
