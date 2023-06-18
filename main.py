@@ -307,9 +307,11 @@ if tabs == "Dashboard":
             height=400,
             width=400,
         )
+    with col2:
+        st.write(":))")
 
         st.plotly_chart(fig)
-    with col2:
+    with col3:
         fig = go.Figure()
         fig.add_trace(go.Box(y=course_data, name="Box plot"))
         fig.update_layout(
@@ -320,7 +322,7 @@ if tabs == "Dashboard":
         )
         st.plotly_chart(fig,use_container_width=True)
         
-    with col3:
+    with col4:
         raw_data1=raw_data.copy()
         raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
         raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
@@ -362,8 +364,7 @@ if tabs == "Dashboard":
             )
             fig.update_layout(height=400, width=400)
             st.plotly_chart(fig,use_container_width=True)
-    with col4:
-        st.write(":))")
+
 
 
 
@@ -377,16 +378,21 @@ if tabs == "Dashboard":
         col1, col2, col3,col4 = st.columns(4)
 
         with col1:
+            counts, bins = np.histogram(course_data, bins=40)
+            frequencies = np.cumsum(counts)
+            total_count = frequencies[-1]
+            frequencies_percentage = (frequencies / total_count) * 100
+
             fig = go.Figure()
-            fig.add_trace(go.Histogram(x=course_data , nbinsx=40, name="Histogram"))
+            fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
+
             fig.update_layout(
-                title="Histogram of Scores for {}".format(course),
+                title="Line Chart of Frequency Range for {}".format(course),
                 xaxis_title="Score",
-                yaxis_title="Count",
+                yaxis_title="Percentage",
                 height=400,
                 width=400,
             )
-            st.plotly_chart(fig,use_container_width=True)
 
         with col2:
             fig = go.Figure()
