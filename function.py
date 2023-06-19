@@ -19,33 +19,35 @@ def get_year(student_id):
 
 @st.cache_data()
 def process_data(raw_data):
-    # Filter out irrelevant courses
-    raw_data = raw_data[~raw_data["TenMH"].str.contains(
-        "IE|Intensive English|IE2|IE1|IE3|IE0")]
-
     # Pivot the DataFrame
-    pivot_df = pd.pivot_table(raw_data, values="DiemHP",
-                              index="MaSV", columns="TenMH", aggfunc="first")
-    pivot_df = pivot_df.dropna(thresh=50, axis=1)
-    pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+    raw_data = raw_data[
+        ~raw_data["TenMH"].str.contains("IE|Intensive English|IE2|IE1|IE3|IE0")
+    ]
+    #     raw_data = raw_data[~raw_data['DiemHP'].isin(['P','F','PC'])]
+    pivot_df = pd.pivot_table(
+        raw_data, values="DiemHP", index="MaSV", columns="TenMH", aggfunc="first"
+    )
     pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
     pivot_df.columns.name = None
+    pivot_df = pivot_df.dropna(thresh=50, axis=1)
+    pivot_df = pivot_df.rename(columns=lambda x: x.strip())
+    # Drop unnecessary columns
 
-    # Merge dataframes
-    df = pd.merge(raw_data[["MaSV"]], pivot_df, on="MaSV")
+    # Merge with the XepLoaiNH column
+    df = pd.merge(pivot_df, raw_data[["MaSV"]], on="MaSV")
     df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-
-    # Replace values and convert datatypes
+    dfid = df["MaSV"]
+    df.drop(["MaSV"], axis=1, inplace=True)
     df.replace(["WH", "VT", "I"], np.nan, inplace=True)
     df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
-
-    # Add new columns and merge again
+    df = pd.merge(dfid, df, left_index=True, right_index=True)
     df["MaSV_school"] = df["MaSV"].str.slice(2, 4)
     df["Major"] = df["MaSV"].str.slice(0, 2)
     df["Year"] = 2000 + df["MaSV"].apply(get_year)
     df["Year"] = df["Year"].astype(str)
-    df = pd.merge(df, raw_data[["MaSV", "DTBTK"]].drop_duplicates(), on="MaSV")
-    df.drop(columns="MaSV", inplace=True)
+    df=pd.merge( df,raw_data[["MaSV","DTBTK"]].drop_duplicates(),on="MaSV")
+    df = df.drop(columns="MaSV")
+    
 
     return df
 
@@ -280,35 +282,87 @@ def predict_rank(raw_data):
 
 
 def predict_one_student(raw_data, student_id):
+    # Subset the DataFrame to relevant columns and rows
     student = process_data_per(raw_data)
-    filtered_df = student[student['MaSV'] == student_id]
+    filtered_df = student[student["MaSV"] == student_id]
     if len(filtered_df) > 0:
         selected_row = filtered_df.iloc[0, 1:].dropna()
         values = selected_row.values.tolist()
         course_data_filtered = [x for x in selected_row if not np.isnan(x)]
-        counts, bins = np.histogram(course_data_filtered, bins=np.arange(0, 110, 10))
+        counts, bins = np.histogram(course_data_filtered,bins=np.arange(0, 110, 10))
         grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
         total_count = len(selected_row)
         frequencies_percentage = (counts / total_count) * 100
-        fig1 = go.Figure(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
-        fig1.update_layout(title='Frequency Range for', xaxis_title='Score', yaxis_title='Percentage', height=400, width=400)
-        data = raw_data[['MaSV', 'NHHK', 'TenMH', 'DiemHP']]
-        data['TenMH'] = data['TenMH'].str.lstrip()
-        data['NHHK'] = data['NHHK'].apply(lambda x: str(x)[:4] + ' S ' + str(x)[4:])
+        # create a line chart using plotly
+        fig1 = go.Figure()
+        # fig1.add_trace(
+        #     go.Histogram(
+        #         x=values,
+        #         nbinsx=40,
+        #         name=student_id,
+        #         marker=dict(color="rgba(50, 100, 200, 0.7)"),
+        #     )
+        # )
+
+        # # set the chart title and axis labels
+        # fig1.update_layout(
+        #     title="Histogram for student {}".format(student_id),
+        #     xaxis_title="Value",
+        #     yaxis_title="Frequency",
+        #     width=500,
+        # )
+        fig1.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
+
+        fig1.update_layout(
+            title="Frequency Range for",
+            xaxis_title="Score",
+            yaxis_title="Percentage",
+            height=400,
+            width=400,
+        )
+
+        # create a bar chart using plotly express
+        data = raw_data[["MaSV", "NHHK", "TenMH", "DiemHP"]]
+        data["TenMH"] = data["TenMH"].str.lstrip()
+        data["NHHK"] = data["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
         rows_to_drop = []
-        with open('rows_to_drop.txt', 'r') as f:
+        with open("rows_to_drop.txt", "r") as f:
             for line in f:
                 rows_to_drop.append(str(line.strip()))
-        data = data[~data['TenMH'].isin(rows_to_drop)]
-        student_data = data[data['MaSV'] == student_id][['NHHK', 'TenMH', 'DiemHP']]
-        student_data['DiemHP'] = pd.to_numeric(student_data['DiemHP'], errors='coerce')
-        fig2 = px.bar(student_data, x='TenMH', y='DiemHP', color='NHHK', title='Student Score vs. Course')
-        fig2.update_layout(title='Student Score vs. Course', xaxis_title=None, yaxis_title='Score')
-        fig2.add_shape(type='line', x0=0, y0=50, x1=len(student_data['TenMH']) - 1, y1=50, line=dict(color='red', width=3))
-        st.plotly_chart(fig1, use_container_width=True)
-        st.plotly_chart(fig2, use_container_width=True)
+        data = data[~data["TenMH"].isin(rows_to_drop)]
+        student_data = data[data["MaSV"] == student_id][["NHHK", "TenMH", "DiemHP"]]
+        student_data["DiemHP"] = pd.to_numeric(student_data["DiemHP"], errors="coerce")
+
+        fig2 = px.bar(
+            student_data,
+            x="TenMH",
+            y="DiemHP",
+            color="NHHK",
+            title="Student Score vs. Course",
+        )
+        fig2.update_layout(
+            title="Student Score vs. Course",
+            xaxis_title=None,
+            yaxis_title="Score",
+        )
+        fig2.add_shape(
+            type="line",
+            x0=0,
+            y0=50,
+            x1=len(student_data["TenMH"]) - 1,
+            y1=50,
+            line=dict(color="red", width=3),
+        )
+
+        # display the charts using st.column
+        col1, col2 = st.columns(2)
+        with col1:
+            st.plotly_chart(fig1,use_container_width=True)
+
+        with col2:
+            st.plotly_chart(fig2,use_container_width=True)
     else:
-        st.write(f'No data found for student {student_id}')
+        st.write("No data found for student {}".format(student_id))
 
 def show_boxplot1(new1_df, new1_dfa, major, school, year, additional_selection="", year_a=""):
     if additional_selection != " ":
