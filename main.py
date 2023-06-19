@@ -31,6 +31,11 @@ def color_cell(val):
         
     return f"color: {color};"
 
+def clear_resources():
+  """Clears all resources from the st.session_state."""
+  for key in list(st.session_state.keys()):
+    if key.startswith("resource"):
+      del st.session_state[key]
 
 def get_year(student_id):
     year_str = ""
@@ -123,6 +128,7 @@ def filter_dataframe(df, column, value):
 # draw histogram
 # Streamlit app
 if tabs == "Dashboard":
+    clear_resources()
     #     try:
     additional_selection = " "
     # Filter by Major
@@ -476,6 +482,7 @@ if tabs == "Dashboard":
 # predict student
 
 elif tabs == "Prediction Performance":
+    clear_resources()
     # try:
     tc = st.get_option('theme.textColor')
     st.write(tc)
@@ -615,6 +622,7 @@ elif tabs == "Prediction Performance":
 # except:
 #     st.write('Add CSV to analysis')
 elif tabs == "Grade Distribution Tables" :
+    clear_resources()
     additional_selection = " "
     # Filter by Major
     unique_values_major = df["Major"].unique()
