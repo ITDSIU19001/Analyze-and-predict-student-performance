@@ -287,7 +287,6 @@ def predict_one_student(raw_data, student_id):
     filtered_df = student[student["MaSV"] == student_id]
     if len(filtered_df) > 0:
         selected_row = filtered_df.iloc[0, 1:].dropna()
-        colname = filtered_df.dropna().columns.tolist()
         values = selected_row.values.tolist()
 
         # create a line chart using plotly
