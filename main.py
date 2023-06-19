@@ -767,6 +767,10 @@ elif tabs == "Grade Distribution Tables" :
                         fig.update_layout(height=400, width=400)
                         st.plotly_chart(fig, use_container_width=True)  
 
+if tabs != st.session_state.last_tab:
+    st.experimental_rerun()
+
+st.session_state.last_tab = tabs
     
 
     
