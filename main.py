@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-from streamlit import SessionState
 import plotly.express as px
 import numpy as np
 import plotly.graph_objs as go
