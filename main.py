@@ -28,7 +28,7 @@ def color_cell(val):
         color = "red"
     else:
         color = st.get_option('theme.textColor')
-    return f'<span style="color: {color}">{val}</span>'
+    return "color: %s" % color
 
 
 def get_year(student_id):
