@@ -19,35 +19,36 @@ def get_year(student_id):
 
 @st.cache_data()
 def process_data(raw_data):
-    # Pivot the DataFrame
-    raw_data = raw_data[
-        ~raw_data["TenMH"].str.contains("IE|Intensive English|IE2|IE1|IE3|IE0")
-    ]
-    #     raw_data = raw_data[~raw_data['DiemHP'].isin(['P','F','PC'])]
-    pivot_df = pd.pivot_table(
-        raw_data, values="DiemHP", index="MaSV", columns="TenMH", aggfunc="first"
-    )
-    pivot_df = pivot_df.reset_index().rename_axis(None, axis=1)
-    pivot_df.columns.name = None
-    pivot_df = pivot_df.dropna(thresh=50, axis=1)
-    pivot_df = pivot_df.rename(columns=lambda x: x.strip())
-    # Drop unnecessary columns
+    # Remove rows with TenMH containing IE|Intensive English|IE2|IE1|IE3|IE0
+    raw_data = raw_data[~raw_data["TenMH"].str.contains("IE|Intensive English|IE2|IE1|IE3|IE0")]
 
-    # Merge with the XepLoaiNH column
-    df = pd.merge(pivot_df, raw_data[["MaSV"]], on="MaSV")
+    # Pivot the DataFrame and drop columns with more than 50 NaN values
+    pivot_df = raw_data.pivot_table(values="DiemHP", index="MaSV", columns="TenMH", aggfunc="first")
+    pivot_df = pivot_df.dropna(thresh=50, axis=1)
+
+    # Remove leading/trailing whitespaces from column names
+    pivot_df.columns = pivot_df.columns.str.strip()
+
+    # Merge pivot_df with the XepLoaiNH column
+    df = pd.merge(pivot_df, raw_data[["MaSV", "XepLoaiNH"]], on="MaSV")
+
+    # Drop duplicates, unnecessary columns, and replace WH, VT, and I with NaN
     df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-    dfid = df["MaSV"]
-    df.drop(["MaSV"], axis=1, inplace=True)
+    df.drop(["MaSV", "XepLoaiNH"], axis=1, inplace=True)
     df.replace(["WH", "VT", "I"], np.nan, inplace=True)
-    df.iloc[:, :-1] = df.iloc[:, :-1].apply(pd.to_numeric)
-    df = pd.merge(dfid, df, left_index=True, right_index=True)
-    df["MaSV_school"] = df["MaSV"].str.slice(2, 4)
-    df["Major"] = df["MaSV"].str.slice(0, 2)
+
+    # Convert all columns to numeric data type
+    df = df.apply(pd.to_numeric)
+
+    # Extract year, school code, and major from MaSV
     df["Year"] = 2000 + df["MaSV"].apply(get_year)
     df["Year"] = df["Year"].astype(str)
-    df=pd.merge( df,raw_data[["MaSV","DTBTK"]].drop_duplicates(),on="MaSV")
+    df["MaSV_school"] = df["MaSV"].str.slice(2, 4)
+    df["Major"] = df["MaSV"].str.slice(0, 2)
+
+    # Merge df with DTBTK column and drop MaSV column
+    df = pd.merge(df, raw_data[["MaSV", "DTBTK"]].drop_duplicates(), on="MaSV")
     df = df.drop(columns="MaSV")
-    
 
     return df
 
