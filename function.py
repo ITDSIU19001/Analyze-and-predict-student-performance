@@ -29,12 +29,10 @@ def process_data(raw_data):
     # Remove leading/trailing whitespaces from column names
     pivot_df.columns = pivot_df.columns.str.strip()
 
-    # Merge pivot_df with the XepLoaiNH column
-    df = pd.merge(pivot_df, raw_data[["MaSV", "XepLoaiNH"]], on="MaSV")
 
     # Drop duplicates, unnecessary columns, and replace WH, VT, and I with NaN
     df.drop_duplicates(subset="MaSV", keep="last", inplace=True)
-    df.drop(["MaSV", "XepLoaiNH"], axis=1, inplace=True)
+    df.drop(["MaSV"], axis=1, inplace=True)
     df.replace(["WH", "VT", "I"], np.nan, inplace=True)
 
     # Convert all columns to numeric data type
