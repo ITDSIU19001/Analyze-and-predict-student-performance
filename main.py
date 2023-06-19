@@ -27,7 +27,7 @@ def color_cell(val):
     elif val == "late":
         color = "red"
     else:
-        color = st.get_option('theme.textColorPrimary')
+        color = st.get_option('theme.textColor')
     return f'<span style="color: {color}">{val}</span>'
 
 
