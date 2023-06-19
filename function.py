@@ -288,10 +288,10 @@ def predict_one_student(raw_data, student_id):
     if len(filtered_df) > 0:
         selected_row = filtered_df.iloc[0, 1:].dropna()
         values = selected_row.values.tolist()
-        counts, bins = np.histogram(selected_row,bins=np.arange(0, 110, 10))
+        course_data_filtered = [x for x in selected_row if not np.isnan(x)]
+        counts, bins = np.histogram(course_data_filtered,bins=np.arange(0, 110, 10))
         total_count = len(counts)
         frequencies_percentage = (counts / total_count) * 100
-        grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
 
         # create a line chart using plotly
         fig1 = go.Figure()
