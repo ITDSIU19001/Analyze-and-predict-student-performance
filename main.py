@@ -475,7 +475,7 @@ if tabs == "Dashboard":
 
 
 # predict student
-
+    st.stop()
 elif tabs == "Prediction Performance":
     # try:
     tc = st.get_option('theme.textColor')
@@ -615,6 +615,7 @@ elif tabs == "Prediction Performance":
 
 # except:
 #     st.write('Add CSV to analysis')
+    st.stop()
 elif tabs == "Grade Distribution Tables" :
     additional_selection = " "
     # Filter by Major
@@ -767,7 +768,7 @@ elif tabs == "Grade Distribution Tables" :
                         )
                         fig.update_layout(height=400, width=400)
                         st.plotly_chart(fig, use_container_width=True)  
-
+    st.stop()
     
 
     
