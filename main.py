@@ -28,10 +28,10 @@ def color_cell(val):
         color = "red"
     else:
         theme_name = st.get_option('theme.primaryColor')
-        if theme_name == '#0E1117':
-            color = "white"
-        else:
+        if theme_name == '#FFFFFF':
             color = "black"
+        else:
+            color = "white"
 
     return f'color: {color}'
 
