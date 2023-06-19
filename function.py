@@ -288,24 +288,37 @@ def predict_one_student(raw_data, student_id):
     if len(filtered_df) > 0:
         selected_row = filtered_df.iloc[0, 1:].dropna()
         values = selected_row.values.tolist()
+        counts, bins = np.histogram(selected_row,bins=np.arange(0, 110, 10))
+        total_count = len(counts)
+        frequencies_percentage = (counts / total_count) * 100
+        grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
 
         # create a line chart using plotly
         fig1 = go.Figure()
-        fig1.add_trace(
-            go.Histogram(
-                x=values,
-                nbinsx=40,
-                name=student_id,
-                marker=dict(color="rgba(50, 100, 200, 0.7)"),
-            )
-        )
+        # fig1.add_trace(
+        #     go.Histogram(
+        #         x=values,
+        #         nbinsx=40,
+        #         name=student_id,
+        #         marker=dict(color="rgba(50, 100, 200, 0.7)"),
+        #     )
+        # )
 
-        # set the chart title and axis labels
+        # # set the chart title and axis labels
+        # fig1.update_layout(
+        #     title="Histogram for student {}".format(student_id),
+        #     xaxis_title="Value",
+        #     yaxis_title="Frequency",
+        #     width=500,
+        # )
+        fig1.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
+
         fig1.update_layout(
-            title="Histogram for student {}".format(student_id),
-            xaxis_title="Value",
-            yaxis_title="Frequency",
-            width=500,
+            title="Frequency Range for {}".format(course),
+            xaxis_title="Score",
+            yaxis_title="Percentage",
+            height=400,
+            width=400,
         )
 
         # create a bar chart using plotly express
@@ -344,10 +357,10 @@ def predict_one_student(raw_data, student_id):
         # display the charts using st.column
         col1, col2 = st.columns(2)
         with col1:
-            st.plotly_chart(fig1)
+            st.plotly_chart(fig1,use_container_width=True)
 
         with col2:
-            st.plotly_chart(fig2)
+            st.plotly_chart(fig2,use_container_width=True)
     else:
         st.write("No data found for student {}".format(student_id))
 
