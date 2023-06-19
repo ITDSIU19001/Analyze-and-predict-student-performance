@@ -181,6 +181,7 @@ if tabs == "Dashboard":
     # Second selectbox in the second column
     with col2:
         year_a= " "
+<<<<<<< HEAD
         if year != "All":
             if additional_selection == " ":
                 year_list = [x for x in all_values_year if x != "All" and x != year]
@@ -190,11 +191,19 @@ if tabs == "Dashboard":
                 dfa.dropna(axis=1, thresh=1, inplace=True)
             else:
                 year_a = year
+=======
+        if year != "All" and additional_selection == " ":
+            year_list = [x for x in all_values_year if x != "All" and x != year]
+            year_list = np.concatenate([[" "], year_list])
+            year_a = st.selectbox("Select another year for comparisons:", year_list)
+        elif year == "All":
+            year_a = " "
+        elif year != "All" and additional_selection != " ":
+            year_a = year
+            if year_a != " ":
+>>>>>>> parent of 5b90f13 (Update main.py)
                 dfa = filter_dataframe(dfa, "Year", year_a)
                 dfa.dropna(axis=1, thresh=1, inplace=True)
-        else:
-            year_a = " "
-
     
     df = filter_dataframe(df, "Year", year)
 
