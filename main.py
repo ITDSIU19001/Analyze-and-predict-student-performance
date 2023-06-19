@@ -199,7 +199,8 @@ if tabs == "Dashboard":
     df = filter_dataframe(df, "Year", year)
 
     new1_df = df.DTBTK
-    new1_dfa = dfa.DTBTK
+    if dfa != None:
+        new1_dfa = dfa.DTBTK
     show_boxplot1(new1_df, new1_dfa, major, school, year, additional_selection="", year_a="")
     
     # Drop NaN columns
