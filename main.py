@@ -189,6 +189,10 @@ if tabs == "Dashboard":
         elif year != "All" and additional_selection != " ":
             year_a = year
             if year_a != " ":
+                dfa = filter_dataframe(dfa, "Year", year_a)
+                dfa.dropna(axis=1, thresh=1, inplace=True)
+            else:
+                year_a = " "
     
     df = filter_dataframe(df, "Year", year)
     st.write(dfa)
