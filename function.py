@@ -291,7 +291,7 @@ def predict_one_student(raw_data, student_id):
         course_data_filtered = [x for x in selected_row if not np.isnan(x)]
         counts, bins = np.histogram(course_data_filtered,bins=np.arange(0, 110, 10))
         grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
-        total_count = len(counts)
+        total_count = len(selected_row)
         frequencies_percentage = (counts / total_count) * 100
         df1 = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
         df1['Grading percentage'] = df1['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
