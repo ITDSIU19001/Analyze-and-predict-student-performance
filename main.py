@@ -378,7 +378,7 @@ if tabs == "Dashboard":
 
     course_data_dict = {course: new_dfa[course]}
     course_data = course_data_dict[course]
-    
+    st.write(dfa)
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
         
         st.write("Course:", course, " of ", major + additional_selection, " student in ", year_a)
