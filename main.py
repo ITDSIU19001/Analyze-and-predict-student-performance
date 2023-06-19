@@ -27,13 +27,9 @@ def color_cell(val):
     elif val == "late":
         color = "red"
     else:
-        theme_name = st.get_option('theme.primaryColor')
-        if theme_name == '#ffffff':
-            color = "black"
-        else:
-            color = "white"
-
-    return f'color: {color}'
+        color = st.get_option("theme.textColor")  # Dynamic theme color
+        
+    return f"color: {color};"
 
 
 def get_year(student_id):
