@@ -662,18 +662,16 @@ elif tabs == "Grade Distribution Tables" :
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
       # Add "All" option
+    course="All"
+    # if len(valid_courses) > 1:
+    #     course = st.selectbox("Select a course:",[""]+["All"])
+    # elif len(valid_courses) == 1:
+    #     course = valid_courses[0]
+    # else:
+    #     st.write("No valid course data found!")
+    st.stop()
 
-    if len(valid_courses) > 1:
-        course = st.selectbox("Select a course:",[""]+["All"])
-    elif len(valid_courses) == 1:
-        course = valid_courses[0]
-    else:
-        st.write("No valid course data found!")
-        st.stop()
-
-    if course == "":
-        st.stop()
-    elif course == "All":
+    if st.button("Generate Chart"):
         courses_per_row = 4
         num_courses = len(valid_courses) 
         num_rows = (num_courses + courses_per_row - 1) // courses_per_row
