@@ -374,8 +374,6 @@ if tabs == "Dashboard":
             st.plotly_chart(fig,use_container_width=True)
 
 
-
-
     course_data_dict = {course: new_dfa[course]}
     course_data = course_data_dict[course]
     st.write(year_a)
