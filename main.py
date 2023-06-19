@@ -482,7 +482,7 @@ if tabs == "Dashboard":
 
 elif tabs == "Prediction Performance":
     # try:
-    st.write(st.get_option('theme.textColor'))
+    st.write(st.get_option('theme'))
     df = read_sql_query()
     df["Major"] = df["MaSV"].str.slice(0, 2)
     unique_values_major = [
