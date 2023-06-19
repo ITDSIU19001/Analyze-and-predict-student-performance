@@ -314,7 +314,7 @@ def predict_one_student(raw_data, student_id):
         fig1.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
         fig1.update_layout(
-            title="Frequency Range for"
+            title="Frequency Range for",
             xaxis_title="Score",
             yaxis_title="Percentage",
             height=400,
