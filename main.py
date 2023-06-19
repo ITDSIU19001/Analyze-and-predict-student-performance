@@ -1,17 +1,20 @@
+import pandas as pd
+import streamlit as st
+import plotly.express as px
+import numpy as np
+import plotly.graph_objs as go
+from function import (
+    process_data,
+    predict_late_student,
+    predict_rank,
+    predict_one_student,
+    show_boxplot1
+)
+from datetime import datetime
+from PIL import Image
 import base64
 import re
 import sqlite3
-from datetime import datetime
-
-import numpy as np
-import pandas as pd
-import plotly.express as px
-import plotly.graph_objs as go
-import streamlit as st
-from PIL import Image
-
-from function import (predict_late_student, predict_one_student, predict_rank,
-                      process_data, show_boxplot1)
 
 df = pd.DataFrame()
 
@@ -24,7 +27,7 @@ def color_cell(val):
     elif val == "late":
         color = "red"
     else:
-        color = "black"  # Dynamic theme color
+        color = "white"  # Dynamic theme color
         
     return f"color: {color};"
 
@@ -472,9 +475,11 @@ if tabs == "Dashboard":
 
 
 # predict student
-    st.stop()
+
 elif tabs == "Prediction Performance":
     # try:
+    tc = st.get_option('theme.textColor')
+    st.write(tc)
     df = read_sql_query()
     df["Major"] = df["MaSV"].str.slice(0, 2)
     unique_values_major = [
@@ -610,7 +615,6 @@ elif tabs == "Prediction Performance":
 
 # except:
 #     st.write('Add CSV to analysis')
-    st.stop()
 elif tabs == "Grade Distribution Tables" :
     additional_selection = " "
     # Filter by Major
@@ -763,7 +767,7 @@ elif tabs == "Grade Distribution Tables" :
                         )
                         fig.update_layout(height=400, width=400)
                         st.plotly_chart(fig, use_container_width=True)  
-    st.stop()
+
     
 
     
