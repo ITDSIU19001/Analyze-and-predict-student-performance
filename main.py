@@ -191,7 +191,7 @@ if tabs == "Dashboard":
     
     df = filter_dataframe(df, "Year", year)
 
-    
+    st.write(year_a)
 
     new1_df = df.DTBTK
     new1_dfa = dfa.DTBTK
@@ -376,7 +376,7 @@ if tabs == "Dashboard":
 
     course_data_dict = {course: new_dfa[course]}
     course_data = course_data_dict[course]
-    st.write(year_a)
+    
     if (year != "All" and year_a != " ") or (school != "All" and additional_selection != " "):
         
         st.write("Course:", course, " of ", major + additional_selection, " student in ", year_a)
