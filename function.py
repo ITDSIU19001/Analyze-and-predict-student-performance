@@ -292,6 +292,8 @@ def predict_one_student(raw_data, student_id):
         counts, bins = np.histogram(course_data_filtered,bins=np.arange(0, 110, 10))
         total_count = len(counts)
         frequencies_percentage = (counts / total_count) * 100
+        df1 = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
+        df1['Grading percentage'] = df1['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
 
         # create a line chart using plotly
         fig1 = go.Figure()
