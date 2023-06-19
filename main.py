@@ -30,7 +30,7 @@ def color_cell(val):
         theme_name = st.get_option('theme.primaryColor')
         if theme_name == '#ffffff':
             color = "black"
-        elif theme_name != '#ffffff'
+        else:
             color = "white"
 
     return f'color: {color}'
@@ -482,7 +482,7 @@ if tabs == "Dashboard":
 
 elif tabs == "Prediction Performance":
     # try:
-
+    st.write(st.get_option('theme.textColor'))
     df = read_sql_query()
     df["Major"] = df["MaSV"].str.slice(0, 2)
     unique_values_major = [
