@@ -27,7 +27,7 @@ def color_cell(val):
     elif val == "late":
         color = "red"
     else:
-        color = "white"  # Dynamic theme color
+        color = "black"  # Dynamic theme color
         
     return f"color: {color};"
 
