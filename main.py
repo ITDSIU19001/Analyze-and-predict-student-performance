@@ -33,7 +33,7 @@ def color_cell(val):
         else:
             color = "black"
 
-    return "color: %s" % color
+    return f'color: {color}'
 
 
 def get_year(student_id):
