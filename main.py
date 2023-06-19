@@ -682,90 +682,89 @@ elif tabs == "Grade Distribution Tables" :
             courses_in_row = valid_courses[start_index:end_index]
 
             for course in courses_in_row:
-                if course != "All":
-                    course_data = course_data_dict[course]
-                    course_data = course_data.astype(float)
-                    st.write("Course ", course)
-                    col1, col2, col3, col4 = st.columns(4)
+                course_data = course_data_dict[course]
+                course_data = course_data.astype(float)
+                st.write("Course ", course)
+                col1, col2, col3, col4 = st.columns(4)
 
-                    with col1:
-                        counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
-                        total_count = len(course_data)
-                        frequencies_percentage = (counts / total_count) * 100
-                        grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
+                with col1:
+                    counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
+                    total_count = len(course_data)
+                    frequencies_percentage = (counts / total_count) * 100
+                    grade_bins = [f'{bins[i]}-{bins[i+1]}' for i in range(len(bins) - 1)]
 
-                        # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
-                        df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
-                        df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
+                    # Create a DataFrame with the updated 'Grade' column and frequencies_percentage
+                    df = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
+                    df['Grading percentage'] = df['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
 
-                        st.table(df)
+                    st.table(df)
 
-                    with col2:
-                        fig = go.Figure()
-                        fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
+                with col2:
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=bins[:-1], y=frequencies_percentage, mode='lines', name='Frequency'))
 
-                        fig.update_layout(
-                            title="Frequency Range",
-                            xaxis_title="Score",
-                            yaxis_title="Percentage",
-                            height=400,
-                            width=400,
+                    fig.update_layout(
+                        title="Frequency Range",
+                        xaxis_title="Score",
+                        yaxis_title="Percentage",
+                        height=400,
+                        width=400,
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+
+                with col3:
+                    fig = go.Figure()
+                    fig.add_trace(go.Box(y=course_data, name="Box plot"))
+                    fig.update_layout(
+                        title="Box plot",
+                        yaxis_title="Score",
+                        height=400,
+                        width=400,
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+
+                with col4:
+                    raw_data1 = raw_data.copy()
+                    raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
+                    raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
+                    raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
+                    if major != "All":
+                        raw_data1 = raw_data1[raw_data1["major"] == major]
+
+                    # Filter by MaSV_school
+                    raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
+                    if school != "All":
+                        raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
+
+                    # Prepare DataFrame for visualization
+                    df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
+                    df1["DiemHP"] = df1["DiemHP"].astype(float)
+                    df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
+
+                    # Filter by selected_TenMH
+                    selected_TenMH = " " + course
+                    filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
+
+                    # Calculate mean DiemHP
+                    mean_DiemHP = (
+                        filtered_df1.groupby("NHHK")["DiemHP"]
+                        .mean()
+                        .round(1)
+                        .reset_index(name="Mean")
+                    )
+
+                    # Create Plotly line graph
+                    if year != "All":
+                        st.write("")
+                    else:
+                        fig = px.line(
+                            mean_DiemHP,
+                            x="NHHK",
+                            y="Mean",
+                            title=f"Mean DiemHP through Semesters",
                         )
-                        st.plotly_chart(fig, use_container_width=True)
-
-                    with col3:
-                        fig = go.Figure()
-                        fig.add_trace(go.Box(y=course_data, name="Box plot"))
-                        fig.update_layout(
-                            title="Box plot",
-                            yaxis_title="Score",
-                            height=400,
-                            width=400,
-                        )
-                        st.plotly_chart(fig, use_container_width=True)
-
-                    with col4:
-                        raw_data1 = raw_data.copy()
-                        raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
-                        raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
-                        raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
-                        if major != "All":
-                            raw_data1 = raw_data1[raw_data1["major"] == major]
-
-                        # Filter by MaSV_school
-                        raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
-                        if school != "All":
-                            raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
-
-                        # Prepare DataFrame for visualization
-                        df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
-                        df1["DiemHP"] = df1["DiemHP"].astype(float)
-                        df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
-
-                        # Filter by selected_TenMH
-                        selected_TenMH = " " + course
-                        filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
-
-                        # Calculate mean DiemHP
-                        mean_DiemHP = (
-                            filtered_df1.groupby("NHHK")["DiemHP"]
-                            .mean()
-                            .round(1)
-                            .reset_index(name="Mean")
-                        )
-
-                        # Create Plotly line graph
-                        if year != "All":
-                            st.write("")
-                        else:
-                            fig = px.line(
-                                mean_DiemHP,
-                                x="NHHK",
-                                y="Mean",
-                                title=f"Mean DiemHP through Semesters",
-                            )
-                            fig.update_layout(height=400, width=400)
-                            st.plotly_chart(fig, use_container_width=True)  
+                        fig.update_layout(height=400, width=400)
+                        st.plotly_chart(fig, use_container_width=True)  
 
     
 
