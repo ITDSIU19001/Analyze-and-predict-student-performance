@@ -536,7 +536,7 @@ elif tabs == "Prediction Performance":
         )
 
         with st.container():
-            st.write(styled_table)
+            st.table(styled_table)
             predict_one_student(df, MaSV)
     else:
         df_late = predict
