@@ -179,7 +179,7 @@ if tabs == "Dashboard":
 
     # Second selectbox in the second column
     with col2:
-
+    year_a= " "
         if year != "All" and additional_selection == " ":
             year_list = [x for x in all_values_year if x != "All" and x != year]
             year_list = np.concatenate([[" "], year_list])
