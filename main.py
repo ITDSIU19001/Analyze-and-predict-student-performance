@@ -185,6 +185,8 @@ if tabs == "Dashboard":
                 year_list = [x for x in all_values_year if x != "All" and x != year]
                 year_list = np.concatenate([[" "], year_list])
                 year_a = st.selectbox("Select another year for comparisons:", year_list)
+                dfa = filter_dataframe(dfa, "Year", year_a)
+                dfa.dropna(axis=1, thresh=1, inplace=True)
             else:
                 year_a = year
                 dfa = filter_dataframe(dfa, "Year", year_a)
