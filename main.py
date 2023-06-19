@@ -201,7 +201,6 @@ if tabs == "Dashboard":
                 year_a = " "
     
     df = filter_dataframe(df, "Year", year)
-    st.write(dfa)
     new1_df = df.DTBTK
     new1_dfa = dfa.DTBTK
     show_boxplot1(new1_df, new1_dfa, major, school, year, additional_selection="", year_a="")
@@ -484,8 +483,6 @@ if tabs == "Dashboard":
 elif tabs == "Prediction Performance":
     clear_resources()
     # try:
-    tc = st.get_option('theme.textColor')
-    st.write(tc)
     df = read_sql_query()
     df["Major"] = df["MaSV"].str.slice(0, 2)
     unique_values_major = [
