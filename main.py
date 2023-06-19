@@ -33,7 +33,7 @@ def color_cell(val):
         else:
             color = "black"
 
-    return f'<span style="color: {color}">{val}</span>'
+    return "color: %s" % color
 
 
 def get_year(student_id):
