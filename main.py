@@ -28,7 +28,7 @@ def color_cell(val):
         color = "red"
     else:
         theme_name = st.get_option('theme.primaryColor')
-        if theme_name == '#FFFFFF':
+        if theme_name == '#ffffff':
             color = "black"
         else:
             color = "white"
