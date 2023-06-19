@@ -669,7 +669,7 @@ elif tabs == "Grade Distribution Tables" :
     #     course = valid_courses[0]
     # else:
     #     st.write("No valid course data found!")
-    st.stop()
+   
 
     if st.button("Generate Chart"):
         courses_per_row = 4
