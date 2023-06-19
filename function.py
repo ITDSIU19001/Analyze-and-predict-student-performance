@@ -295,7 +295,7 @@ def predict_one_student(raw_data, student_id):
         frequencies_percentage = (counts / total_count) * 100
         df1 = pd.DataFrame({'Grade': grade_bins, 'Grading percentage': frequencies_percentage})
         df1['Grading percentage'] = df1['Grading percentage'].map(lambda x: '{:.2f}'.format(x))
-
+        st.table(df1)
         # create a line chart using plotly
         fig1 = go.Figure()
         # fig1.add_trace(
