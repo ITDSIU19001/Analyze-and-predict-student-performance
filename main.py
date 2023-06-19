@@ -20,15 +20,18 @@ df = pd.DataFrame()
 
 
 def color_cell(val):
+    theme = st.get_theme()
     if val == "not late":
-        color = "green"
+        color = theme["primaryColor"]
     elif val == "may late":
-        color = "yellow"
+        color = theme["warningColor"]
     elif val == "late":
-        color = "red"
+        color = theme["dangerColor"]
     else:
-        color = "black"
-    return "color: %s" % color
+        color = theme["textColorSecondary"]
+    
+    # Return an HTML-formatted string with the desired CSS style
+    return '<span style="color: %s">%s</span>' % (color, val)
 
 
 def get_year(student_id):
