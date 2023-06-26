@@ -698,11 +698,13 @@ elif tabs == "Grade Distribution Tables":
                     grade_bins = [
                         f"{bins[i]}-{bins[i+1]}" for i in range(len(bins) - 1)
                     ]
+                    df["Cumulative percentage"] = df["Grading percentage"].cumsum()
 
                     df = pd.DataFrame(
                         {
                             "Grade": grade_bins,
                             "Grading percentage": frequencies_percentage,
+                            "Cumulative percentage": df["Cumulative percentage"]
                         }
                     )
                     df["Grading percentage"] = df["Grading percentage"].map(
