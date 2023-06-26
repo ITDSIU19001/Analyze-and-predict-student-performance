@@ -112,7 +112,7 @@ df = process_data(raw_data)
 
 st.sidebar.image(im3)
 st.sidebar.title("Student Performance Prediction System")
-
+st.sidebar.set_min_width(150)
 option = ["Prediction Performance", "Dashboard", "Grade Distribution Tables"]
 
 tabs = st.sidebar.selectbox("Select an option", option)
