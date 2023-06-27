@@ -689,7 +689,7 @@ elif tabs == "Grade Distribution Tables":
                 course_data = course_data_dict[course]
                 course_data = course_data.astype(float)
                 st.markdown(f"Course:  **{course}**")
-                st.write("Number of examinations: ", len(course_data))
+                st.write("Number of examinations: ", str(len(course_data)))
                 col1, col2, col3, col4 = st.columns(4)
 
                 with col1:
