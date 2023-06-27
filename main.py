@@ -688,7 +688,8 @@ elif tabs == "Grade Distribution Tables":
             for course in courses_in_row:
                 course_data = course_data_dict[course]
                 course_data = course_data.astype(float)
-                st.write("Course ", course)
+                st.markdown(f"Course:  **{course}**")
+                st.write("Number of examinations: ", len(course_data))
                 col1, col2, col3, col4 = st.columns(4)
 
                 with col1:
