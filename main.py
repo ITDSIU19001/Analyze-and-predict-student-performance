@@ -117,45 +117,27 @@ def score_table():
 
 @st.cache_data()
 def score_table_for_student():
-    # Establish a connection to the database
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    with sqlite3.connect("database.db") as conn:
+        cursor = conn.cursor()
 
-    # Fetch data from the tables
-    cursor.execute('''
-        SELECT
-            Students.MaSV,
-            Enrollment.MaMH,
-            Courses.TenMH,
-            Enrollment.DiemHP,
-            Students.DTBTK,
-            Enrollment.NHHK,
-            Courses.SoTCDat
-        FROM
-            Students
+        cursor.execute('''
+            SELECT DISTINCT Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
+            FROM Students
             INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
             INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH
-    ''')
-    data = cursor.fetchall()
+        ''')
+        results = cursor.fetchall()
+        df = pd.DataFrame(results, columns=['MaSV', 'MaMH', 'TenMH', 'NHHK', 'DiemHP', 'DTBTK'])
 
-    # Create a DataFrame
-    df = pd.DataFrame(
-        data,
-        columns=[
-            'MaSV',
-            'MaMH',
-            'TenMH',
-            'DiemHP',
-            'DTBTK',
-            'NHHK',
-            'SoTCDat',
-        ],
-    )
+        cursor.execute('''
+            SELECT MaSV, NHHK, SoTCDat
+            FROM Students
+        ''')
+        results = cursor.fetchall()
+        df1 = pd.DataFrame(results, columns=['MaSV', 'NHHK', 'SoTCDat'])
+        merged_df = pd.merge(df, df1, on=['MaSV', 'NHHK'])
 
-    # Close the database connection
-    conn.close()
-
-    return df
+    return merged_df
 
 
 
