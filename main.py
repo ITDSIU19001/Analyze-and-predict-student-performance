@@ -94,25 +94,76 @@ with col3:
 
 
 @st.cache_data()
-def read_sql_query():
-    """Reads the SQL query from the database and returns a DataFrame."""
+def score_table():
+    # Establish a connection to the database
     conn = sqlite3.connect("database.db")
-    query = """SELECT MaSV, TenMH, DiemHP, NHHK, DTBTKH4, MaMH, SoTCDat, DTBTK
-    FROM scoreTable;
-    """
-    df = pd.read_sql_query(query, conn)
+    cursor = conn.cursor()
+
+    # Fetch data from the tables
+    cursor.execute('''
+        SELECT Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.DiemHP, Students.DTBTK, Students.NHHK
+        FROM Students
+        INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+        INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH
+        ''')
+    data = cursor.fetchall()
+
+    # Create a DataFrame
+    df = pd.DataFrame(data, columns=['MaSV', 'MaMH', 'TenMH', 'DiemHP','DTBTK','NHHK'])
+
+    # Close the database connection
+    conn.close()
+
+    return df
+
+@st.cache_data()
+def score_table_for_student():
+    # Establish a connection to the database
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    # Fetch data from the tables
+    cursor.execute('''
+        SELECT
+            Students.MaSV,
+            Enrollment.MaMH,
+            Courses.TenMH,
+            Enrollment.DiemHP,
+            Students.DTBTK,
+            Enrollment.NHHK,
+            Courses.SoTCDat
+        FROM
+            Students
+            INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+            INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH
+    ''')
+    data = cursor.fetchall()
+
+    # Create a DataFrame
+    df = pd.DataFrame(
+        data,
+        columns=[
+            'MaSV',
+            'MaMH',
+            'TenMH',
+            'DiemHP',
+            'DTBTK',
+            'NHHK',
+            'SoTCDat',
+        ],
+    )
+
+    # Close the database connection
+    conn.close()
+
     return df
 
 
-raw_data = read_sql_query()
-
-
-df = process_data(raw_data)
 
 
 st.sidebar.image(im3)
 st.sidebar.title("Student Performance Prediction System")
-option = ["Prediction Performance", "Dashboard", "Grade Distribution Tables"]
+option = ["Dashboard","Prediction Performance",  "Grade Distribution Tables"]
 
 tabs = st.sidebar.selectbox("Select an option", option)
 
@@ -126,9 +177,9 @@ def filter_dataframe(df, column, value):
 
 if tabs == "Dashboard":
     clear_resources()
-
+    raw_data = score_table()
+    df = process_data(raw_data)
     additional_selection = " "
-
     unique_values_major = df["Major"].unique()
     unique_values_major = [
         "BA",
@@ -360,7 +411,8 @@ if tabs == "Dashboard":
             raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
 
         df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
-        df1["DiemHP"] = df1["DiemHP"].astype(float)
+        
+        df1["DiemHP"] = df1["DiemHP"].replace('', pd.NA).dropna().astype(float)
         df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
 
         selected_TenMH = " " + course
@@ -380,9 +432,9 @@ if tabs == "Dashboard":
                 mean_DiemHP,
                 x="NHHK",
                 y="Mean",
-                title=f"Mean DiemHP for{selected_TenMH} through Semeters",
+                title=f"Mean Course Score for{selected_TenMH} through Semeters",
             )
-            fig.update_layout(height=400, width=400)
+            fig.update_layout(xaxis_title="Semeters",height=400, width=400)
             st.plotly_chart(fig, use_container_width=True)
 
     if (year != "All" and year_a != " ") or (
@@ -462,7 +514,7 @@ if tabs == "Dashboard":
             raw_data = raw_data[raw_data["MaSV_school"] == additional_selection]
 
             df1 = raw_data[["TenMH", "NHHK", "DiemHP"]].copy()
-            df1["DiemHP"] = df1["DiemHP"].astype(float)
+            df1["DiemHP"] = df1["DiemHP"].replace('', pd.NA).dropna().astype(float)
             df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
 
             selected_TenMH = " " + course
@@ -482,17 +534,34 @@ if tabs == "Dashboard":
                     mean_DiemHP,
                     x="NHHK",
                     y="Mean",
-                    title=f"Mean DiemHP for{selected_TenMH} through Semeters",
+                    title=f"Mean Course Score for{selected_TenMH} through Semeters",
                 )
-                fig.update_layout(height=400, width=400)
+                fig.update_layout(xaxis_title="Semeters",height=400, width=400)
                 st.plotly_chart(fig, use_container_width=True)
+    variables_to_delete = [
+        'raw_data1', 'df1', 'filtered_df1', 'mean_DiemHP', 'counts', 'bins',
+        'total_count', 'frequencies_percentage', 'grade_bins', 'fig1',
+        'common_elements', 'merged_array', 'list3', 'dfac', 'fig', 'new_df',
+        'new_dfa', 'new1_df', 'new1_dfa', 'course_data', 'course_data_dict',
+        'options', 'valid_courses', 'list2', 'list1'
+    ]
+
+    for variable in variables_to_delete:
+        if variable in locals():
+            del locals()[variable]
+
 
 
 elif tabs == "Prediction Performance":
+
     clear_resources()
 
-    df = read_sql_query()
+    raw_data = pd.read_csv("All_major.csv")
+    raw_data["DTBTKH4"] = raw_data["DTBTK"]/25
+    df=raw_data.copy()
+    df["MaSV_school"] = df["MaSV"].str.slice(2, 4)
     df["Major"] = df["MaSV"].str.slice(0, 2)
+    unique_values_major = df["Major"].unique()
     unique_values_major = [
         "BA",
         "BE",
@@ -507,8 +576,21 @@ elif tabs == "Prediction Performance":
         "IT",
     ]
     unique_values_major = sorted(unique_values_major, key=lambda s: s)
-    major = st.selectbox("Select a school:", unique_values_major)
-    df = filter_dataframe(df, "Major", major)
+    col1, col2 = st.columns(2)
+    with col1:
+        major = st.selectbox("Select a school:", unique_values_major)
+        df = filter_dataframe(df, "Major", major)
+
+        unique_values_school = df["MaSV_school"].unique()
+        all_values_school = np.concatenate([["All"], unique_values_school])
+        no_numbers = [x for x in all_values_school if not re.search(r"\d", str(x))]
+
+        if len(no_numbers) == 2:
+            school = no_numbers[1]
+    with col2:
+        school = st.selectbox("Select a major:", no_numbers)
+
+    df = filter_dataframe(df, "MaSV_school", school)
     predict = predict_late_student(df)
     rank = predict_rank(df)
     predict = pd.merge(predict, rank, on="MaSV")
@@ -619,15 +701,41 @@ elif tabs == "Prediction Performance":
 
         col3, col1, col2 = st.columns([2, 1, 1])
         with col3:
-            st.dataframe(styled_table)
+            st.dataframe(styled_table,use_container_width=True)
         with col1:
             st.plotly_chart(fig1, use_container_width=True)
         with col2:
             st.plotly_chart(fig2, use_container_width=True)
+    variables_to_delete = [
+    "raw_data",
+    "df",
+    "df_late",
+    "MaSV",
+    "predict",
+    "rank",
+    "rank_mapping",
+    "styled_table",
+    "df_filtered",
+    "csv",
+    "b64",
+    "href",
+    "legend_order",
+    "fig1",
+    "fig2",
+    "col1",
+    "col2",
+    "col3"
+    ]
 
+    # Delete the variables after running the code
+    for variable_name in variables_to_delete:
+        if variable_name in locals():
+            del locals()[variable_name]
 
 elif tabs == "Grade Distribution Tables":
     clear_resources()
+    raw_data = score_table()
+    df = process_data(raw_data)
     additional_selection = " "
 
     unique_values_major = df["Major"].unique()
@@ -792,4 +900,5 @@ elif tabs == "Grade Distribution Tables":
                         )
                         fig.update_layout(height=400, width=400)
                         st.plotly_chart(fig, use_container_width=True)
+                        del raw_data1, df1, filtered_df1, mean_DiemHP, counts, bins, total_count, frequencies_percentage, grade_bins, fig, course_data, course_data_dict,  valid_courses
     st.stop()
