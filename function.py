@@ -109,9 +109,8 @@ def process_predict_data(raw_data):
     df = df.rename(columns={"DTBTKH4": "GPA"})
 
     data = raw_data[["MaSV", "NHHK", "SoTCDat"]]
-    data = data.drop_duplicates()
     data = (
-        data.groupby(["MaSV"])["SoTCDat"].median().reset_index(name="Mean_Cre").round(2)
+        data.groupby(["MaSV"])["SoTCDat"].mean().reset_index(name="Mean_Cre").round(2)
     )
 
     df = pd.merge(df, data, on="MaSV")
