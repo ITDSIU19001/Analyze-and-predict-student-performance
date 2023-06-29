@@ -523,7 +523,7 @@ if tabs == "Dashboard":
         'raw_data1', 'df1', 'filtered_df1', 'mean_DiemHP', 'counts', 'bins',
         'total_count', 'frequencies_percentage', 'grade_bins', 'fig1',
         'common_elements', 'merged_array', 'list3', 'dfac', 'fig', 'new_df',
-        'new_dfa', 'new1_df', 'new1_dfa', 'course_data', 'course_data_dict',
+        'new_dfa', 'new1_df', 'new1_dfa', 'course_data',
         'options', 'valid_courses', 'list2', 'list1'
     ]
 
