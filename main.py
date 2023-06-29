@@ -759,6 +759,7 @@ elif tabs == "Grade Distribution Tables":
     
 
     course_data_dict = {course: df[course].dropna() for course in options}
+    
     valid_courses = [
         course for course, data in course_data_dict.items() if len(data) > 1
     ]
@@ -776,7 +777,7 @@ elif tabs == "Grade Distribution Tables":
             courses_in_row = valid_courses[start_index:end_index]
 
             for course in courses_in_row:
-                # course_data = course_data_dict[course]
+                course_data = course_data_dict[course]
                 course_data = course_data.astype(float)
                 st.markdown(f"Course:  **{course}**")
                 st.write("Number of examinations: ", str(len(course_data)))
