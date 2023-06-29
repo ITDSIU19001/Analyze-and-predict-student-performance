@@ -756,6 +756,7 @@ elif tabs == "Grade Distribution Tables":
     year = st.selectbox("Select a year:", all_values_year)
 
     options = df.columns[:-4]
+    
 
     course_data_dict = {course: df[course].dropna() for course in options}
     valid_courses = [
@@ -775,7 +776,7 @@ elif tabs == "Grade Distribution Tables":
             courses_in_row = valid_courses[start_index:end_index]
 
             for course in courses_in_row:
-                course_data = course_data_dict[course]
+                # course_data = course_data_dict[course]
                 course_data = course_data.astype(float)
                 st.markdown(f"Course:  **{course}**")
                 st.write("Number of examinations: ", str(len(course_data)))
