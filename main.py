@@ -883,5 +883,6 @@ elif tabs == "Grade Distribution Tables":
                         )
                         fig.update_layout(height=400, width=400)
                         st.plotly_chart(fig, use_container_width=True)
-                        del raw_data1, df1, filtered_df1, mean_DiemHP, counts, bins, total_count, frequencies_percentage, grade_bins, fig, course_data,  valid_courses
+                        del raw_data1, df1, filtered_df1, mean_DiemHP, counts, bins, total_count, frequencies_percentage, grade_bins, fig
+    del course_data, course_data_dict,  valid_courses
     st.stop()
