@@ -72,41 +72,7 @@ def process_predict_data(raw_data):
     dtk = raw_data[["MaSV", "DTBTKH4"]].copy()
     dtk.drop_duplicates(subset="MaSV", keep="last", inplace=True)
 
-    count_duplicates = (
-        raw_data.groupby(["MaSV", "MaMH"]).size().reset_index(name="Times")
-    )
-    courses = raw_data[
-        raw_data["MaMH"].str.startswith(
-            ("IT", "BA", "BM", "BT", "MA", "CE", "EE", "EL", "ENEE", "IS", "MAFE", "PH")
-        )
-    ]
-
-    courses_list = courses["MaMH"].unique().tolist()
-
-    count_duplicates["fail_courses_list"] = (
-        (count_duplicates["MaMH"].isin(courses_list)) & (count_duplicates["Times"] >= 2)
-    ).astype(int)
-
-    count_duplicates["fail_not_courses_list"] = (
-        (~count_duplicates["MaMH"].isin(courses_list))
-        & (count_duplicates["Times"] >= 2)
-    ).astype(int)
-
-    count_duplicates["pass_courses"] = (
-        (~count_duplicates["MaMH"].isin(courses_list))
-        & (count_duplicates["Times"] == 1)
-    ).astype(int)
-
-    fail = (
-        count_duplicates.groupby("MaSV")[["fail_courses_list", "fail_not_courses_list"]]
-        .sum()
-        .reset_index()
-    )
-
-    fail.columns = ["MaSV", "fail_courses_list_count", "fail_not_courses_list_count"]
-
-    df = pd.merge(dtk, fail, on="MaSV")
-    df = df.rename(columns={"DTBTKH4": "GPA"})
+    df = dtk.rename(columns={"DTBTKH4": "GPA"})
 
     data = raw_data[["MaSV", "NHHK", "SoTCDat"]]
     data = (
@@ -114,24 +80,28 @@ def process_predict_data(raw_data):
     )
 
     df = pd.merge(df, data, on="MaSV")
-    df1 = raw_data[["MaSV", "MaMH", "NHHK"]]
+    df1 = raw_data[["MaSV", "TenMH", "NHHK"]]
     courses_list = raw_data[
-        (raw_data["MaMH"].str.startswith("EN"))
-        & ~(raw_data["MaMH"].str.contains("EN007|EN008|EN011|EN012"))
-    ].MaMH.tolist()
-    filtered_df = df1[df1["MaMH"].isin(courses_list)]
+        (raw_data["TenMH"].str.contains("Intensive English|IE"))
+        # & ~(raw_data["MaMH"].str.contains("EN007|EN008|EN011|EN012"))
+    ].TenMH.unique().tolist()
+    filtered_df = df1[df1["TenMH"].isin(courses_list)]
     nhhk_counts = (
         filtered_df.groupby("MaSV")["NHHK"].nunique().reset_index(name="EPeriod")
     )
     df = pd.merge(df, nhhk_counts, on="MaSV", how="left").fillna(0)
+    
+    # Counting column for raw_data['DiemHP'] < 50
+    count_column = raw_data[raw_data['DiemHP'] < 50].groupby('MaSV').size().reset_index(name='Fail_Course')
+    df = pd.merge(df, count_column, on='MaSV', how='left').fillna(0)
+    
     df = df[
         [
             "MaSV",
             "GPA",
             "Mean_Cre",
-            "fail_courses_list_count",
-            "fail_not_courses_list_count",
             "EPeriod",
+            "Fail_Course",
         ]
     ]
     return df
