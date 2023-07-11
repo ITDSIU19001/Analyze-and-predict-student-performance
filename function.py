@@ -90,7 +90,8 @@ def process_predict_data(raw_data):
         filtered_df.groupby("MaSV")["NHHK"].nunique().reset_index(name="EPeriod")
     )
     df = pd.merge(df, nhhk_counts, on="MaSV", how="left").fillna(0)
-    
+    raw_data.loc[:, 'DiemHP'] = pd.to_numeric(raw_data['DiemHP'], errors='coerce')
+    raw_data['DiemHP'].dropna(inplace=True)
     # Counting column for raw_data['DiemHP'] < 50
     count_column = raw_data[raw_data['DiemHP'] < 50].groupby('MaSV').size().reset_index(name='Fail_Course')
     df = pd.merge(df, count_column, on='MaSV', how='left').fillna(0)
