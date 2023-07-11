@@ -134,6 +134,7 @@ def predict_late_student(test_df):
             test_dfed.loc[index, "Progress"] = "may late"
         elif row["Semeters"] < 9 and row["Progress"] == "not late":
              test_dfed.loc[index, "Progress"] = "late"
+             test_dfed.loc[index, "Semeters"] = row["Semeters"] / 2
         else:
             test_dfed.loc[index, "Semeters"] = row["Semeters"] / 2
 
