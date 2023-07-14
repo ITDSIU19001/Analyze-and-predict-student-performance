@@ -1,6 +1,6 @@
 numpy
 Cython==0.29.21
-scikit-learn==1.2.2
+scikit-learn
 pandas
 plotly
 scipy
