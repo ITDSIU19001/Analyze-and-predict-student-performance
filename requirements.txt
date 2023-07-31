@@ -1,9 +1,10 @@
 numpy
 Cython==0.29.21
-scikit-learn
+scikit-learn==1.2.2
 pandas
 plotly
 scipy
 pyDOE
 openpyxl
 matplotlib
+joblib==1.2.0
