@@ -144,7 +144,7 @@ def score_table_for_student():
 
 st.sidebar.image(im3)
 st.sidebar.title("Student Performance Prediction System")
-option = ["Dashboard","Prediction Performance",  "Grade Distribution Tables"]
+option = ["Prediction Performance","Dashboard",  "Grade Distribution Tables"]
 
 tabs = st.sidebar.selectbox("Select an option", option)
 
@@ -360,7 +360,7 @@ if tabs == "Dashboard":
         )
 
         fig.update_layout(
-            title="Frequency Range for {}".format(course),
+            title="Histogram of {}".format(course),
             xaxis_title="Score",
             yaxis_title="Percentage",
             height=400,
@@ -465,7 +465,7 @@ if tabs == "Dashboard":
             )
 
             fig.update_layout(
-                title="Frequency Range for {}".format(course),
+                title="Histogram of {}".format(course),
                 xaxis_title="Score",
                 yaxis_title="Percentage",
                 height=400,
@@ -825,7 +825,7 @@ elif tabs == "Grade Distribution Tables":
                     )
 
                     fig.update_layout(
-                        title="Frequency Range",
+                        title="Histogram of {}".format(course),
                         xaxis_title="Score",
                         yaxis_title="Percentage",
                         height=400,
