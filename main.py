@@ -140,6 +140,12 @@ def score_table_for_student():
     return merged_df
 
 
+st.markdown(
+    '<div style="text-align: center; margin-top: 50px; color: #808080;">'
+    '© Copyright by Truong Quoc An'
+    '</div>',
+    unsafe_allow_html=True
+)
 
 
 st.sidebar.image(im3)
